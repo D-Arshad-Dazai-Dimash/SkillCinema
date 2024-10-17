@@ -1,5 +1,13 @@
 package com.example.project_modile_application.model
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
 data class Movie(
-    val name: Int
+    @DrawableRes
+    val movieImageResourceId: Int,
+    @StringRes
+    val movieNameResourceId: Int,
+    @StringRes
+    val movieTypeResourceId: Int
 )
