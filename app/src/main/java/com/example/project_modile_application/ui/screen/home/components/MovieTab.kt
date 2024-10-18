@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.ui.font.GraphikFontFamily
+import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
 fun MovieTab(hasGradient: Boolean = false, title: String = "title", genre: String = "genre") {
@@ -65,14 +65,14 @@ fun MovieTab(hasGradient: Boolean = false, title: String = "title", genre: Strin
             text = title,
             modifier = Modifier
                 .padding(top = 8.dp),
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
             color = Color(0xFF272727)
         )
         Text(
             text = genre,
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
             color = Color(0xFF838390)

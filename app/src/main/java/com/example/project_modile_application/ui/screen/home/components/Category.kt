@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.project_modile_application.ui.font.GraphikFontFamily
+import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
 fun Category(categoryName: String = "Премьеры") {
@@ -28,7 +28,7 @@ fun Category(categoryName: String = "Премьеры") {
     ) {
         Text(
             text = categoryName,
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp,
             color = Color(0xff272727)
@@ -36,7 +36,7 @@ fun Category(categoryName: String = "Премьеры") {
         Text(
             text = "Все",
             modifier = Modifier.clickable(onClick = {}),
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
             color = Color(0xFF3D3BFF)

@@ -1,4 +1,4 @@
-package com.example.project_modile_application
+package com.example.project_modile_application.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

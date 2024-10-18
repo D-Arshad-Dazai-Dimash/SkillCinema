@@ -1,4 +1,4 @@
-package com.example.project_modile_application
+package com.example.project_modile_application.navigation
 
 
 sealed class Screen(val route: String) {

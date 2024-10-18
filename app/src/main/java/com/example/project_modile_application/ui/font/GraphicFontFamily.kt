@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.example.project_modile_application.R
 
-val GraphikFontFamily = FontFamily(
+val GraphicFontFamily = FontFamily(
     Font(R.font.graphikblack, FontWeight.Black),
     Font(R.font.graphikblackitalic, FontWeight.Black, FontStyle.Italic),
     Font(R.font.graphikbold, FontWeight.Bold),

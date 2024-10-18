@@ -1,4 +1,4 @@
-package com.example.project_modile_application
+package com.example.project_modile_application.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +28,6 @@ fun Profile() {
 }
 
 @Composable
-fun Nurba() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Nurba's screen")
-    }
+fun OnBoarding(){
+    com.example.project_modile_application.ui.screen.onboarding.OnBoardingScreen()
 }

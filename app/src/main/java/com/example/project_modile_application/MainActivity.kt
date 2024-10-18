@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.project_modile_application.ui.screen.onboarding.OnBoardingScreen
 import com.example.project_modile_application.ui.theme.Project_Modile_ApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Project_Modile_ApplicationTheme {
-                BottomNavigation()
+                OnBoardingScreen()
             }
         }
     }

@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.project_modile_application.ui.font.GraphikFontFamily
+import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
 fun RatingTab(rating: Double = 7.8) {
@@ -28,7 +28,7 @@ fun RatingTab(rating: Double = 7.8) {
             text = rating.toString(),
             modifier = Modifier
                 .align(Alignment.Center),
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 6.sp,
             color = Color.White
