@@ -24,6 +24,5 @@ fun SwipeImageText(page: OnboardingPage) {
             fontSize = 32.sp,
             fontWeight = FontWeight.W500
         )
-
     }
 }
