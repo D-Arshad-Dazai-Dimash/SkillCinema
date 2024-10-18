@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,10 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.project_modile_application.model.Movie
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
-fun Category(categoryName: String = "Премьеры") {
+fun Category(categoryName: String, movies: List<Movie>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,8 +47,8 @@ fun Category(categoryName: String = "Премьеры") {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(5) {
-            MovieTab(true)
+        items(movies) {
+            MovieTab(it)
         }
         item {
             ShowAll()

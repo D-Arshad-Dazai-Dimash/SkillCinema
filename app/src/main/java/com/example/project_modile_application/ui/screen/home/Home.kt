@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.project_modile_application.R
+import com.example.project_modile_application.data.DataSource
 import com.example.project_modile_application.ui.screen.home.components.Category
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -22,6 +23,7 @@ fun HomePrev() {
 
 @Composable
 fun Home() {
+    val dataSource = DataSource()
     Column(Modifier.padding(start = 26.dp, end = 26.dp, top = 55.dp)) {
         Image(
             painter = painterResource(R.drawable.skillcinema),
@@ -34,10 +36,11 @@ fun Home() {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-            Category()
-            Category()
-            Category()
-            Category()
+            Category("Премьеры", dataSource.loadPremieres())
+            Category("Популярное",dataSource.loadPopularMovies())
+            Category("Боевики США", dataSource.loadActionMovies())
+            Category("Драмы Франции", dataSource.loadDramaMovies())
+            Category("Сериалы", dataSource.loadSeries())
         }
 
     }
