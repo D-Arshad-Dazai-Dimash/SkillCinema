@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.ui.font.GraphikFontFamily
+import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
 fun ShowAll() {
@@ -48,7 +48,7 @@ fun ShowAll() {
             text = "Показать все",
             modifier = Modifier
                 .padding(8.dp),
-            fontFamily = GraphikFontFamily,
+            fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp
         )

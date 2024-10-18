@@ -1,4 +1,4 @@
-package com.example.project_modile_application
+package com.example.project_modile_application.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.project_modile_application.R
 
 
 @Preview(showBackground = true)
@@ -71,8 +72,6 @@ fun BottomNavigation() {
                                     modifier = Modifier
                                         .size(24.dp)
                                 )
-
-                                Screen.Store -> TODO()
                             }
                         },
                         onClick = {
