@@ -9,5 +9,7 @@ data class Movie(
     @StringRes
     val movieNameResourceId: Int,
     @StringRes
-    val movieTypeResourceId: Int
+    val movieTypeResourceId: Int,
+    @StringRes
+    val movieRatingResourceId: Int
 )

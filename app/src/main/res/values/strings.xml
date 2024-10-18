@@ -45,4 +45,6 @@
     <string name="fantasy">Fantasy</string>
     <string name="horror">Horror</string>
     <string name="animation">Animation</string>
+
+    <string name="rating">7.8</string>
 </resources>
