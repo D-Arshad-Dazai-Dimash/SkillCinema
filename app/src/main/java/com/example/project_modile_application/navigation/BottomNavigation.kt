@@ -72,6 +72,7 @@ fun BottomNavigation() {
                                     modifier = Modifier
                                         .size(24.dp)
                                 )
+
                             }
                         },
                         onClick = {

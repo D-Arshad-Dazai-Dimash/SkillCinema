@@ -20,11 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.project_modile_application.R
+import com.example.project_modile_application.navigation.Screen
 import com.example.project_modile_application.ui.screen.onboarding.components.SwipeImageText
 import com.example.project_modile_application.ui.screen.onboarding.components.images
 
@@ -33,6 +34,7 @@ import com.example.project_modile_application.ui.screen.onboarding.components.im
 @Composable
 fun OnBoardingScreen() {
     val pagerState = rememberPagerState { images.size }
+    val navController = rememberNavController()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,16 +44,18 @@ fun OnBoardingScreen() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 200.dp),
+                .padding(top = 38.dp, bottom = 166.76.dp, start = 26.dp, end = 26.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(R.drawable.vector_1),
-                contentDescription = ""
+                contentDescription = "",
             )
             TextButton(onClick = {
-                //  navController.navigate()
+                navController.navigate("main") {
+                }
             }) {
                 Text("Пропустить", color = Color.LightGray)
             }
@@ -66,7 +70,7 @@ fun OnBoardingScreen() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 56.dp)
+                .padding(top = 56.dp, start = 26.dp)
         ) {
             repeat(images.size) { index ->
                 val color = if (index == pagerState.currentPage) Color.Black else Color.LightGray
