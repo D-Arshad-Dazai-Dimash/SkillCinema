@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.project_modile_application.ui.screen.home.Home as HomeScreen
 
 
 @Composable
 fun Home() {
-    HomeScreen()
+    com.example.project_modile_application.ui.screen.home.Home()
 }
 
 

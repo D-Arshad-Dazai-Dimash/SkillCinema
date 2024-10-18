@@ -71,8 +71,6 @@ fun BottomNavigation() {
                                     modifier = Modifier
                                         .size(24.dp)
                                 )
-
-                                Screen.Store -> TODO()
                             }
                         },
                         onClick = {

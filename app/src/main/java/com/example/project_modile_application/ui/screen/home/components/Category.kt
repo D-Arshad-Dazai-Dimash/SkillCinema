@@ -51,5 +51,6 @@ fun Category(categoryName: String = "Премьеры") {
         item {
             ShowAll()
         }
+
     }
 }

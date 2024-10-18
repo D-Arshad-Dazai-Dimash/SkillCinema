@@ -1,7 +1,9 @@
 package com.example.project_modile_application.ui.screen.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -25,23 +27,30 @@ import com.example.project_modile_application.ui.font.GraphikFontFamily
 fun ShowAll() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .size(111.dp, 156.dp)
     ) {
         Button(
+            onClick = {},
             modifier = Modifier
                 .padding(top = 51.5.dp)
                 .clip(CircleShape)
-                .size(48.dp),
-            onClick = {},
+                .size(32.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFFFFFF),
+                contentColor = Color(0xFF3D3BFF),
+                containerColor = Color(0xFFFFFFFF)
             ),
+            contentPadding = PaddingValues(4.79.dp, 6.04.dp, 4.37.dp, 6.04.dp)
         ) {
             Image(
-                painter = painterResource(R.drawable.right_arrow),
+                painter = painterResource(R.drawable.right_arrow2),
                 contentDescription = "",
-                colorFilter = ColorFilter.tint(Color.Black)
+                modifier = Modifier
+                    .padding(6.dp)
+                    .size(10.83.dp, 7.92.dp)
+                    .align(Alignment.CenterVertically),
+                colorFilter = ColorFilter.tint(Color(0xFF3D3BFF)),
             )
         }
         Text(
