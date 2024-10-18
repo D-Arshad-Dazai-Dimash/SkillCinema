@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 
 
 @Composable
@@ -28,6 +29,6 @@ fun Profile() {
 }
 
 @Composable
-fun OnBoarding(){
-    com.example.project_modile_application.ui.screen.onboarding.OnBoardingScreen()
+fun OnBoarding(navController: NavController) {
+    com.example.project_modile_application.ui.screen.onboarding.OnBoardingScreen(navController)
 }

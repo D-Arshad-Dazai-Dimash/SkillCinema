@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
+
 @Composable
 fun RatingTab(rating: Double = 7.8) {
     Box(
@@ -27,7 +28,8 @@ fun RatingTab(rating: Double = 7.8) {
         Text(
             text = rating.toString(),
             modifier = Modifier
-                .align(Alignment.Center),
+                .align(Alignment.Center)
+                .size(9.dp, 5.91.dp),
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 6.sp,

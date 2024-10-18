@@ -8,9 +8,10 @@ import androidx.navigation.compose.composable
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
         composable(Screen.Home.route) { Home() }
         composable(Screen.Search.route) { Search() }
         composable(Screen.Profile.route) { Profile() }
+        composable(Screen.Onboarding.route) { OnBoarding(navController) }
     }
 }
