@@ -37,6 +37,7 @@ fun OnBoardingScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
+
     ) {
         Row(
             modifier = Modifier
