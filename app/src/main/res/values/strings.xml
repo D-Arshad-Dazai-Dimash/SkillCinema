@@ -1,3 +1,50 @@
 <resources>
     <string name="app_name">Project_Modile_Application</string>
+
+    <string name="premiere_movie1">Terrifier 3</string>
+    <string name="premiere_movie2">Venom: The Last Dance</string>
+    <string name="premiere_movie3">Saturday Night</string>
+    <string name="premiere_movie4">Smile 2</string>
+    <string name="premiere_movie5">We Live in Time</string>
+    <string name="premiere_movie6">Piece by Piece</string>
+    <string name="premiere_movie7">Goodrich</string>
+    <string name="premiere_movie8">Gracie and Pedro: Pets to the Rescue</string>
+
+    <string name="popular_movie1">Oppenheimer</string>
+    <string name="popular_movie2">Barbie</string>
+    <string name="popular_movie3">Dune: Part Two</string>
+    <string name="popular_movie4">Spider-Man: Across the Spider-Verse</string>
+    <string name="popular_movie5">Killers of the Flower Moon</string>
+    <string name="popular_movie6">The Exorcist: Believer</string>
+    <string name="popular_movie7">Mission: Impossible - Dead Reckoning Part One</string>
+    <string name="popular_movie8">Avengers: Endgame</string>
+
+    <string name="action_movie1">The Expendables 4</string>
+    <string name="action_movie2">Mission: Impossible - Dead Reckoning</string>
+    <string name="action_movie3">John Wick: Chapter 4</string>
+    <string name="action_movie4">The Equalizer 3</string>
+    <string name="action_movie5">The Marvels</string>
+    <string name="action_movie6">Fast X</string>
+
+    <string name="drama_movie1">We Live in Time</string>
+    <string name="drama_movie2">White Bird</string>
+    <string name="drama_movie3">Oppenheimer</string>
+    <string name="drama_movie4">Napoleon</string>
+    <string name="drama_movie5">Killers of the Flower Moon</string>
+    <string name="drama_movie6">Poor Things</string>
+
+    <string name="series1">Loki (Season 2)</string>
+    <string name="series2">The Boys (Season 4)</string>
+    <string name="series3">Gen V</string>
+    <string name="series4">The Continental</string>
+    <string name="series5">Only Murders in the Building (Season 3)</string>
+    <string name="series6">Ahsoka</string>
+
+    <string name="action">Action</string>
+    <string name="drama">Drama</string>
+    <string name="fantasy">Fantasy</string>
+    <string name="horror">Horror</string>
+    <string name="animation">Animation</string>
+
+    <string name="rating">7.8</string>
 </resources>
