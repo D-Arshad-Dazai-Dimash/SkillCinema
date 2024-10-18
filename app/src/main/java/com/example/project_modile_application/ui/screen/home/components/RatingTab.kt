@@ -27,13 +27,13 @@ fun RatingTab(rating: Double = 7.8) {
     {
         Text(
             text = rating.toString(),
-            modifier = Modifier
-                .align(Alignment.Center)
-                .size(9.dp, 5.91.dp),
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 6.sp,
-            color = Color.White
+            color = Color.White,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(9.dp, 5.91.dp),
         )
     }
 }

@@ -40,7 +40,7 @@ fun OnBoardingScreen(navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 200.dp),
+                .padding(top = 38.dp, bottom = 166.76.dp, start = 26.dp, end = 26.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -64,7 +64,7 @@ fun OnBoardingScreen(navController: NavController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 56.dp)
+                .padding(top = 56.dp, start = 26.dp)
         ) {
             repeat(images.size) { index ->
                 val color = if (index == pagerState.currentPage) Color.Black else Color.LightGray
