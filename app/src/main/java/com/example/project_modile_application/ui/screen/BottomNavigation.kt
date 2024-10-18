@@ -1,5 +1,6 @@
 package com.example.project_modile_application.ui.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ fun BottomNavigation(navController: NavController) {
 
     NavigationBar(
         modifier = Modifier
+            .background(Color.White)
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
         containerColor = Color.White
     )
