@@ -1,7 +1,7 @@
 package com.example.project_modile_application.data
 
 import com.example.project_modile_application.R
-import com.example.project_modile_application.model.Movie
+import com.example.project_modile_application.data.model.Movie
 
 class DataSource {
     fun loadPremieres() : List<Movie> {

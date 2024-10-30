@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.project_modile_application.model.Movie
+import com.example.project_modile_application.data.model.Movie
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable

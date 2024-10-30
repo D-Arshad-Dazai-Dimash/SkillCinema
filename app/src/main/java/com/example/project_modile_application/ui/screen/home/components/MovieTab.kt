@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.model.Movie
+import com.example.project_modile_application.data.model.Movie
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
