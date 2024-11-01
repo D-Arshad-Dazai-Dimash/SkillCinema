@@ -68,6 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-// Retrofit with Scalar Converter
+    // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 }
