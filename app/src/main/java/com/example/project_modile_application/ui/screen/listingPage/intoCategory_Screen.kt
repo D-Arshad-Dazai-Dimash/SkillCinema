@@ -12,12 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
+import com.example.project_modile_application.ui.screen.UIStatesScreen.ErrorUIState
 
 @Composable
-fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String) {
+fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String, navController: NavController) {
     var screenState by remember { mutableStateOf<UiState>(UiState.Initial) }
     val movies = remember { mutableStateOf<List<PosterData>>(emptyList()) }
 
@@ -67,10 +69,7 @@ fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String) {
         }
 
         is UiState.Error -> {
-            Text(
-                text = (screenState as UiState.Error).message,
-                modifier = Modifier.padding(16.dp)
-            )
+            ErrorUIState(navController = navController, message = (screenState as  UiState.Error).message)
         }
     }
 }
