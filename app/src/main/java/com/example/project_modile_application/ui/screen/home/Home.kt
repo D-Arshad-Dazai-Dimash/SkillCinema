@@ -43,7 +43,7 @@ fun Home(
                     modifier = Modifier
                         .padding(bottom = 10.dp)
                 )
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState(0)),
