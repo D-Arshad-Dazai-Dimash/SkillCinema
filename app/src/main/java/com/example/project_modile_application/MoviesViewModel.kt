@@ -7,22 +7,16 @@ import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import kotlinx.coroutines.launch
 
-class MoviesViewModel (private val apiService: KinoPoiskApi) : ViewModel() {
+class MoviesViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
     val premiers = mutableStateOf<List<PosterData>>(emptyList())
     val popular = mutableStateOf<List<PosterData>>(emptyList())
     val top250 = mutableStateOf<List<PosterData>>(emptyList())
-
-
-
 
     init {
         loadMovies("premiers")
         loadMovies("popular")
         loadMovies("top250")
     }
-
-
-
 
     private fun loadMovies(category: String) {
         viewModelScope.launch {
@@ -40,7 +34,6 @@ class MoviesViewModel (private val apiService: KinoPoiskApi) : ViewModel() {
                     countries = it.countries?.map { country -> country.country } ?: emptyList()
                 )
             } ?: emptyList()
-
 
             when (category) {
                 "premiers" -> premiers.value = moviesList

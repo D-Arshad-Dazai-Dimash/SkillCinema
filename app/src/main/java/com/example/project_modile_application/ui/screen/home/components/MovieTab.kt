@@ -14,7 +14,7 @@ import com.example.project_modile_application.data.PosterData
 
 
 @Composable
-fun MovieItem(movie: PosterData) {
+fun MovieTab(movie: PosterData) {
     Column(
         modifier = Modifier
             .padding(8.dp)
