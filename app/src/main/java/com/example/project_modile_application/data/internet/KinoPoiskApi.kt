@@ -27,4 +27,4 @@ val retrofit = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .build()
 
-val apiService = retrofit.create(KinoPoiskApi::class.java)
+val apiService: KinoPoiskApi = retrofit.create(KinoPoiskApi::class.java)
