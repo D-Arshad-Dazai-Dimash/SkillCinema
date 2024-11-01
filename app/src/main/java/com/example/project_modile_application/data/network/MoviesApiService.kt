@@ -1,11 +1,11 @@
 package com.example.project_modile_application.data.network
 
-import com.example.project_modile_application.R
-import com.example.project_modile_application.data.model.Movie
+import com.example.project_modile_application.data.model.GenresList
 import com.example.project_modile_application.data.model.MoviesList
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://kinopoiskapiunofficial.tech/"
 private val retrofit = Retrofit.Builder()
@@ -14,7 +14,14 @@ private val retrofit = Retrofit.Builder()
     .build()
 interface MoviesApiService {
     @GET("api/v2.2/films/collections")
-    fun getMovieList(): MoviesList
+    fun getMoviesList(): MoviesList
+
+    @GET("api/v2.2/films/filters")
+    fun getGenresList(): GenresList
+
+    @GET("api/v2.2/films?genres={genreID}")
+    fun getMoviesByGenre(@Path("genreId") genreId: Int): MoviesList
+
 //    fun loadPremieres() : List<Movie> {
 //        return listOf<Movie> (
 //            Movie(R.drawable.movie, R.string.premiere_movie1, R.string.horror, R.string.rating),
