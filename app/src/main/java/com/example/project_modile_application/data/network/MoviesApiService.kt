@@ -4,15 +4,39 @@ import com.example.project_modile_application.data.model.GenresList
 import com.example.project_modile_application.data.model.MoviesList
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+// Define the base URL and your API key
 private const val BASE_URL = "https://kinopoiskapiunofficial.tech/"
+private const val API_KEY = "d7d69928-01dc-42bc-8984-2c259a708259"
+
+// Create the Interceptor to add the API Key to each request
+val apiKeyInterceptor = Interceptor { chain ->
+    val original: Request = chain.request()
+    val request = original.newBuilder()
+        .header("X-API-KEY", API_KEY)
+        .header("Content-Type", "application/json")
+        .method(original.method, original.body)
+        .build()
+    chain.proceed(request)
+}
+
+// Create OkHttpClient with the interceptor
+val okHttpClient = OkHttpClient.Builder()
+    .addInterceptor(apiKeyInterceptor)
+    .build()
+
+// Build the Retrofit instance
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+    .client(okHttpClient)
     .baseUrl(BASE_URL)
+    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
     .build()
 interface MoviesApiService {
     @GET("api/v2.2/films/collections")
@@ -22,7 +46,7 @@ interface MoviesApiService {
     fun getGenresList(): GenresList
 
     @GET("api/v2.2/films?genres={genreID}")
-    fun getMoviesByGenre(@Path("genreId") genreId: Int): MoviesList
+    fun getMoviesByGenre(@Path("genreID") genreId: Int): MoviesList
 
 //    fun loadPremieres() : List<Movie> {
 //        return listOf<Movie> (
