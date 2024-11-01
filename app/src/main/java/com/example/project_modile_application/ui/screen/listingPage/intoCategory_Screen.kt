@@ -17,6 +17,7 @@ import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.ui.screen.UIStatesScreen.ErrorUIState
+import com.example.project_modile_application.ui.screen.UIStatesScreen.LoadingUIState
 
 @Composable
 fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String, navController: NavController) {
@@ -61,7 +62,7 @@ fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String, navControlle
         }
 
         is UiState.Loading -> {
-            CircularProgressIndicator()
+            LoadingUIState()
         }
 
         is UiState.Success -> {
