@@ -1,7 +1,8 @@
-package com.example.project_modile_application.network
+package com.example.project_modile_application.data.network
 
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.model.Movie
+import com.example.project_modile_application.data.model.MoviesList
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -13,7 +14,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 interface MoviesApiService {
     @GET("api/v2.2/films/collections")
-    fun getMovieList(): Movie
+    fun getMovieList(): MoviesList
 //    fun loadPremieres() : List<Movie> {
 //        return listOf<Movie> (
 //            Movie(R.drawable.movie, R.string.premiere_movie1, R.string.horror, R.string.rating),
@@ -68,4 +69,9 @@ interface MoviesApiService {
 //            Movie(R.drawable.movie, R.string.series6, R.string.fantasy, R.string.rating),
 //        )
 //    }
+}
+object MoviesApi {
+    val retrofitService : MoviesApiService by lazy {
+        retrofit.create(MoviesApiService::class.java)
+    }
 }

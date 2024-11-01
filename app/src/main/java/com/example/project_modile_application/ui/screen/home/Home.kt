@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.network.MoviesApiService
+import com.example.project_modile_application.data.network.MoviesApiService
 import com.example.project_modile_application.ui.screen.home.components.Category
 
 @Preview(showBackground = true, showSystemUi = true)
