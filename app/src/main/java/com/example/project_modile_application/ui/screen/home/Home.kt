@@ -21,28 +21,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.project_modile_application.R
 import com.example.project_modile_application.ui.screen.GenresUiState
-import com.example.project_modile_application.ui.screen.HomeViewModel
-import com.example.project_modile_application.ui.screen.MoviesUiState
-import com.example.project_modile_application.ui.screen.MoviesViewModel
 import com.example.project_modile_application.ui.screen.home.components.Category
 
 @Composable
 fun HomePrev(
     genresUiState: GenresUiState,
-    moviesUiState: MoviesUiState,
     modifier: Modifier = Modifier
 ) {
-    Home(genresUiState = genresUiState, moviesUiState = moviesUiState)
+    Home(genresUiState = genresUiState)
 }
 
 @Composable
 fun Home(
     genresUiState: GenresUiState,
-    moviesUiState: MoviesUiState,
     modifier: Modifier = Modifier
 ) {
     when (genresUiState) {
@@ -61,12 +54,7 @@ fun Home(
                         .verticalScroll(rememberScrollState(0)),
                 ) {
                     items( genresUiState.genresList.genres.size ) { index ->
-                        when(moviesUiState) {
-                            is MoviesUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-                            is MoviesUiState.Success ->
-                                Category(genresUiState.genresList.genres[index].name, moviesUiState.moviesList.movies)
-                            is MoviesUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
-                        }
+                        Category(genresUiState.genresList.genres[index].name, genresUiState.genresList.genres[index].id)
                     }
 //                    Category("Премьеры", moviesApiService.loadPremieres())
 //                    Category("Популярное",moviesApiService.loadPopularMovies())
