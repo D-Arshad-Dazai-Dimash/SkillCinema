@@ -1,6 +1,7 @@
 package com.example.project_modile_application.data.internet
 
 import com.example.project_modile_application.data.MovieResponse
+import com.example.project_modile_application.model.Genre
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,6 +12,7 @@ import retrofit2.http.Query
 interface KinoPoiskApi {
     @GET("api/v2.2/films")
     suspend fun getMovies(
+        @Query("genres") genres: Genre = Genre(genre = "TOP_POPULAR_ALL"),
         @Query("order") order: String = "NUM_VOTE",
         @Query("type") type: String = "FILM",
         @Query("ratingFrom") ratingFrom: Int = 8,
