@@ -16,7 +16,7 @@ class MoviesViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
     init {
         loadMovies("premiers")
         loadMovies("popular")
-        loadMovies("top250")
+        loadMovies("catastrophe")
     }
 
     private fun loadMovies(category: String) {
