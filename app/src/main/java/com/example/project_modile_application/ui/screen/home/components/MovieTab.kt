@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.model.Movie
 import com.example.project_modile_application.ui.font.GraphicFontFamily
@@ -37,7 +38,7 @@ fun MovieTab(movie: Movie, hasGradient: Boolean = false) {
                 .size(111.dp, 156.dp)
         ) {
             Image(
-                painter = painterResource(movie.movieImageResourceId),
+                painter = rememberAsyncImagePainter(movie.posterUrl),
                 contentDescription = "",
                 modifier = Modifier
                     .fillMaxSize()
@@ -62,7 +63,7 @@ fun MovieTab(movie: Movie, hasGradient: Boolean = false) {
                     .padding(all = 6.dp)
                     .align(Alignment.TopEnd)
             ) {
-                RatingTab(stringResource(movie.movieRatingResourceId).toDouble())
+                RatingTab(movie.ratingKinopoisk)
             }
             if (hasGradient) {
                 Image(
@@ -74,7 +75,7 @@ fun MovieTab(movie: Movie, hasGradient: Boolean = false) {
         }
 
         Text(
-            text = stringResource(movie.movieNameResourceId),
+            text = movie.nameOriginal,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(111.dp),
@@ -86,7 +87,7 @@ fun MovieTab(movie: Movie, hasGradient: Boolean = false) {
             color = Color(0xFF272727)
         )
         Text(
-            text = stringResource(movie.movieTypeResourceId),
+            text = movie.nameOriginal,
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,

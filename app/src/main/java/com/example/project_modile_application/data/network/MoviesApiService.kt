@@ -2,14 +2,16 @@ package com.example.project_modile_application.data.network
 
 import com.example.project_modile_application.data.model.GenresList
 import com.example.project_modile_application.data.model.MoviesList
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 private const val BASE_URL = "https://kinopoiskapiunofficial.tech/"
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
     .baseUrl(BASE_URL)
     .build()
 interface MoviesApiService {

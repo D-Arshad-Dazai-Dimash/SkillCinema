@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.project_modile_application.data.MovieRepository
 import com.example.project_modile_application.data.model.GenresList
 import com.example.project_modile_application.data.model.MoviesList
 import com.example.project_modile_application.data.network.MoviesApi
@@ -15,6 +16,7 @@ sealed interface MoviesUiState {
     object Error : MoviesUiState
     object Loading : MoviesUiState
 }
+
 sealed interface GenresUiState {
     data class Success(val genresList: GenresList) : GenresUiState
     object Error : GenresUiState
@@ -22,22 +24,22 @@ sealed interface GenresUiState {
 }
 
 class MoviesViewModel : ViewModel() {
-    var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
-        private set
+//    var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
+//        private set
 
     var genresUiState: GenresUiState by mutableStateOf(GenresUiState.Loading)
         private set
 
-    private fun getMoviesList() {
-        viewModelScope.launch {
-            try {
-                val listResult = MoviesApi.retrofitService.getMoviesList()
-                moviesUiState = MoviesUiState.Success(listResult)
-            } catch (e: Exception) {
-                moviesUiState = MoviesUiState.Error
-            }
-        }
-    }
+//    private fun getMoviesList() {
+//        viewModelScope.launch {
+//            try {
+//                val listResult = MoviesApi.retrofitService.getMoviesList()
+//                moviesUiState = MoviesUiState.Success(listResult)
+//            } catch (e: Exception) {
+//                moviesUiState = MoviesUiState.Error
+//            }
+//        }
+//    }
 
     private fun getGenreList() {
         viewModelScope.launch {
@@ -50,6 +52,21 @@ class MoviesViewModel : ViewModel() {
         }
     }
 
+//    private fun getMoviesByGenre(genreId: Int) {
+//        viewModelScope.launch {
+//            try {
+//                val listResult = MoviesApi.retrofitService.getMoviesByGenre(genreId)
+//                moviesUiState = MoviesUiState.Success(listResult)
+//            } catch (e: Exception) {
+//                moviesUiState = MoviesUiState.Error
+//            }
+//        }
+//    }
+}
+
+class HomeViewModel(private val movieRepository: MovieRepository): ViewModel() {
+    var moviesUiState: MoviesUiState by mutableStateOf(MoviesUiState.Loading)
+        private set
     private fun getMoviesByGenre(genreId: Int) {
         viewModelScope.launch {
             try {
