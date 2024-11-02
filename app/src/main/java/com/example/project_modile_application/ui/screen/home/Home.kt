@@ -9,21 +9,28 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.project_modile_application.MoviesViewModel
 import com.example.project_modile_application.R
-import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.navigation.Screen
+import com.example.project_modile_application.ui.SharedViewModel
 import com.example.project_modile_application.ui.screen.home.components.Category
 
-val moviesViewModel = MoviesViewModel(apiService)
 
 @Composable
-fun Home(navController: NavController) {
-    val premiers =  moviesViewModel.premiers.value
-    val popular = moviesViewModel.popular.value
-    val top250 = moviesViewModel.top250.value
+fun Home(
+    navController: NavController,
+    homeViewModel: HomeViewModel,
+    sharedViewModel: SharedViewModel
+) {
+    val premiers = homeViewModel.premiers.value
+    val popular = homeViewModel.popular.value
+    val top250 = homeViewModel.top250.value
+    val onClick = fun(category: Categories) {
+        navController.navigate(Screen.ListingPage.route)
+        sharedViewModel.updateCategory(category)
+    }
     Column(Modifier.padding(start = 26.dp, end = 26.dp, top = 55.dp)) {
         Image(
             painter = painterResource(R.drawable.skillcinema),
@@ -36,9 +43,9 @@ fun Home(navController: NavController) {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-            Category("Премьеры", premiers, navController)
-            Category("Популярное",popular, navController)
-            Category("Топ-250",top250, navController)
+            Category("Премьеры", premiers, navController, onClick, Categories.Premieres)
+            Category("Популярное", popular, navController, onClick, Categories.Popular)
+            Category("Топ-250", top250, navController, onClick, Categories.Top250)
         }
 
     }

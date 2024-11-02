@@ -14,9 +14,7 @@ fun NavigationGraph(navController: NavHostController) {
         composable(Screen.Search.route) { Search() }
         composable(Screen.Profile.route) { Profile() }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
-        composable(Screen.ListingPage.route + "/category") { navBackStackEntry ->
-            val category = navBackStackEntry.arguments?.getString("category") ?: ""
-            ListingPage(apiService ,category)
+        composable(Screen.ListingPage.route) { ListingPage(apiService ,"Категория")
         }
     }
 }

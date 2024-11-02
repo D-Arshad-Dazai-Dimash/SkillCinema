@@ -1,4 +1,4 @@
-package com.example.project_modile_application
+package com.example.project_modile_application.ui.screen.home
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
@@ -8,7 +8,7 @@ import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import kotlinx.coroutines.launch
 
-class MoviesViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
+class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
     val premiers = mutableStateOf<List<PosterData>>(emptyList())
     val popular = mutableStateOf<List<PosterData>>(emptyList())
     val top250 = mutableStateOf<List<PosterData>>(emptyList())

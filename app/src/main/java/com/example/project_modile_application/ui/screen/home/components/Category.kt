@@ -16,13 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.PosterData
-import com.example.project_modile_application.model.Movie
-import com.example.project_modile_application.navigation.Screen
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
-fun Category(categoryName: String, movies: List<PosterData>, navController: NavController) {
+fun Category(categoryName: String, movies: List<PosterData>, navController: NavController, onClick: (Categories) -> Unit, categories: Categories) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,8 +41,7 @@ fun Category(categoryName: String, movies: List<PosterData>, navController: NavC
         Text(
             text = "Все",
             modifier = Modifier.clickable(onClick = {
-//                navController.navigate(Screen.ListingPage.route + "/" + categoryName)
-                navController.navigate(Screen.ListingPage.route + "/" + "premiers")
+                onClick(categories)
             }),
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,

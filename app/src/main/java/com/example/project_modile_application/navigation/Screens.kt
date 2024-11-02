@@ -8,12 +8,17 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.ui.SharedViewModel
+import com.example.project_modile_application.ui.screen.home.HomeViewModel
 import com.example.project_modile_application.ui.screen.listingPage.IntoCategory_Screen
 
 
+val sharedViewModel = SharedViewModel()
+
 @Composable
 fun Home(navController: NavController) {
-    com.example.project_modile_application.ui.screen.home.Home(navController)
+    val homeViewModel = HomeViewModel(apiService)
+    com.example.project_modile_application.ui.screen.home.Home(navController, homeViewModel, sharedViewModel)
 }
 
 
@@ -38,5 +43,5 @@ fun OnBoarding(navController: NavController) {
 
 @Composable
 fun ListingPage(apiService: KinoPoiskApi, category:String) {
-    IntoCategory_Screen(apiService = apiService, category)
+    IntoCategory_Screen(apiService = apiService, category, sharedViewModel = sharedViewModel)
 }

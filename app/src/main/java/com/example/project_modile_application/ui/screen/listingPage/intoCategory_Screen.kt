@@ -12,12 +12,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
+import com.example.project_modile_application.ui.SharedViewModel
 
 @Composable
-fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String) {
+fun IntoCategory_Screen(
+    apiService: KinoPoiskApi,
+    category: String,
+    sharedViewModel: SharedViewModel
+) {
     var screenState by remember { mutableStateOf<UiState>(UiState.Initial) }
     val movies = remember { mutableStateOf<List<PosterData>>(emptyList()) }
 
@@ -25,11 +31,10 @@ fun IntoCategory_Screen(apiService: KinoPoiskApi, category: String) {
     LaunchedEffect(category) {
         screenState = UiState.Loading
         try {
-            val response = when (category) {
-                "premiers" -> apiService.getMovies(yearFrom = 2023)
-                "popular" -> apiService.getMovies(order = "NUM_VOTE")
-                "top250" -> apiService.getMovies(order = "RATING", ratingFrom = 8)
-                else -> null
+            val response = when (sharedViewModel.category.value) {
+                Categories.Premieres -> apiService.getMovies(yearFrom = 2023)
+                Categories.Popular -> apiService.getMovies(order = "NUM_VOTE")
+                Categories.Top250 -> apiService.getMovies(order = "RATING", ratingFrom = 8)
             }
 
 
