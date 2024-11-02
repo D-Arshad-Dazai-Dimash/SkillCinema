@@ -1,5 +1,6 @@
 package com.example.project_modile_application
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,7 +35,8 @@ class MoviesViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
                     countries = it.countries?.map { country -> country.country } ?: emptyList()
                 )
             } ?: emptyList()
-
+            Log.d("MoviesViewModel", "Loaded movies for $category: ${moviesList.size} items") // Отладка
+            Log.d("MoviesViewModel", moviesList.toString()) // Полный вывод
             when (category) {
                 "premiers" -> premiers.value = moviesList
                 "popular" -> popular.value = moviesList

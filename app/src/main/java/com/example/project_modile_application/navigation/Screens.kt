@@ -6,11 +6,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.project_modile_application.data.internet.KinoPoiskApi
+import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.ui.screen.listingPage.IntoCategory_Screen
 
 
 @Composable
-fun Home() {
-    com.example.project_modile_application.ui.screen.home.Home()
+fun Home(navController: NavController) {
+    com.example.project_modile_application.ui.screen.home.Home(navController)
 }
 
 
@@ -31,4 +34,9 @@ fun Profile() {
 @Composable
 fun OnBoarding(navController: NavController) {
     com.example.project_modile_application.ui.screen.onboarding.OnBoardingScreen(navController)
+}
+
+@Composable
+fun ListingPage(apiService: KinoPoiskApi, category:String) {
+    IntoCategory_Screen(apiService = apiService, category)
 }

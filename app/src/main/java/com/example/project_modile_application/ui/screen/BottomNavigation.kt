@@ -66,6 +66,7 @@ fun BottomNavigation(navController: NavController) {
                         )
 
                         Screen.Onboarding -> {}
+                        Screen.ListingPage -> {}
                     }
                 },
                 onClick = {

@@ -11,18 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.project_modile_application.MoviesViewModel
 import com.example.project_modile_application.R
+import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.ui.screen.home.components.Category
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomePrev() {
-    Home()
-}
+val moviesViewModel = MoviesViewModel(apiService)
 
 @Composable
-fun Home() {
-    val dataSource = DataSource()
+fun Home(navController: NavController) {
+    val premiers =  moviesViewModel.premiers.value
+    val popular = moviesViewModel.popular.value
+    val top250 = moviesViewModel.top250.value
     Column(Modifier.padding(start = 26.dp, end = 26.dp, top = 55.dp)) {
         Image(
             painter = painterResource(R.drawable.skillcinema),
@@ -35,11 +36,9 @@ fun Home() {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-            Category("Премьеры", dataSource.loadPremieres())
-            Category("Популярное",dataSource.loadPopularMovies())
-            Category("Боевики США", dataSource.loadActionMovies())
-            Category("Драмы Франции", dataSource.loadDramaMovies())
-            Category("Сериалы", dataSource.loadSeries())
+            Category("Премьеры", premiers, navController)
+            Category("Популярное",popular, navController)
+            Category("Топ-250",top250, navController)
         }
 
     }
