@@ -43,11 +43,12 @@ fun Home(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-            Category("Премьеры", premiers, navController, onClick, Categories.Premieres)
-            Category("Популярное", popular, navController, onClick, Categories.Popular)
-            Category("Топ-250", top250, navController, onClick, Categories.Top250)
+//            Categories.allCategories.forEach { category ->
+//                Category()
+//            }
+            Category(premiers, onClick, Categories.Premieres)
+            Category(popular, onClick, Categories.Popular)
+            Category(top250, onClick, Categories.Top250)
         }
-
     }
-
 }
