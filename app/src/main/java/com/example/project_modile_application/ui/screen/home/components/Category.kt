@@ -51,12 +51,11 @@ fun Category(movies: List<PosterData>, onClick: (Categories) -> Unit, categories
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(movies) {
-            MovieTab(it)
+        items(movies.take(6)) { movie ->
+            MovieTab(movie)
         }
         item {
             ShowAll()
         }
-
     }
 }

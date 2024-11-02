@@ -77,7 +77,6 @@ fun IntoCategory_Screen(
 
         is UiState.Error -> {
             ErrorUIState(navController = navController, message = (screenState as UiState.Error).message)
-
         }
     }
 }
