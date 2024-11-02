@@ -1,6 +1,6 @@
 package com.example.project_modile_application.data
 
-import com.example.project_modile_application.model.Movie
+import com.example.project_modile_application.domain.Movie
 
 data class MovieResponse(
     val total: Int,
