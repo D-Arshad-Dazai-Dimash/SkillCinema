@@ -18,6 +18,8 @@ import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.ui.SharedViewModel
+import com.example.project_modile_application.ui.screen.UIStateScreens.ErrorUIState
+import com.example.project_modile_application.ui.screen.UIStateScreens.LoadingUIState
 
 @Composable
 fun IntoCategory_Screen(
@@ -66,7 +68,7 @@ fun IntoCategory_Screen(
         }
 
         is UiState.Loading -> {
-            CircularProgressIndicator()
+            LoadingUIState()
         }
 
         is UiState.Success -> {
@@ -74,10 +76,8 @@ fun IntoCategory_Screen(
         }
 
         is UiState.Error -> {
-            Text(
-                text = (screenState as UiState.Error).message,
-                modifier = Modifier.padding(16.dp)
-            )
+            ErrorUIState(navController = navController, message = (screenState as UiState.Error).message)
+
         }
     }
 }
