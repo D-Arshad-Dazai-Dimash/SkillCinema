@@ -11,7 +11,6 @@ import retrofit2.http.Query
 interface KinoPoiskApi {
     @GET("api/v2.2/films")
     suspend fun getMovies(
-//        @Query("genres") genres: Genre = Genre(genre = "TOP_POPULAR_ALL"),
         @Query("order") order: String = "NUM_VOTE",
         @Query("type") type: String = "FILM",
         @Query("ratingFrom") ratingFrom: Int = 8,
