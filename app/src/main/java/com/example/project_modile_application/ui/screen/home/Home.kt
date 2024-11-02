@@ -9,21 +9,28 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.project_modile_application.R
-import com.example.project_modile_application.data.DataSource
+import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.navigation.Screen
+import com.example.project_modile_application.ui.SharedViewModel
 import com.example.project_modile_application.ui.screen.home.components.Category
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun HomePrev() {
-    Home()
-}
 
 @Composable
-fun Home() {
-    val dataSource = DataSource()
+fun Home(
+    navController: NavController,
+    homeViewModel: HomeViewModel,
+    sharedViewModel: SharedViewModel
+) {
+    val premiers = homeViewModel.premiers.value
+    val popular = homeViewModel.popular.value
+    val top250 = homeViewModel.top250.value
+    val onClick = fun(category: Categories) {
+        navController.navigate(Screen.ListingPage.route)
+        sharedViewModel.updateCategory(category)
+    }
     Column(Modifier.padding(start = 26.dp, end = 26.dp, top = 55.dp)) {
         Image(
             painter = painterResource(R.drawable.skillcinema),
@@ -36,13 +43,12 @@ fun Home() {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-            Category("Премьеры", dataSource.loadPremieres())
-            Category("Популярное",dataSource.loadPopularMovies())
-            Category("Боевики США", dataSource.loadActionMovies())
-            Category("Драмы Франции", dataSource.loadDramaMovies())
-            Category("Сериалы", dataSource.loadSeries())
+//            Categories.allCategories.forEach { category ->
+//                Category()
+//            }
+            Category(premiers, onClick, Categories.Premieres)
+            Category(popular, onClick, Categories.Popular)
+            Category(top250, onClick, Categories.Top250)
         }
-
     }
-
 }

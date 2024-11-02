@@ -1,5 +1,6 @@
 package com.example.project_modile_application.ui.screen.home.components
 
+import MovieTab
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,11 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.project_modile_application.model.Movie
+import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.ui.font.GraphicFontFamily
 
 @Composable
-fun Category(categoryName: String, movies: List<Movie>) {
+fun Category(movies: List<PosterData>, onClick: (Categories) -> Unit, categories: Categories) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -29,7 +31,7 @@ fun Category(categoryName: String, movies: List<Movie>) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = categoryName,
+            text = categories.category,
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp,
@@ -37,7 +39,9 @@ fun Category(categoryName: String, movies: List<Movie>) {
         )
         Text(
             text = "Все",
-            modifier = Modifier.clickable(onClick = {}),
+            modifier = Modifier.clickable(onClick = {
+                onClick(categories)
+            }),
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
