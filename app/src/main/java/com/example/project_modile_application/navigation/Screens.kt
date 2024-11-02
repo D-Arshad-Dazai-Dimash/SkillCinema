@@ -42,6 +42,6 @@ fun OnBoarding(navController: NavController) {
 }
 
 @Composable
-fun ListingPage(apiService: KinoPoiskApi, category:String) {
-    IntoCategory_Screen(apiService = apiService, category, sharedViewModel = sharedViewModel)
+fun ListingPage( navController: NavController, apiService: KinoPoiskApi, category:String) {
+    IntoCategory_Screen( navController = navController, apiService = apiService, category, sharedViewModel = sharedViewModel)
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.PosterData
 import com.example.project_modile_application.data.UiState
@@ -20,6 +21,7 @@ import com.example.project_modile_application.ui.SharedViewModel
 
 @Composable
 fun IntoCategory_Screen(
+    navController: NavController,
     apiService: KinoPoiskApi,
     category: String,
     sharedViewModel: SharedViewModel
@@ -68,7 +70,7 @@ fun IntoCategory_Screen(
         }
 
         is UiState.Success -> {
-            IntoCategory_Grid(movies = movies.value)
+            IntoCategory_Grid(navController = navController, movies = movies.value)
         }
 
         is UiState.Error -> {

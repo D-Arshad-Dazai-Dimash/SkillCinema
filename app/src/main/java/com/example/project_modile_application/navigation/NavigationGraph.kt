@@ -14,7 +14,7 @@ fun NavigationGraph(navController: NavHostController) {
         composable(Screen.Search.route) { Search() }
         composable(Screen.Profile.route) { Profile() }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
-        composable(Screen.ListingPage.route) { ListingPage(apiService ,"Категория")
+        composable(Screen.ListingPage.route) { ListingPage( navController = navController, apiService ,"Категория")
         }
     }
 }
