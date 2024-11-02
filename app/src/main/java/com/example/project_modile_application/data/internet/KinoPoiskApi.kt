@@ -1,7 +1,6 @@
 package com.example.project_modile_application.data.internet
 
 import com.example.project_modile_application.data.MovieResponse
-import com.example.project_modile_application.model.Genre
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,10 +19,11 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 1900,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "d7d69928-01dc-42bc-8984-2c259a708259"
+        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
     ): Response<MovieResponse>
 
 }
+
 val retrofit = Retrofit.Builder()
     .baseUrl("https://kinopoiskapiunofficial.tech/")
     .addConverterFactory(GsonConverterFactory.create())
