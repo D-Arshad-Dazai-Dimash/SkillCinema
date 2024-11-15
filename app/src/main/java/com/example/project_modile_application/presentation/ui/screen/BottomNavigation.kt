@@ -64,8 +64,8 @@ fun BottomNavigation(navController: NavController) {
                             modifier = Modifier
                                 .size(24.dp)
                         )
-                        Screen.Onboarding -> {}
-                        Screen.ListingPage -> {}
+
+                        else -> {}
                     }
                 },
                 onClick = {

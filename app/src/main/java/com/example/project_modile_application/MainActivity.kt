@@ -1,4 +1,4 @@
-package com.example.project_modile_application.presentation
+package com.example.project_modile_application
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

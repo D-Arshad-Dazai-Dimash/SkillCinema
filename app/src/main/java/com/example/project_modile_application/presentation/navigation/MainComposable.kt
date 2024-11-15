@@ -5,21 +5,34 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.project_modile_application.presentation.ui.screen.BottomNavigation
-
 
 @Composable
 fun MainComposable() {
     val navController = rememberNavController()
+
+   val bottomNavRoutes = listOf(
+        Screen.Home.route,
+        Screen.Search.route,
+        Screen.Profile.route
+    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
     Scaffold(
         bottomBar = {
-            BottomNavigation(navController)
+            if (currentRoute in bottomNavRoutes) {
+                BottomNavigation(navController)
+            }
         }
     ) { innerPadding ->
         Box(
