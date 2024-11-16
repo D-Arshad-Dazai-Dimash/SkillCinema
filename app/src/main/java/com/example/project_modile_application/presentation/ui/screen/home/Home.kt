@@ -44,12 +44,9 @@ fun Home(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState(0)),
         ) {
-//            Categories.allCategories.forEach { category ->
-//                Category()
-//            }
-            Category(premiers, onClick, Categories.Premieres)
-            Category(popular, onClick, Categories.Popular)
-            Category(top250, onClick, Categories.Top250)
+            Category(premiers, onClick, Categories.Premieres, navController , sharedViewModel)
+            Category(popular, onClick, Categories.Popular, navController , sharedViewModel)
+            Category(top250, onClick, Categories.Top250, navController , sharedViewModel)
         }
     }
 }

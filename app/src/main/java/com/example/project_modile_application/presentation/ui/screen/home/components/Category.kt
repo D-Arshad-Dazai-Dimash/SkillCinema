@@ -15,12 +15,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.project_modile_application.data.Categories
-import com.example.project_modile_application.data.PosterData
-import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
+import com.example.project_modile_application.data.MoviesData
+import com.example.project_modile_application.domain.SharedViewModel
 
 @Composable
-fun Category(movies: List<PosterData>, onClick: (Categories) -> Unit, categories: Categories) {
+fun Category(
+    movies: List<MoviesData>,
+    onClick: (Categories) -> Unit,
+    categories: Categories,
+    navController: NavController,
+    sharedViewModel: SharedViewModel
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,10 +59,10 @@ fun Category(movies: List<PosterData>, onClick: (Categories) -> Unit, categories
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(movies.take(6)) { movie ->
-            MovieTab(movie)
+            MovieTab(movie, navController, sharedViewModel)
         }
         item {
-            ShowAll()
+            ShowAll(onClick, categories)
         }
     }
 }

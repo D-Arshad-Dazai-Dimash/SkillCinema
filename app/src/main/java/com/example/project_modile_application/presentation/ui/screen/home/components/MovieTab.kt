@@ -1,3 +1,4 @@
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,17 +15,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.project_modile_application.data.PosterData
+import com.example.project_modile_application.data.MoviesData
+import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.presentation.navigation.Screen
 
 
 @Composable
-fun MovieTab(movie: PosterData) {
+fun MovieTab(movie: MoviesData, navController: NavController, sharedViewModel: SharedViewModel) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
     ) {
         AsyncImage(
             model = movie.image.takeIf { it.isNotEmpty() } ?: "default_image_url",
@@ -33,13 +37,16 @@ fun MovieTab(movie: PosterData) {
                 .height(180.dp)
                 .width(111.dp)
                 .clip(RoundedCornerShape(4.dp))
-//                .fillMaxWidth()
         )
         Text(
             text = movie.title,
             modifier = Modifier
                 .padding(top = 8.dp)
-                .width(111.dp),
+                .width(111.dp)
+                .clickable {
+                    sharedViewModel.selectMovie(movie)
+                    navController.navigate(Screen.FilmPage.route)
+                },
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontFamily = com.example.project_modile_application.presentation.ui.font.GraphicFontFamily,
@@ -48,7 +55,7 @@ fun MovieTab(movie: PosterData) {
             color = Color(0xFF272727)
         )
         Text(
-            text = if (movie.countries.isNotEmpty()) movie.countries.first() else "null",
+            text = if (movie.countries.isNotEmpty()) movie.countries.first().country else "null",
             fontFamily = com.example.project_modile_application.presentation.ui.font.GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,

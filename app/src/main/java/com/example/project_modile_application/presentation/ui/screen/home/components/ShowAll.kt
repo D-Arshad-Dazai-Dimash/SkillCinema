@@ -21,9 +21,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
+import com.example.project_modile_application.data.Categories
 
 @Composable
-fun ShowAll() {
+fun ShowAll(
+    onClick: (Categories) -> Unit,
+    categories: Categories,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -31,7 +35,9 @@ fun ShowAll() {
             .size(111.dp, 156.dp)
     ) {
         Button(
-            onClick = {},
+            onClick = {
+                onClick(categories)
+            },
             modifier = Modifier
                 .padding(top = 51.5.dp)
                 .clip(CircleShape)

@@ -10,13 +10,12 @@ import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.domain.HomeViewModel
 import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.presentation.ui.screen.filmpage.FilmPageScreen
 import com.example.project_modile_application.presentation.ui.screen.listingPage.IntoCategory_Screen
 
 
-val sharedViewModel = SharedViewModel()
-
 @Composable
-fun Home(navController: NavController) {
+fun Home(navController: NavController , sharedViewModel: SharedViewModel) {
     val homeViewModel = HomeViewModel(apiService)
     com.example.project_modile_application.presentation.ui.screen.home.Home(
         navController,
@@ -48,11 +47,16 @@ fun OnBoarding(navController: NavController) {
 }
 
 @Composable
-fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category: String) {
+fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category: String , sharedViewModel: SharedViewModel) {
     IntoCategory_Screen(
         navController = navController,
         apiService = apiService,
         category,
         sharedViewModel = sharedViewModel
     )
+}
+
+@Composable
+fun FilmPage(navController: NavController , sharedViewModel: SharedViewModel) {
+    FilmPageScreen(navController, sharedViewModel)
 }

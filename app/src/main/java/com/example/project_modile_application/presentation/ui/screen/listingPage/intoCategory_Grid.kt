@@ -23,11 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
-import com.example.project_modile_application.data.PosterData
-import com.example.project_modile_application.presentation.navigation.sharedViewModel
+import com.example.project_modile_application.data.MoviesData
+import com.example.project_modile_application.domain.SharedViewModel
 
 @Composable
-fun IntoCategory_Grid(navController: NavController, movies: List<PosterData>) {
+fun IntoCategory_Grid(navController: NavController, movies: List<MoviesData> , sharedViewModel: SharedViewModel) {
     Column(
         verticalArrangement = Arrangement.spacedBy(26.dp),
     ) {
@@ -66,8 +66,7 @@ fun IntoCategory_Grid(navController: NavController, movies: List<PosterData>) {
                         .padding(horizontal = 2.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MovieTab(movies[index])
-
+                    MovieTab(movies[index] , navController , sharedViewModel)
                 }
             }
         }

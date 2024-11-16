@@ -4,14 +4,14 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.project_modile_application.data.PosterData
+import com.example.project_modile_application.data.MoviesData
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
-    val premiers = mutableStateOf<List<PosterData>>(emptyList())
-    val popular = mutableStateOf<List<PosterData>>(emptyList())
-    val top250 = mutableStateOf<List<PosterData>>(emptyList())
+    val premiers = mutableStateOf<List<MoviesData>>(emptyList())
+    val popular = mutableStateOf<List<MoviesData>>(emptyList())
+    val top250 = mutableStateOf<List<MoviesData>>(emptyList())
 
     init {
         loadMovies("premiers")
@@ -28,15 +28,32 @@ class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
                 else -> null
             }
             val moviesList = response?.body()?.items?.map {
-                PosterData(
+                MoviesData(
+                    kinopoiskId = it.kinopoiskId ?: 0,
                     title = it.nameRu ?: "Unknown",
                     image = it.posterUrl ?: "",
-                    genres = it.genres?.map { genre -> genre.genre } ?: emptyList(),
-                    countries = it.countries?.map { country -> country.country } ?: emptyList()
+                    genres = it.genres.map { Genre(it.toString()) } ?: emptyList(),
+                    countries = it.countries?.map {Country(it.toString()) } ?: emptyList(),
+                    description = it.description ?: "",
+                    coverUrl = it.coverUrl ?: "",
+                    editorAnnotation = it.editorAnnotation ?: "",
+                    filmLength = it.filmLength ?: 0,
+                    logoUrl = it.logoUrl?: "",
+                    nameEn = it.nameEn ?: "",
+                    nameRu = it.nameEn?: "",
+                    nameOriginal = it.nameOriginal?: "",
+                    posterUrlPreview = it.posterUrlPreview?: "",
+                    ratingKinopoisk = it.ratingKinopoisk ?: 0.0,
+                    shortDescription = it.shortDescription?: "",
+                    slogan = it.slogan?: "",
+                    type = it.type?: "",
+                    webUrl = it.webUrl?: "",
+                    year = it.year?: 0,
+                    posterUrl = it.posterUrl?: ""
                 )
             } ?: emptyList()
-            Log.d("MoviesViewModel", "Loaded movies for $category: ${moviesList.size} items") // Отладка
-            Log.d("MoviesViewModel", moviesList.toString()) // Полный вывод
+            Log.d("MoviesViewModel", "Loaded movies for $category: ${moviesList.size} items")
+            Log.d("MoviesViewModel", moviesList.toString())
             when (category) {
                 "premiers" -> premiers.value = moviesList
                 "popular" -> popular.value = moviesList
