@@ -9,7 +9,7 @@ data class MoviesData(
     val genres: List<Genre> = emptyList(),
     val countries: List<Country> = emptyList(),
     val coverUrl: String = "",
-    val description: String = "",
+    val description: String = "Жизнь Томаса Андерсона разделена на две части:",
     val editorAnnotation: String = "",
     val filmLength: Int = 0,
     val kinopoiskId: Int = 0,
@@ -20,11 +20,12 @@ data class MoviesData(
     val posterUrl: String = "",
     val posterUrlPreview: String = "",
     val ratingKinopoisk: Double = 0.0,
-    val shortDescription: String = "",
+    val shortDescription: String = "Хакер Нео узнает, что его мир — виртуальный. Выдающийся экшен, доказавший, что зрелищное кино может быть умным",
     val slogan: String = "",
     val type: String = "",
     val webUrl: String = "",
-    val year: Int = 0
+    val year: Int = 0,
+    val ratingAgeLimits : String = ""
 )
 
 

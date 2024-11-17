@@ -55,11 +55,12 @@ fun MovieTab(movie: MoviesData, navController: NavController, sharedViewModel: S
             color = Color(0xFF272727)
         )
         Text(
-            text = if (movie.countries.isNotEmpty()) movie.countries.first().country else "null",
+            text = if (movie.countries.isNotEmpty()) movie.countries.first().country else "Unknown",
             fontFamily = com.example.project_modile_application.presentation.ui.font.GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
             color = Color(0xFF838390)
         )
+
     }
 }

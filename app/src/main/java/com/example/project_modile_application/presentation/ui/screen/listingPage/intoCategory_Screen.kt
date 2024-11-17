@@ -16,8 +16,6 @@ import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.MoviesData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
-import com.example.project_modile_application.domain.Country
-import com.example.project_modile_application.domain.Genre
 import com.example.project_modile_application.domain.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
@@ -47,8 +45,8 @@ fun IntoCategory_Screen(
                         kinopoiskId = it.kinopoiskId ?: -1,
                         title = it.nameRu ?: "Unknown Title",
                         image = it.posterUrl ?: "",
-                        genres = it.genres.map { Genre(it.toString()) } ?: emptyList(),
-                        countries = it.countries.map { Country(it.toString()) } ?: emptyList(),
+                        genres = it.genres ?: emptyList(),
+                        countries = it.countries ?: emptyList(),
                         description = it.description ?: "No Description",
                         coverUrl = it.coverUrl ?: "",
                         editorAnnotation = it.editorAnnotation ?: "",
@@ -74,7 +72,7 @@ fun IntoCategory_Screen(
                 screenState = UiState.Error("Error loading movies: ${response.code()}")
             }
         } catch (a: Exception) {
-//            screenState = UiState.Error("Network error: ${a.message}")
+            screenState = UiState.Error("Network error: ${a.message}")
         }
     }
 
@@ -88,11 +86,14 @@ fun IntoCategory_Screen(
         }
 
         is UiState.Success -> {
-            IntoCategory_Grid(navController = navController, movies = movies.value ,sharedViewModel)
+            IntoCategory_Grid(navController = navController, movies = movies.value, sharedViewModel)
         }
 
         is UiState.Error -> {
-            ErrorUIState(navController = navController, message = (screenState as UiState.Error).message)
+            ErrorUIState(
+                navController = navController,
+                message = (screenState as UiState.Error).message
+            )
         }
     }
 }
