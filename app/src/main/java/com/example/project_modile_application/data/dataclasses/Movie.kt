@@ -1,4 +1,4 @@
-package com.example.project_modile_application.domain
+package com.example.project_modile_application.data.dataclasses
 
 data class Movie(
     val kinopoiskId: Int,

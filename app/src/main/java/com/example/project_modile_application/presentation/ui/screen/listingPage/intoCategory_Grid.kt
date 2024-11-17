@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
-import com.example.project_modile_application.domain.Movie
+import com.example.project_modile_application.data.dataclasses.Movie
 import com.example.project_modile_application.domain.SharedViewModel
 
 @Composable

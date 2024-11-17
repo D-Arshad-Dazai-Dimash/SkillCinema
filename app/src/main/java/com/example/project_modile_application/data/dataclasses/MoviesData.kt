@@ -1,7 +1,4 @@
-package com.example.project_modile_application.data
-
-import com.example.project_modile_application.domain.Country
-import com.example.project_modile_application.domain.Genre
+package com.example.project_modile_application.data.dataclasses
 
 data class MoviesData(
     val title: String = "",

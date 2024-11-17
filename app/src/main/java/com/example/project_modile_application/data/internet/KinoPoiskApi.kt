@@ -1,8 +1,8 @@
 package com.example.project_modile_application.data.internet
 
 import com.example.project_modile_application.data.MovieResponse
-import com.example.project_modile_application.data.MoviesData
-import com.example.project_modile_application.data.StaffData
+import com.example.project_modile_application.data.dataclasses.MoviesData
+import com.example.project_modile_application.data.dataclasses.StaffData
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +21,7 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
+        @Header("X-API-KEY") apiKey: String = "d7d69928-01dc-42bc-8984-2c259a708259"
     ): Response<MovieResponse>
 
     @GET("api/v2.2/films/{id}")

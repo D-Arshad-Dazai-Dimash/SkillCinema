@@ -1,4 +1,4 @@
-package com.example.project_modile_application.data
+package com.example.project_modile_application.data.dataclasses
 
 data class StaffData(
     val staffId: Int,

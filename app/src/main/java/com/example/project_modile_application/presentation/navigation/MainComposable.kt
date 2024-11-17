@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.domain.MovieDetailViewModel
 import com.example.project_modile_application.domain.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.BottomNavigation
 
@@ -21,6 +23,7 @@ import com.example.project_modile_application.presentation.ui.screen.BottomNavig
 fun MainComposable() {
     val navController = rememberNavController()
     val sharedViewModel = remember { SharedViewModel() }
+    val movieDetailViewModel = remember{ MovieDetailViewModel(apiService)}
 
     val bottomNavRoutes = listOf(
         Screen.Home.route,
@@ -49,7 +52,7 @@ fun MainComposable() {
                 )
                 .background(color = Color.White)
         ) {
-            NavigationGraph(navController , sharedViewModel)
+            NavigationGraph(navController , sharedViewModel , movieDetailViewModel)
         }
     }
 }

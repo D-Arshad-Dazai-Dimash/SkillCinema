@@ -1,6 +1,6 @@
 package com.example.project_modile_application.data
 
-import com.example.project_modile_application.domain.Movie
+import com.example.project_modile_application.data.dataclasses.Movie
 
 sealed interface UiState {
     object Initial : UiState

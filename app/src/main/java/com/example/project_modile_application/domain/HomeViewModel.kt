@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.project_modile_application.data.MoviesData
 import com.example.project_modile_application.data.internet.KinoPoiskApi
+import com.example.project_modile_application.data.dataclasses.Movie
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
