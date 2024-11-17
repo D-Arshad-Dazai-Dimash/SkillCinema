@@ -21,7 +21,7 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 1900,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
+        @Header("X-API-KEY") apiKey: String = "ce1c91b2-5c47-4503-a848-f7581f7a276c"
     ): Response<MovieResponse>
 
     @GET("api/v2.2/films/{id}")

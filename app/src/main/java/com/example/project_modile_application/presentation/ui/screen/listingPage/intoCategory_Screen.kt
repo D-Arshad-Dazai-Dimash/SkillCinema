@@ -49,7 +49,6 @@ fun IntoCategory_Screen(
                         countries = it.countries ?: emptyList(),
                         description = it.description ?: "No Description",
                         coverUrl = it.coverUrl ?: "",
-                        editorAnnotation = it.editorAnnotation ?: "",
                         filmLength = it.filmLength ?: 0,
                         logoUrl = it.logoUrl ?: "",
                         nameEn = it.nameEn ?: "",

@@ -34,12 +34,16 @@ class SharedViewModel : ViewModel() {
             try {
                 val response = apiService.getStaffByFilmId(filmId)
                 if (response.isSuccessful) {
-                    _actors.value =
-                        response.body()?.filter { it.professionKey == "ACTOR" } ?: emptyList()
+                    val actorsList = response.body()?.filter { it.professionKey == "ACTOR" } ?: emptyList()
+                    Log.d("SharedViewModel", "Fetched actors: ${actorsList.size}")
+                    _actors.value = actorsList
+                } else {
+                    Log.e("SharedViewModel", "Error fetching actors: ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 Log.e("SharedViewModel", "Error fetching actors: ${e.message}")
             }
         }
     }
+
 }

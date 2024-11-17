@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -48,7 +49,7 @@ fun FilmPageScreen(navController: NavController, sharedViewModel: SharedViewMode
 
 
     LaunchedEffect(selectedMovie?.kinopoiskId) {
-        selectedMovie?.kinopoiskId?.let { sharedViewModel.fetchActors(it) }
+        selectedMovie?.let { sharedViewModel.fetchActors(selectedMovie.kinopoiskId) }
     }
 
     Column(
@@ -60,7 +61,6 @@ fun FilmPageScreen(navController: NavController, sharedViewModel: SharedViewMode
             modifier = Modifier
                 .fillMaxWidth()
                 .size(400.dp),
-
             ) {
 
             Log.d("FilmPageScreen", "coverUrl: ${selectedMovie?.shortDescription}")
@@ -157,7 +157,16 @@ fun FilmPageScreen(navController: NavController, sharedViewModel: SharedViewMode
                         modifier = Modifier.size(18.dp, 18.dp),
                     )
                 }
-                ActorsList(actors)
+                if (actors.isNotEmpty()) {
+                    ActorsList(actors)
+                } else {
+                Text(
+                    text = "No actors found",
+                    fontFamily = GraphicFontFamily,
+                    fontSize = 16.sp,
+                    color = Color.Gray
+                )
+            }
             }
         }
     }
@@ -183,6 +192,7 @@ fun ActorsList(actors: List<StaffData>) {
         rows = GridCells.Fixed(10),
         modifier = Modifier
             .fillMaxWidth()
+            .height(200.dp)
             .padding(16.dp, 8.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -192,9 +202,10 @@ fun ActorsList(actors: List<StaffData>) {
         }
     }
 }
-
 @Composable
 fun ActorCard(actor: StaffData) {
+    Log.d("FilmPageScreen", "Rendering actor: ${actor.nameRu ?: actor.nameEn}")
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

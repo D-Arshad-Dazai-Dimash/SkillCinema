@@ -30,27 +30,26 @@ class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
                 }
                 val moviesList = response?.body()?.items?.map {
                     MoviesData(
-                        kinopoiskId = it.kinopoiskId,
-                        title = it.nameRu,
-                        image = it.posterUrl,
-                        genres = it.genres,
-                        countries = it.countries,
-                        description = it.description,
-                        coverUrl = it.coverUrl,
-                        editorAnnotation = it.editorAnnotation,
-                        filmLength = it.filmLength,
-                        logoUrl = it.logoUrl,
-                        nameEn = it.nameEn,
-                        nameRu = it.nameEn,
-                        nameOriginal = it.nameOriginal,
-                        posterUrlPreview = it.posterUrlPreview,
-                        ratingKinopoisk = it.ratingKinopoisk,
-                        shortDescription = it.shortDescription,
-                        slogan = it.slogan,
-                        type = it.type,
-                        webUrl = it.webUrl,
-                        year = it.year,
-                        posterUrl = it.posterUrl
+                        kinopoiskId = it.kinopoiskId ?: -1,
+                        title = it.nameRu ?: "Unknown Title",
+                        image = it.posterUrl ?: "",
+                        genres = it.genres ?: emptyList(),
+                        countries = it.countries ?: emptyList(),
+                        description = it.description ?: "No Description",
+                        coverUrl = it.coverUrl ?: "",
+                        filmLength = it.filmLength ?: 0,
+                        logoUrl = it.logoUrl ?: "",
+                        nameEn = it.nameEn ?: "",
+                        nameRu = it.nameRu ?: "",
+                        nameOriginal = it.nameOriginal ?: "",
+                        posterUrlPreview = it.posterUrlPreview ?: "",
+                        ratingKinopoisk = it.ratingKinopoisk ?: 0.0,
+                        shortDescription = it.shortDescription ?: "",
+                        slogan = it.slogan ?: "",
+                        type = it.type ?: "",
+                        webUrl = it.webUrl ?: "",
+                        year = it.year ?: 0,
+                        posterUrl = it.posterUrl ?: ""
                     )
                 } ?: emptyList()
                 Log.d("MoviesViewModel", "Loaded movies for $category: ${moviesList.size} items")
