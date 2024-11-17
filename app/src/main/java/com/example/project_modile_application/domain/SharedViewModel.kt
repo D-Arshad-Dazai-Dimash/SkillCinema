@@ -19,10 +19,10 @@ class SharedViewModel : ViewModel() {
         this.category.value = category
     }
 
-    private val _selectedMovie = mutableStateOf<MoviesData?>(null)
-    val selectedMovie: State<MoviesData?> = _selectedMovie
+    private val _selectedMovie = mutableStateOf<Movie?>(null)
+    val selectedMovie: State<Movie?> = _selectedMovie
 
-    fun selectMovie(movie: MoviesData) {
+    fun selectMovie(movie: Movie) {
         _selectedMovie.value = movie
     }
 

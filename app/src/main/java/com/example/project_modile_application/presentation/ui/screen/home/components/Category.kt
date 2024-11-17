@@ -18,11 +18,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.MoviesData
+import com.example.project_modile_application.domain.Movie
 import com.example.project_modile_application.domain.SharedViewModel
 
 @Composable
 fun Category(
-    movies: List<MoviesData>,
+    movies: List<Movie>,
     onClick: (Categories) -> Unit,
     categories: Categories,
     navController: NavController,

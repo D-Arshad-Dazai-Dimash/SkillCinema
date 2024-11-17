@@ -9,9 +9,9 @@ import com.example.project_modile_application.data.internet.KinoPoiskApi
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
-    val premiers = mutableStateOf<List<MoviesData>>(emptyList())
-    val popular = mutableStateOf<List<MoviesData>>(emptyList())
-    val top250 = mutableStateOf<List<MoviesData>>(emptyList())
+    val premiers = mutableStateOf<List<Movie>>(emptyList())
+    val popular = mutableStateOf<List<Movie>>(emptyList())
+    val top250 = mutableStateOf<List<Movie>>(emptyList())
 
     init {
         loadMovies("premiers")
@@ -29,25 +29,15 @@ class HomeViewModel(private val apiService: KinoPoiskApi) : ViewModel() {
                     else -> null
                 }
                 val moviesList = response?.body()?.items?.map {
-                    MoviesData(
+                    Movie(
                         kinopoiskId = it.kinopoiskId ?: -1,
                         title = it.nameRu ?: "Unknown Title",
                         image = it.posterUrl ?: "",
                         genres = it.genres ?: emptyList(),
                         countries = it.countries ?: emptyList(),
-                        description = it.description ?: "No Description",
-                        coverUrl = it.coverUrl ?: "",
-                        filmLength = it.filmLength ?: 0,
-                        logoUrl = it.logoUrl ?: "",
                         nameEn = it.nameEn ?: "",
                         nameRu = it.nameRu ?: "",
-                        nameOriginal = it.nameOriginal ?: "",
                         posterUrlPreview = it.posterUrlPreview ?: "",
-                        ratingKinopoisk = it.ratingKinopoisk ?: 0.0,
-                        shortDescription = it.shortDescription ?: "",
-                        slogan = it.slogan ?: "",
-                        type = it.type ?: "",
-                        webUrl = it.webUrl ?: "",
                         year = it.year ?: 0,
                         posterUrl = it.posterUrl ?: ""
                     )

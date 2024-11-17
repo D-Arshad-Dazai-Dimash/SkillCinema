@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.project_modile_application.data.Categories
-import com.example.project_modile_application.data.MoviesData
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
+import com.example.project_modile_application.domain.Movie
 import com.example.project_modile_application.domain.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
@@ -28,38 +28,28 @@ fun IntoCategory_Screen(
     sharedViewModel: SharedViewModel
 ) {
     var screenState by remember { mutableStateOf<UiState>(UiState.Initial) }
-    val movies = remember { mutableStateOf<List<MoviesData>>(emptyList()) }
+    val movies = remember { mutableStateOf<List<Movie>>(emptyList()) }
 
     LaunchedEffect(category) {
         screenState = UiState.Loading
         try {
             val response = when (sharedViewModel.category.value) {
-                Categories.Premieres -> apiService.getMovies(yearFrom = 2023)
+                Categories.Premieres -> apiService.getMovies(yearFrom = 2024)
                 Categories.Popular -> apiService.getMovies(order = "NUM_VOTE")
                 Categories.Top250 -> apiService.getMovies(order = "RATING", ratingFrom = 8)
             }
 
             if (response.isSuccessful) {
                 val movieList = response.body()?.items?.map { it ->
-                    MoviesData(
+                    Movie(
                         kinopoiskId = it.kinopoiskId ?: -1,
                         title = it.nameRu ?: "Unknown Title",
                         image = it.posterUrl ?: "",
                         genres = it.genres ?: emptyList(),
                         countries = it.countries ?: emptyList(),
-                        description = it.description ?: "No Description",
-                        coverUrl = it.coverUrl ?: "",
-                        filmLength = it.filmLength ?: 0,
-                        logoUrl = it.logoUrl ?: "",
                         nameEn = it.nameEn ?: "",
                         nameRu = it.nameRu ?: "",
-                        nameOriginal = it.nameOriginal ?: "",
                         posterUrlPreview = it.posterUrlPreview ?: "",
-                        ratingKinopoisk = it.ratingKinopoisk ?: 0.0,
-                        shortDescription = it.shortDescription ?: "",
-                        slogan = it.slogan ?: "",
-                        type = it.type ?: "",
-                        webUrl = it.webUrl ?: "",
                         year = it.year ?: 0,
                         posterUrl = it.posterUrl ?: ""
                     )

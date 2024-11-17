@@ -16,12 +16,12 @@ interface KinoPoiskApi {
     suspend fun getMovies(
         @Query("order") order: String = "NUM_VOTE",
         @Query("type") type: String = "FILM",
-        @Query("ratingFrom") ratingFrom: Int = 5,
+        @Query("ratingFrom") ratingFrom: Int = 8,
         @Query("ratingTo") ratingTo: Int = 10,
-        @Query("yearFrom") yearFrom: Int = 1900,
+        @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "ce1c91b2-5c47-4503-a848-f7581f7a276c"
+        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
     ): Response<MovieResponse>
 
     @GET("api/v2.2/films/{id}")
@@ -33,7 +33,7 @@ interface KinoPoiskApi {
     suspend fun getStaffByFilmId(@Query("filmId") filmId: Int): Response<List<StaffData>>
 }
 
-val retrofit = Retrofit.Builder()
+val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl("https://kinopoiskapiunofficial.tech/")
     .addConverterFactory(GsonConverterFactory.create())
     .build()

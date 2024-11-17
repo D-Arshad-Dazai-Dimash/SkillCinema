@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.project_modile_application.data.MoviesData
+import com.example.project_modile_application.domain.Movie
 import com.example.project_modile_application.domain.SharedViewModel
 import com.example.project_modile_application.presentation.navigation.Screen
 
 
 @Composable
-fun MovieTab(movie: MoviesData, navController: NavController, sharedViewModel: SharedViewModel) {
+fun MovieTab(movie: Movie, navController: NavController, sharedViewModel: SharedViewModel) {
     Column(
         modifier = Modifier
             .padding(8.dp)
