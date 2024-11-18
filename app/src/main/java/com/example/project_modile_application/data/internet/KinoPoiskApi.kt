@@ -22,16 +22,16 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "d7d69928-01dc-42bc-8984-2c259a708259"
+        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
     ): Response<MovieResponse>
 
-    @Headers("X-API-KEY: d7d69928-01dc-42bc-8984-2c259a708259")
+    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
     @GET("api/v2.2/films/{id}")
     suspend fun getFilmById(
         @Path("id") filmId: Int
     ): MoviesData
 
-    @Headers("X-API-KEY: d7d69928-01dc-42bc-8984-2c259a708259")
+    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
     @GET("/api/v1/staff")
     suspend fun getActors(
         @Query("filmId") filmId: Int,
