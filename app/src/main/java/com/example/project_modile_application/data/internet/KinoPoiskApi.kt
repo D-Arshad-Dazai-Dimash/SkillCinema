@@ -35,7 +35,9 @@ interface KinoPoiskApi {
     @GET("/api/v1/staff")
     suspend fun getActors(
         @Query("filmId") filmId: Int,
-    ): List<StaffData>}
+    ): List<StaffData>
+
+}
 
 val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl("https://kinopoiskapiunofficial.tech/")

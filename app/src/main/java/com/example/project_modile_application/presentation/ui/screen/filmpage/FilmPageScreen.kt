@@ -28,17 +28,20 @@ import com.example.project_modile_application.presentation.ui.screen.filmpage.co
 @Composable
 fun FilmPageScreen(
     navController: NavController,
-    movieDetailViewModel: MovieDetailViewModel = viewModel()
+    movieDetailViewModel: MovieDetailViewModel = viewModel(),
+    actorViewModel: MovieDetailViewModel = viewModel()
 ) {
-    val stateMovie by movieDetailViewModel.stateMovie.collectAsState()
-    if (stateMovie.isLoading) {
+    val movieState by movieDetailViewModel.stateMovie.collectAsState()
+    val actorState by actorViewModel.actorsState.collectAsState()
+
+    if (movieState.isLoading) {
         CircularProgressIndicator(
             modifier = Modifier
         )
-    } else if (stateMovie.error.isNotBlank()) {
+    } else if (movieState.error.isNotBlank()) {
 
         Text(
-            text = stateMovie.error,
+            text = movieState.error,
             modifier = Modifier
 
         )
@@ -59,9 +62,9 @@ fun FilmPageScreen(
                             .height(400.dp)
                             .fillMaxWidth()
                     ) {
-                        val mov = stateMovie.movie
-                        if (mov != null) {
-                            DetailMovieItem(movie = mov)
+                        val movie = movieState.movie
+                        if (movie != null) {
+                            DetailMovieItem(movie = movie)
                         }
                         IconButton(
                             onClick = { navController.popBackStack() },
@@ -79,7 +82,8 @@ fun FilmPageScreen(
                         modifier = Modifier
                             .padding(horizontal = 26.dp)
                     ) {
-                        val mov = stateMovie.movie
+                        val movie = movieState.movie
+
                     }
 
 
