@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.Categories
-import com.example.project_modile_application.domain.HomeViewModel
-import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.HomeViewModel
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.navigation.Screen
 import com.example.project_modile_application.presentation.ui.screen.home.components.Category
 

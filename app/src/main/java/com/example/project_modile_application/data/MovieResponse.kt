@@ -1,9 +1,9 @@
 package com.example.project_modile_application.data
 
-import com.example.project_modile_application.data.dataclasses.MoviesData
+import com.example.project_modile_application.domain.dataclasses.Movie
 
 data class MovieResponse(
     val total: Int,
     val totalPages: Int,
-    val items: List<MoviesData>
+    val items: List<Movie>
 )

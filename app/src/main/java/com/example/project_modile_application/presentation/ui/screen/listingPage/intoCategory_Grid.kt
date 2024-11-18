@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
-import com.example.project_modile_application.data.dataclasses.Movie
-import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.domain.dataclasses.Movie
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 
 @Composable
 fun IntoCategory_Grid(navController: NavController, movies: List<Movie>, sharedViewModel: SharedViewModel) {

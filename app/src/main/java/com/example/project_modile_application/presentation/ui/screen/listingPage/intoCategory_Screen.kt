@@ -15,8 +15,8 @@ import androidx.navigation.NavController
 import com.example.project_modile_application.data.Categories
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
-import com.example.project_modile_application.data.dataclasses.Movie
-import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.domain.dataclasses.Movie
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 

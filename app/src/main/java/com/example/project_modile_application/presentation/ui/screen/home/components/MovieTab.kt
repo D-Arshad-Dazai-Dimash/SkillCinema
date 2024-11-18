@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.project_modile_application.data.dataclasses.Movie
-import com.example.project_modile_application.domain.SharedViewModel
+import com.example.project_modile_application.domain.dataclasses.Movie
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.navigation.Screen
 
 
@@ -44,8 +44,8 @@ fun MovieTab(movie: Movie, navController: NavController, sharedViewModel: Shared
                 .padding(top = 8.dp)
                 .width(111.dp)
                 .clickable {
-                    sharedViewModel.selectMovie(movie)
-                    navController.navigate(Screen.FilmPage.route)
+
+                    navController.navigate("movieData/${movie.kinopoiskId}")
                 },
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
