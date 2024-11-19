@@ -1,11 +1,9 @@
 package com.example.project_modile_application.data.repository
 
-import com.example.project_modile_application.domain.dataclasses.MoviesData
-import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
-import com.example.project_modile_application.data.internet.retrofit
-import com.example.project_modile_application.domain.dataclasses.Image
 import com.example.project_modile_application.domain.dataclasses.Images
+import com.example.project_modile_application.domain.dataclasses.MoviesData
+import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.repository.MovieRepository
 
@@ -24,5 +22,11 @@ class MovieRepositoryImplementation : MovieRepository {
         id: Int
     ): Images {
         return apiService.getImagesById(id)
+    }
+
+    override suspend fun getSimilarsById(
+        id: Int
+    ): SimilarMovies {
+        return apiService.getSimilarsById(id)
     }
 }

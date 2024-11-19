@@ -5,6 +5,7 @@ import com.example.project_modile_application.domain.dataclasses.Image
 import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
+import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
 
 class MovieUseCase {
@@ -24,6 +25,12 @@ class MovieUseCase {
         id: Int
     ):Images{
         return movieRepository.getImagesById(id)
+    }
+
+    suspend fun getSimilars(
+        id: Int
+    ): SimilarMovies{
+        return movieRepository.getSimilarsById(id)
     }
 
 }

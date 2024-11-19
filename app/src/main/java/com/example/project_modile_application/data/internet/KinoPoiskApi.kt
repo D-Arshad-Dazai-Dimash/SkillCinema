@@ -1,8 +1,9 @@
 package com.example.project_modile_application.data.internet
 
-import com.example.project_modile_application.data.MovieResponse
+import com.example.project_modile_application.domain.dataclasses.MovieResponse
 import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
+import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -45,6 +46,11 @@ interface KinoPoiskApi {
         @Query("id") id: Int
     ): Images
 
+    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @GET("/api/v2.2/films/{id}/similars")
+    suspend fun getSimilarsById(
+        @Query("id") id: Int
+    ): SimilarMovies
 }
 
 val retrofit: Retrofit = Retrofit.Builder()

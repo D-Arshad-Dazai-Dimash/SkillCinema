@@ -32,6 +32,7 @@ import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.DetailMovieItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.GalleryListItem
+import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.SimilarMoviesShow
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.StuffListShow
 
 @Composable
@@ -39,11 +40,13 @@ fun FilmPageScreen(
     navController: NavController,
     movieDetailViewModel: MovieDetailViewModel = viewModel(),
     actorViewModel: MovieDetailViewModel = viewModel(),
-    imageViewModel: MovieDetailViewModel = viewModel()
+    imageViewModel: MovieDetailViewModel = viewModel(),
+    similarViewModel: MovieDetailViewModel = viewModel()
 ) {
     val movieState by movieDetailViewModel.stateMovie.collectAsState()
     val actorState by actorViewModel.actorsState.collectAsState()
     val imageState by imageViewModel.imagesState.collectAsState()
+    val similarState by similarViewModel.similarState.collectAsState()
 
     if (movieState.isLoading) {
         CircularProgressIndicator()
@@ -119,6 +122,16 @@ fun FilmPageScreen(
                         val images = imageState.galery
                         if (images != null) {
                             GalleryListItem(images.items)
+                        }
+                    }
+                    if (similarState.isLoading){
+                        CircularProgressIndicator()
+                    }else if (similarState.error.isNotBlank()){
+                        Text(text = similarState.error)
+                    }else{
+                        val similarMovies = similarState.movies
+                        if(similarMovies != null){
+                            SimilarMoviesShow(similarMovies.items)
                         }
                     }
                 }
