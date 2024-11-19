@@ -1,9 +1,7 @@
 package com.example.project_modile_application.domain.useCases
 
 import com.example.project_modile_application.data.repository.MovieRepositoryImplementation
-import com.example.project_modile_application.domain.dataclasses.Image
 import com.example.project_modile_application.domain.dataclasses.Images
-import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
@@ -11,7 +9,7 @@ import com.example.project_modile_application.domain.dataclasses.StaffData
 class MovieUseCase {
     private val movieRepository = MovieRepositoryImplementation()
 
-    suspend fun getDetailMovie(id: Int): MoviesData{
+    suspend fun getDetailMovie(id: Int): MoviesData {
         return movieRepository.getMovieById(id)
     }
 
@@ -23,14 +21,13 @@ class MovieUseCase {
 
     suspend fun getImages(
         id: Int
-    ):Images{
+    ): Images {
         return movieRepository.getImagesById(id)
     }
 
     suspend fun getSimilars(
         id: Int
-    ): SimilarMovies{
+    ): SimilarMovies {
         return movieRepository.getSimilarsById(id)
     }
-
 }

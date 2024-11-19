@@ -43,13 +43,13 @@ interface KinoPoiskApi {
     @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
     @GET("/api/v2.2/films/{id}/images")
     suspend fun getImagesById(
-        @Query("id") id: Int
+        @Path("id") id: Int
     ): Images
 
     @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
     @GET("/api/v2.2/films/{id}/similars")
-    suspend fun getSimilarsById(
-        @Query("id") id: Int
+    suspend fun getSimilarById(
+        @Path("id") id: Int
     ): SimilarMovies
 }
 

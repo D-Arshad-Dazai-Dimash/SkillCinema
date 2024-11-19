@@ -27,6 +27,6 @@ class MovieRepositoryImplementation : MovieRepository {
     override suspend fun getSimilarsById(
         id: Int
     ): SimilarMovies {
-        return apiService.getSimilarsById(id)
+        return apiService.getSimilarById(id)
     }
 }

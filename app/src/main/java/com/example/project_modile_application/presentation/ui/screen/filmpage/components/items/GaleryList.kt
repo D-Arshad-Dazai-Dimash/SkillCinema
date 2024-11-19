@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.project_modile_application.domain.dataclasses.Image
-import com.example.project_modile_application.domain.dataclasses.Images
 
 @Composable
 fun GalleryListItem(images: List<Image>) {

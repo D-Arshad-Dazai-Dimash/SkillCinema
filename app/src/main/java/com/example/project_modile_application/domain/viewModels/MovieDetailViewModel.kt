@@ -1,5 +1,6 @@
 package com.example.project_modile_application.domain.viewModels
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +29,7 @@ class MovieDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     init {
         val id: Int? = savedStateHandle.get<String>("id")?.toInt()
+        Log.d("id" , id.toString())
         if (id != null) {
             getMovieById(id)
             getActorById(id)
