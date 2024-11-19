@@ -1,4 +1,4 @@
-package com.example.project_modile_application.presentation.ui.screen.filmpage.components
+package com.example.project_modile_application.presentation.ui.screen.filmpage.components.state
 
 import com.example.project_modile_application.domain.dataclasses.StaffData
 

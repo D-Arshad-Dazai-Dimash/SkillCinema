@@ -4,6 +4,8 @@ import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.data.internet.retrofit
+import com.example.project_modile_application.domain.dataclasses.Image
+import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.repository.MovieRepository
 
@@ -16,5 +18,11 @@ class MovieRepositoryImplementation : MovieRepository {
         id: Int,
     ): List<StaffData> {
         return apiService.getActors(id)
+    }
+
+    override suspend fun getImagesById(
+        id: Int
+    ): Images {
+        return apiService.getImagesById(id)
     }
 }

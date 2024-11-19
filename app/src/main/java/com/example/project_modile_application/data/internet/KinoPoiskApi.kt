@@ -1,6 +1,7 @@
 package com.example.project_modile_application.data.internet
 
 import com.example.project_modile_application.data.MovieResponse
+import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import retrofit2.Response
@@ -36,6 +37,13 @@ interface KinoPoiskApi {
     suspend fun getActors(
         @Query("filmId") filmId: Int,
     ): List<StaffData>
+
+
+    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @GET("/api/v2.2/films/{id}/images")
+    suspend fun getImagesById(
+        @Query("id") id: Int
+    ): Images
 
 }
 
