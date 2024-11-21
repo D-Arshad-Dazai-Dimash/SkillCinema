@@ -27,30 +27,34 @@ interface KinoPoiskApi {
         @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
     ): Response<MovieResponse>
 
-    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @Headers(apiKey)
     @GET("api/v2.2/films/{id}")
     suspend fun getFilmById(
         @Path("id") filmId: Int
     ): MoviesData
 
-    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @Headers(apiKey)
     @GET("/api/v1/staff")
     suspend fun getActors(
         @Query("filmId") filmId: Int,
     ): List<StaffData>
 
 
-    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @Headers(apiKey)
     @GET("/api/v2.2/films/{id}/images")
     suspend fun getImagesById(
         @Path("id") id: Int
     ): Images
 
-    @Headers("X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae")
+    @Headers(apiKey)
     @GET("/api/v2.2/films/{id}/similars")
     suspend fun getSimilarById(
         @Path("id") id: Int
     ): SimilarMovies
+
+    companion object{
+        const val apiKey = "X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae"
+    }
 }
 
 val retrofit: Retrofit = Retrofit.Builder()
