@@ -120,7 +120,7 @@ fun BestFilms(films: List<Film>, moviesViewModel: ActorDetailViewModel) {
         }
         LazyRow() {
             items(8){
-                val film = films.get(it)
+                val film = films[it]
                 val moviesState by moviesViewModel.stateMovie.collectAsState()
                 moviesState.id = film.filmId
                 val movie = moviesState.movie
