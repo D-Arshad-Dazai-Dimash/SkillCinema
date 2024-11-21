@@ -1,21 +1,16 @@
 package com.example.project_modile_application.presentation.ui.screen.actorpage
 
-import MovieTab
-import android.service.carrier.MessagePdu
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,62 +18,82 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.project_modile_application.R
-import com.example.project_modile_application.domain.dataclasses.StaffData
-import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.ActorCard
+import com.example.project_modile_application.domain.dataclasses.Film
+import com.example.project_modile_application.domain.dataclasses.MoviesData
+import com.example.project_modile_application.domain.viewModels.ActorDetailViewModel
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun ActorPageScreen(
+    navController: NavController,
+    staffDetailViewModel: ActorDetailViewModel = viewModel(),
+    moviesViewModel: ActorDetailViewModel = viewModel()
 ) {
+    val staffState by staffDetailViewModel.stateStaff.collectAsState()
+    if (staffState.isLoading) {
+        CircularProgressIndicator()
+    } else if (staffState.error.isNotBlank()) {
+        Text(
+            text = staffState.error,
+        )
+    }
+    else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 50.dp)
+        ) {
 
-    Column(
-        modifier = Modifier.fillMaxSize().padding(top = 50.dp)
-    ) {
-
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)){
-            IconButton(
-                onClick = {
-                },
-                modifier = Modifier
-                    .background(Color.Transparent)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_arrow_back),
-                    contentDescription = "Back icon",
-                )
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)) {
+                IconButton(
+                    onClick = {
+                    },
+                    modifier = Modifier
+                        .background(Color.Transparent)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_arrow_back),
+                        contentDescription = "Back icon",
+                    )
+                }
+            }
+            val staffInfo = staffState.staff
+            if (staffInfo != null) {
+                ActorInformation(staffInfo.nameRu, staffInfo.posterUrl, staffInfo.profession)
+                BestFilms(staffInfo.films, moviesViewModel)
+                Filmography(staffInfo.films)
             }
         }
-        ActorInformation()
-        BestFilms()
-        Filmography()
     }
 
 }
 
 @Composable
-fun ActorInformation(){
+fun ActorInformation(name: String, imageUrl: Any?=R.drawable.ic_launcher_foreground, profession: String){
     Row (
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 26.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 26.dp)
     ){
         AsyncImage(
-            model = R.drawable.ic_launcher_foreground,
+            model = imageUrl,
             contentDescription = "",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
@@ -87,14 +102,14 @@ fun ActorInformation(){
                 .clip(RoundedCornerShape(size = 4.dp))
         )
         Column {
-            Text(text = "ActorName", fontSize = 16.sp, fontWeight = FontWeight(600))
-            Text(text = "Actor", fontSize = 12.sp, fontWeight = FontWeight(400))
+            Text(text = name, fontSize = 16.sp, fontWeight = FontWeight(600))
+            Text(text = profession, fontSize = 12.sp, fontWeight = FontWeight(400))
         }
     }
 }
 
 @Composable
-fun BestFilms(){
+fun BestFilms(films: List<Film>, moviesViewModel: ActorDetailViewModel) {
     Column (modifier = Modifier.padding(35.dp)){
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -105,7 +120,11 @@ fun BestFilms(){
         }
         LazyRow() {
             items(8){
-                FilmCard()
+                val film = films.get(it)
+                val moviesState by moviesViewModel.stateMovie.collectAsState()
+                moviesState.id = film.filmId
+                val movie = moviesState.movie
+                if (movie != null) FilmCard(movie, film.professionKey)
             }
         }
 
@@ -114,7 +133,7 @@ fun BestFilms(){
 }
 
 @Composable
-fun FilmCard(){
+fun FilmCard(movie: MoviesData, professionKey: String) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -122,21 +141,21 @@ fun FilmCard(){
             .wrapContentHeight(),
     ) {
         AsyncImage(
-            model = "movie.image.takeIf { it.isNotEmpty() } ?: ",
-            contentDescription = "movie.title",
+            model = movie.image.takeIf { it.isNotEmpty() },
+            contentDescription = movie.title,
             modifier = Modifier
                 .height(180.dp)
                 .width(111.dp)
                 .clip(RoundedCornerShape(4.dp))
         )
         Text(
-            text = "movie.title",
+            text = movie.title,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(111.dp)
                 .clickable {
 
-                   // navController.navigate("movieData/${movie.kinopoiskId}")
+                    // navController.navigate("movieData/${movie.kinopoiskId}")
                 },
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -146,7 +165,7 @@ fun FilmCard(){
             color = Color(0xFF272727)
         )
         Text(
-            text = ("movie"),
+            text = professionKey,
             fontFamily = com.example.project_modile_application.presentation.ui.font.GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,
@@ -159,7 +178,7 @@ fun FilmCard(){
 
 
 @Composable
-fun Filmography(){
+fun Filmography(films: List<Film>) {
     Column(modifier = Modifier.padding(35.dp)) {
     Row(
         modifier = Modifier.fillMaxWidth(),
