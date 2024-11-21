@@ -5,6 +5,7 @@ import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
+import com.example.project_modile_application.domain.dataclasses.StaffDataWithFilms
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,7 +25,7 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
+        @Header("X-API-KEY") apiKey: String = "328fb539-72d4-46f8-bca1-af72ca36cf58"
     ): Response<MovieResponse>
 
     @Headers(apiKey)
@@ -52,8 +53,14 @@ interface KinoPoiskApi {
         @Path("id") id: Int
     ): SimilarMovies
 
+    @Headers(apiKey)
+    @GET("/api/v1/staff/{personId}")
+    suspend fun getStaffWIthFilmsByID(
+        @Path("personId") personId: Int
+    ): StaffDataWithFilms
+
     companion object{
-        const val apiKey = "X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae"
+        const val apiKey = "X-API-KEY: 328fb539-72d4-46f8-bca1-af72ca36cf58"
     }
 }
 

@@ -4,13 +4,10 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.project_modile_application.domain.dataclasses.Movie
-import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.useCases.MovieUseCase
 import com.example.project_modile_application.domain.useCases.StaffUseCase
 import com.example.project_modile_application.presentation.ui.screen.actorpage.state.ActorDataState
 import com.example.project_modile_application.presentation.ui.screen.actorpage.state.MovieDetailState
-import com.example.project_modile_application.presentation.ui.screen.filmpage.components.state.FilmPageState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,8 +17,8 @@ class ActorDetailViewModel(savedStateHandle: SavedStateHandle): ViewModel() {
     private val _stateStaff = MutableStateFlow<ActorDataState>(ActorDataState())
     val stateStaff: StateFlow<ActorDataState> = _stateStaff
 
-    private val _stateMovie = MutableStateFlow<MovieDetailState>(MovieDetailState())
-    val stateMovie: StateFlow<MovieDetailState> = _stateMovie
+    private val _stateFilm = MutableStateFlow<MovieDetailState>(MovieDetailState())
+    val stateFilm: StateFlow<MovieDetailState> = _stateFilm
 
     private val staffUseCase = StaffUseCase()
     private val movieUseCase = MovieUseCase()
@@ -40,6 +37,11 @@ class ActorDetailViewModel(savedStateHandle: SavedStateHandle): ViewModel() {
 
             try {
                 var staff = staffUseCase.getStaffDetailsByID(id)
+                staff.films.forEach { film ->
+                    getFilmPosterByID(film.filmId)
+                    film.posterUrl = _stateFilm.value.movie?.posterUrl
+                    film.posterUrl?.let { Log.d("poster_url"+film.nameRu, it) }
+                }
 
                 _stateStaff.value = _stateStaff.value.copy(
                     isLoading = false,
@@ -47,27 +49,27 @@ class ActorDetailViewModel(savedStateHandle: SavedStateHandle): ViewModel() {
                 )
             } catch (e: HttpException) {
                 _stateStaff.value = _stateStaff.value.copy(
-                    isLoading = true,
+                    isLoading = false,
                     error = e.localizedMessage ?: "Unexpected error"
                 )
             }
         }
     }
 
-    fun getMovieDataByID(id: Int) {
+    private fun getFilmPosterByID(id: Int) {
         viewModelScope.launch {
-            _stateMovie.value = _stateMovie.value.copy(isLoading = true)
+            _stateFilm.value = _stateFilm.value.copy(isLoading = true)
 
             try {
                 val movie = movieUseCase.getDetailMovie(id)
 
-                _stateMovie.value = _stateMovie.value.copy(
+                _stateFilm.value = _stateFilm.value.copy(
                     isLoading = false,
                     movie = movie
                 )
             } catch (e: HttpException) {
-                _stateStaff.value = _stateStaff.value.copy(
-                    isLoading = true,
+                _stateFilm.value = _stateFilm.value.copy(
+                    isLoading = false,
                     error = e.localizedMessage ?: "Unexpected error"
                 )
             }

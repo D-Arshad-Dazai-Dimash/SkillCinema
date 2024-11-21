@@ -1,6 +1,6 @@
 package com.example.project_modile_application.domain.dataclasses
 
-data class Film(
+data class FilmY(
     val description: String,
     val filmId: Int,
     val general: Boolean,
@@ -8,5 +8,5 @@ data class Film(
     val nameRu: String,
     val professionKey: String,
     val rating: String,
-    var posterUrl: String?
+    val posterUrl: String?
 )
