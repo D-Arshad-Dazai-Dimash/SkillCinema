@@ -39,7 +39,6 @@ import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.viewModels.ActorDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
-import com.example.project_modile_application.presentation.ui.screen.actorpage.components.ActorInformation
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.Header
 
 //@Preview(showBackground = true)
@@ -80,6 +79,7 @@ fun ActorPageScreen(
                 BestFilms(staffInfo.films)
                 Spacer(modifier = Modifier.padding(top = 20.dp))
                 sharedViewModel.selectedFilms(staffInfo.films)
+                sharedViewModel.selectedActorName(staffInfo.nameRu)
                 Header(
                     "Фильмография",
                     staffInfo.films ,
@@ -149,5 +149,32 @@ fun FilmCard(movie: Film, professionKey: String) {
             fontSize = 12.sp,
             color = Color(0xFF838390)
         )
+    }
+}
+
+@Composable
+fun ActorInformation(
+    name: String,
+    imageUrl: Any? = R.drawable.ic_launcher_foreground,
+    profession: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth().padding(vertical = 15.dp)
+    ) {
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = "",
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .height(201.dp)
+                .width(146.dp)
+                .clip(RoundedCornerShape(size = 4.dp))
+        )
+        Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+        Column {
+            Text(text = name, fontSize = 20.sp, fontWeight = FontWeight(600))
+            Text(text = profession, fontSize = 12.sp, fontWeight = FontWeight(400))
+        }
     }
 }

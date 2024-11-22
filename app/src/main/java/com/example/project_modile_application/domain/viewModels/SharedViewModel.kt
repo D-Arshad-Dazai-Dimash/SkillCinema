@@ -11,6 +11,7 @@ class SharedViewModel : ViewModel() {
     val category = mutableStateOf<Categories>(Categories.Popular)
     val selectedMovie = mutableStateOf<Movie?>(null)
     val selectedActorFilms = mutableStateOf<List<Film>?>(null)
+    val selectedActorName = mutableStateOf<String?>(null)
 
     fun updateCategory(category: Categories) {
         this.category.value = category
@@ -22,5 +23,9 @@ class SharedViewModel : ViewModel() {
 
     fun selectedFilms(films: List<Film>) {
         selectedActorFilms.value = films
+    }
+
+    fun selectedActorName(name: String) {
+        selectedActorName.value = name
     }
 }

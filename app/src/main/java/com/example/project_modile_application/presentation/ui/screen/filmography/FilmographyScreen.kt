@@ -55,7 +55,8 @@ fun FilmographyScreen(
     navController: NavController,
     sharedViewModel: SharedViewModel
     ) {
-    val films=sharedViewModel.selectedActorFilms
+    val actorName = sharedViewModel.selectedActorName
+    val films = sharedViewModel.selectedActorFilms
     Log.d("Films", films.value?.size.toString())
     Column(modifier = Modifier.fillMaxSize().padding(top=15.dp, start = 26.dp)) {
 
@@ -78,22 +79,10 @@ fun FilmographyScreen(
 
 
         Spacer(modifier = Modifier.padding(top = 40.dp))
-        Text(text = "ActorName", fontSize = 18.sp, fontWeight = FontWeight.W600)
+        Text(text = actorName.value.toString(), fontSize = 18.sp, fontWeight = FontWeight.W600)
         Spacer(modifier = Modifier.padding(top = 10.dp))
 
-        val allFilms = listOf(
-            "Avengers" to "2018",
-            "Thor" to "2019",
-            "Spider-Man" to "2020",
-            "Black Widow" to "2021",
-            "Iron Man" to "2008"
-        )
-
-        val chipItems = listOf(
-            "Все" to { film: Pair<String, String> -> true }, // Все фильмы
-            "Актриса дубляжа" to { film: Pair<String, String> -> film.second >= "2019" }, // Фильмы с 2019 года
-            "Актриса: играет саму себя" to { film: Pair<String, String> -> film.first.contains("Spider") } // Название содержит "Spider"
-        )
+        val chipItems = films.value?.map{ it.professionKey }?.distinct()
 
 
         val selectedChipIndex = remember { mutableStateOf(0) }
@@ -103,28 +92,34 @@ fun FilmographyScreen(
                 modifier = Modifier.padding(0.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(chipItems.size) { index ->
-                    val (name, filter) = chipItems[index]
-                    val filteredFilms = allFilms.filter(filter) // Применяем фильтр к фильмам
-                    ActorAndChip(
-                        name = name,
-                        count = filteredFilms.size, // Показываем количество фильмов
-                        isSelected = selectedChipIndex.value == index,
-                        onClick = { selectedChipIndex.value = index }
-                    )
+                if (chipItems != null) {
+                    items(chipItems.size) { index ->
+                        val name = chipItems[index]
+                        val filteredFilms = films.value!!.filter {it.professionKey == name }
+                        //val filteredFilms = allFilms.filter(filter) // Применяем фильтр к фильмам
+                        ActorAndChip(
+                            name = name,
+                            count = filteredFilms.size, // Показываем количество фильмов
+                            isSelected = selectedChipIndex.value == index,
+                            onClick = { selectedChipIndex.value = index }
+                        )
+                    }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            val currentFilter = chipItems[selectedChipIndex.value].second
-            val filteredFilms = allFilms.filter(currentFilter)
+            val currentFilter = chipItems?.get(selectedChipIndex.value)
+            val filteredFilms = films.value?.filter{it.professionKey == currentFilter}
             LazyColumn {
-                items(filteredFilms) { film ->
-                    FilmCard(
-                        filmName = film.first,
-                        aboutFilm = film.second
-                    )
+                if (filteredFilms != null) {
+                    items(filteredFilms) { film ->
+                        FilmCard(
+                            filmName = film.nameRu,
+                            aboutFilm = film.description,
+                            posterUrl = film.posterUrl.toString()
+                        )
+                    }
                 }
             }
 
@@ -157,14 +152,15 @@ fun ActorAndChip(
 @Composable
 fun FilmCard(
     filmName: String,
-    aboutFilm: String
+    aboutFilm: String,
+    posterUrl: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 8.dp)
     ) {
         AsyncImage(
-            model = "https://via.placeholder.com/96",
+            model = posterUrl,
             contentDescription = "Poster of $filmName",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
