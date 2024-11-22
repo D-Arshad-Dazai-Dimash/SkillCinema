@@ -183,6 +183,6 @@ fun Filmography(films: List<Film>) {
         Text(text = "Фильмография", fontSize = 18.sp, fontWeight = FontWeight(600))
         Icon(painter = painterResource(R.drawable.kspisku), contentDescription = "kspisku")
     }
-    Text(text = "num films", fontSize = 12.sp, fontWeight = FontWeight(400))
+    Text(text = films.size.toString(), fontSize = 12.sp, fontWeight = FontWeight(400))
     }
 }

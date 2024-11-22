@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.useCases.MovieUseCase
 import com.example.project_modile_application.domain.useCases.StaffUseCase
 import com.example.project_modile_application.presentation.ui.screen.actorpage.state.ActorDataState
@@ -37,9 +38,10 @@ class ActorDetailViewModel(savedStateHandle: SavedStateHandle): ViewModel() {
 
             try {
                 var staff = staffUseCase.getStaffDetailsByID(id)
-                staff.films.forEach { film ->
-                    getFilmPosterByID(film.filmId)
-                    film.posterUrl = _stateFilm.value.movie?.posterUrl
+                if (staff.films.size > 50) staff.films = staff.films.take(50)
+                for (index in 0 until staff.films.size) {
+                    val film = staff.films[index]
+                    film.posterUrl = movieUseCase.getDetailMovie(film.filmId).posterUrl
                     film.posterUrl?.let { Log.d("poster_url"+film.nameRu, it) }
                 }
 
@@ -56,23 +58,8 @@ class ActorDetailViewModel(savedStateHandle: SavedStateHandle): ViewModel() {
         }
     }
 
-    private fun getFilmPosterByID(id: Int) {
-        viewModelScope.launch {
-            _stateFilm.value = _stateFilm.value.copy(isLoading = true)
-
-            try {
-                val movie = movieUseCase.getDetailMovie(id)
-
-                _stateFilm.value = _stateFilm.value.copy(
-                    isLoading = false,
-                    movie = movie
-                )
-            } catch (e: HttpException) {
-                _stateFilm.value = _stateFilm.value.copy(
-                    isLoading = false,
-                    error = e.localizedMessage ?: "Unexpected error"
-                )
-            }
-        }
-    }
+//    private fun getFilmPosterByID(id: Int): MoviesData? {
+//        var movie = movie = movieUseCase.getDetailMovie(id)
+//        return movie
+//    }
 }
