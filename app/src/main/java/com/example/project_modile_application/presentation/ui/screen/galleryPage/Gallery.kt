@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,24 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.project_modile_application.presentation.ui.screen.galleryPage.components.NavBar
 
 
 @Preview(showBackground = true)
 @Composable
 fun GalleryPrev() {
-    GalleryPage()
+    GalleryPage(navController = rememberNavController(), 0)
 }
 
 @Composable
-fun GalleryPage() {
-    Text("Gallery", modifier = Modifier.fillMaxSize())
+fun GalleryPage(navController: NavController, movieId: Int) {
+    NavBar(navController, "Галерея")
+//    CircularProgressIndicator()
     GalleryLayout()
 }
 
 @Composable
 fun GalleryLayout(modifier: Modifier = Modifier) {
     val items = (1..10).toList()
-//    CircularProgressIndicator()
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -42,7 +44,7 @@ fun GalleryLayout(modifier: Modifier = Modifier) {
     ) {
         items(items.size) { item ->
             when {
-                item % 3 == 0 -> {
+                item % 3 == 2 -> {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -55,7 +57,7 @@ fun GalleryLayout(modifier: Modifier = Modifier) {
                     }
                 }
 
-                item % 3 == 2 -> {}
+                item % 3 == 1 -> {}
                 else -> {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Box(

@@ -18,7 +18,7 @@ import com.example.project_modile_application.presentation.ui.screen.listingPage
 
 
 @Composable
-fun Home(navController: NavController , sharedViewModel: SharedViewModel) {
+fun Home(navController: NavController, sharedViewModel: SharedViewModel) {
     val homeViewModel = HomeViewModel(apiService)
     com.example.project_modile_application.presentation.ui.screen.home.Home(
         navController,
@@ -50,7 +50,12 @@ fun OnBoarding(navController: NavController) {
 }
 
 @Composable
-fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category: String , sharedViewModel: SharedViewModel) {
+fun ListingPage(
+    navController: NavController,
+    apiService: KinoPoiskApi,
+    category: String,
+    sharedViewModel: SharedViewModel
+) {
     IntoCategory_Screen(
         navController = navController,
         apiService = apiService,
@@ -62,4 +67,9 @@ fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category
 @Composable
 fun FilmPage(navController: NavController, movie: Movie) {
     FilmPageScreen(navController, movie)
+}
+
+@Composable
+fun GalleryPage(navController: NavController, movieId: Int) {
+    com.example.project_modile_application.presentation.ui.screen.galleryPage.GalleryPage(navController, movieId)
 }

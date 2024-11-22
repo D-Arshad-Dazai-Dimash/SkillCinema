@@ -127,7 +127,7 @@ fun FilmPageScreen(
                     } else {
                         val images = state.galery
                         if (images != null) {
-                            GalleryListItem(images.items)
+                            GalleryListItem(images.items, navController)
                         }
                     }
                     if (state.isLoading) {

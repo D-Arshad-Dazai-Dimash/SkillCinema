@@ -28,6 +28,13 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
                 FilmPage(navController, id)
             }
         }
+        composable(Screen.GalleryPage.route) {
+            sharedViewModel.selectedMovie.value?.kinopoiskId.let { id ->
+                if (id != null) {
+                    GalleryPage(navController, id)
+                }
+            }
+        }
 
     }
 }
