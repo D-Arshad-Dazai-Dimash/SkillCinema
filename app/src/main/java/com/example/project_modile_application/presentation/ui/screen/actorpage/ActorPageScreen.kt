@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,15 +34,13 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.Film
-import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.viewModels.ActorDetailViewModel
 
 //@Preview(showBackground = true)
 @Composable
 fun ActorPageScreen(
     navController: NavController,
-    staffDetailViewModel: ActorDetailViewModel = viewModel(),
-    moviesViewModel: ActorDetailViewModel = viewModel()
+    staffDetailViewModel: ActorDetailViewModel = viewModel()
 ) {
     val staffState by staffDetailViewModel.stateStaff.collectAsState()
     if (staffState.isLoading) {
@@ -78,7 +75,7 @@ fun ActorPageScreen(
             val staffInfo = staffState.staff
             if (staffInfo != null) {
                 ActorInformation(staffInfo.nameRu, staffInfo.posterUrl, staffInfo.profession)
-                BestFilms(staffInfo.films, moviesViewModel)
+                BestFilms(staffInfo.films)
                 Filmography(staffInfo.films)
             }
         }
@@ -110,7 +107,8 @@ fun ActorInformation(name: String, imageUrl: Any?=R.drawable.ic_launcher_foregro
 }
 
 @Composable
-fun BestFilms(films: List<Film>, moviesViewModel: ActorDetailViewModel) {
+fun BestFilms(films: List<Film>) {
+
     Column (modifier = Modifier.padding(35.dp)){
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -122,10 +120,7 @@ fun BestFilms(films: List<Film>, moviesViewModel: ActorDetailViewModel) {
         LazyRow() {
             items(8){
                 val film = films[it]
-                val moviesState by moviesViewModel.stateMovie.collectAsState()
-                moviesState.id = film.filmId
-                val movie = moviesState.movie
-                if (movie != null) FilmCard(movie, film.professionKey)
+                FilmCard(film, film.professionKey)
             }
         }
 
@@ -134,7 +129,7 @@ fun BestFilms(films: List<Film>, moviesViewModel: ActorDetailViewModel) {
 }
 
 @Composable
-fun FilmCard(movie: MoviesData, professionKey: String) {
+fun FilmCard(movie: Film, professionKey: String) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -142,15 +137,15 @@ fun FilmCard(movie: MoviesData, professionKey: String) {
             .wrapContentHeight(),
     ) {
         AsyncImage(
-            model = movie.image.takeIf { it.isNotEmpty() },
-            contentDescription = movie.title,
+            model = movie.posterUrl,
+            contentDescription = movie.nameRu,
             modifier = Modifier
                 .height(180.dp)
                 .width(111.dp)
                 .clip(RoundedCornerShape(4.dp))
         )
         Text(
-            text = movie.title,
+            text = movie.nameRu,
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(111.dp)
@@ -188,6 +183,6 @@ fun Filmography(films: List<Film>) {
         Text(text = "Фильмография", fontSize = 18.sp, fontWeight = FontWeight(600))
         Icon(painter = painterResource(R.drawable.kspisku), contentDescription = "kspisku")
     }
-    Text(text = "num films", fontSize = 12.sp, fontWeight = FontWeight(400))
+    Text(text = films.size.toString(), fontSize = 12.sp, fontWeight = FontWeight(400))
     }
 }

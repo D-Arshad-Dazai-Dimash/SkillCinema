@@ -1,10 +1,9 @@
 package com.example.project_modile_application.domain.dataclasses
 
-data class StaffDataWithFilms(
+data class StaffDataWithFilm(
     val age: Int,
-    var films: List<Film>,
-    val growth: String,
-    val hasAwards: Int,
+    val birthday: String,
+    val films: List<Film>,
     val nameEn: String,
     val nameRu: String,
     val personId: Int,
