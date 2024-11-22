@@ -1,4 +1,4 @@
-package com.example.project_modile_application.data
+package com.example.project_modile_application.domain.dataclasses
 
 sealed class Categories(val category: String) {
     data object Premieres : Categories("Премьеры")

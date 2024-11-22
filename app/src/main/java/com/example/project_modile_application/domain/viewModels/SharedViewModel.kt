@@ -3,7 +3,7 @@ package com.example.project_modile_application.domain.viewModels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.domain.dataclasses.Categories
 import com.example.project_modile_application.domain.dataclasses.Movie
 
 class SharedViewModel : ViewModel() {
