@@ -33,10 +33,10 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
             FilmPage(navController)
         }
         composable("staffDetails/{id}") {
-            ActorPageScreen(navController)
+            ActorPageScreen(navController,sharedViewModel)
         }
         composable("filmography") {
-            FilmographyPage(navController)
+            FilmographyPage(navController,sharedViewModel)
         }
 
 

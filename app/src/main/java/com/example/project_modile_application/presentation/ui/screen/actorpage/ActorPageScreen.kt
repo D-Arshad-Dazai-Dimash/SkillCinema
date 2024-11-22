@@ -37,6 +37,7 @@ import coil.compose.AsyncImage
 import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.viewModels.ActorDetailViewModel
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 import com.example.project_modile_application.presentation.ui.screen.actorpage.components.ActorInformation
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.Header
@@ -45,6 +46,7 @@ import com.example.project_modile_application.presentation.ui.screen.filmpage.co
 @Composable
 fun ActorPageScreen(
     navController: NavController,
+    sharedViewModel: SharedViewModel,
     staffDetailViewModel: ActorDetailViewModel = viewModel()
 ) {
     val staffState by staffDetailViewModel.stateStaff.collectAsState()
@@ -77,12 +79,12 @@ fun ActorPageScreen(
                 ActorInformation(staffInfo.nameRu, staffInfo.posterUrl, staffInfo.profession)
                 BestFilms(staffInfo.films)
                 Spacer(modifier = Modifier.padding(top = 20.dp))
+                sharedViewModel.selectedFilms(staffInfo.films)
                 Header(
                     "Фильмография",
                     staffInfo.films ,
                     onClick = {navController.navigate("filmography")
                 })
-              //  Filmography(staffInfo.films, navController)
             }
         }
     }
@@ -132,8 +134,6 @@ fun FilmCard(movie: Film, professionKey: String) {
                 .padding(top = 8.dp)
                 .width(111.dp)
                 .clickable {
-
-                    // navController.navigate("movieData/${movie.kinopoiskId}")
                 },
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -149,25 +149,5 @@ fun FilmCard(movie: Film, professionKey: String) {
             fontSize = 12.sp,
             color = Color(0xFF838390)
         )
-    }
-}
-
-
-@Composable
-fun Filmography(films: List<Film>, navController: NavController) {
-    Column(modifier = Modifier.padding(35.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Text(text = "Фильмография", fontSize = 18.sp, fontWeight = FontWeight(600))
-            Icon(
-                painter = painterResource(R.drawable.kspisku), contentDescription = "kspisku",
-                modifier = Modifier.clickable(onClick = {
-                    navController.navigate("filmofraphy/}")
-                })
-            )
-        }
-        Text(text = films.size.toString(), fontSize = 12.sp, fontWeight = FontWeight(400))
     }
 }

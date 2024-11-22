@@ -1,4 +1,5 @@
 package com.example.project_modile_application.presentation.ui.screen.filmography
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,6 +43,7 @@ import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.dataclasses.StaffDataWithFilms
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
+import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.state.ActorsState
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.state.GaleryState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,8 +52,11 @@ import kotlinx.coroutines.flow.StateFlow
 //@Preview(showBackground = true)
 @Composable
 fun FilmographyScreen(
-    navController: NavController
+    navController: NavController,
+    sharedViewModel: SharedViewModel
     ) {
+    val films=sharedViewModel.selectedActorFilms
+    Log.d("Films", films.value?.size.toString())
     Column(modifier = Modifier.fillMaxSize().padding(top=15.dp, start = 26.dp)) {
 
             Row(

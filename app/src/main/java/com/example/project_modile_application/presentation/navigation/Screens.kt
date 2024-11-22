@@ -64,7 +64,7 @@ fun FilmPage(navController: NavController) {
     FilmPageScreen(navController)
 }
 @Composable
-fun FilmographyPage(navController: NavController) {
-    FilmographyScreen(navController)
+fun FilmographyPage(navController: NavController, sharedViewModel: SharedViewModel) {
+    FilmographyScreen(navController,sharedViewModel)
 }
 
