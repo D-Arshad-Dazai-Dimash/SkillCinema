@@ -5,14 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.project_modile_application.data.internet.apiService
-import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 
 
 @Composable
 fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedViewModel) {
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
-        composable(Screen.Home.route) { Home(navController , sharedViewModel) }
+        composable(Screen.Home.route) { Home(navController, sharedViewModel) }
         composable(Screen.Search.route) { Search() }
         composable(Screen.Profile.route) { Profile() }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
@@ -25,6 +24,10 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
             )
         }
         composable("movieData/{id}") {
-            FilmPage(navController) }
+            sharedViewModel.selectedMovie.value?.let { id ->
+                FilmPage(navController, id)
+            }
+        }
+
     }
 }

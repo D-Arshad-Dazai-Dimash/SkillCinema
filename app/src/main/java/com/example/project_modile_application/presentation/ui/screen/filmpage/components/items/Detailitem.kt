@@ -1,4 +1,4 @@
-package com.example.project_modile_application.presentation.ui.screen.filmpage.components
+package com.example.project_modile_application.presentation.ui.screen.filmpage.components.items
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ fun DetailMovieItem(movie: MoviesData) {
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
-            model = movie.posterUrlPreview,
+            model = movie.coverUrl,
             contentDescription = "Movie poster",
             contentScale = ContentScale.Crop
         )

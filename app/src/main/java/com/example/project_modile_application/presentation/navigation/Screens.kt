@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.domain.dataclasses.Movie
+import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.viewModels.HomeViewModel
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
@@ -58,6 +60,6 @@ fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category
 }
 
 @Composable
-fun FilmPage(navController: NavController) {
-    FilmPageScreen(navController)
+fun FilmPage(navController: NavController, movie: Movie) {
+    FilmPageScreen(navController, movie)
 }

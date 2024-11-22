@@ -44,7 +44,7 @@ fun MovieTab(movie: Movie, navController: NavController, sharedViewModel: Shared
                 .padding(top = 8.dp)
                 .width(111.dp)
                 .clickable {
-
+                    sharedViewModel.selectMovie(movie)
                     navController.navigate("movieData/${movie.kinopoiskId}")
                 },
             maxLines = 1,

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.domain.dataclasses.Categories
 
 @Composable
 fun ShowAll(
