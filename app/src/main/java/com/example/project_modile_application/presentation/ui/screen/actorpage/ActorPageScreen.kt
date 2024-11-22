@@ -38,6 +38,7 @@ import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.viewModels.ActorDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.Header
 
@@ -52,9 +53,7 @@ fun ActorPageScreen(
     if (staffState.isLoading) {
         LoadingUIState()
     } else if (staffState.error.isNotBlank()) {
-        Text(
-            text = staffState.error,
-        )
+        ErrorUIState(navController,"Error...")
     } else {
         Column(
             modifier = Modifier

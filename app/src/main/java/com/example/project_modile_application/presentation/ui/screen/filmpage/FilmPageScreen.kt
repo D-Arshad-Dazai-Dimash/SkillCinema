@@ -30,6 +30,7 @@ import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
+import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.DetailMovieItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.GalleryListItem
@@ -52,9 +53,7 @@ fun FilmPageScreen(
     if (movieState.isLoading) {
         LoadingUIState()
     } else if (movieState.error.isNotBlank()) {
-        Text(
-            text = movieState.error,
-        )
+        ErrorUIState(navController,"Error...")
     } else {
         LazyColumn(
             modifier = Modifier

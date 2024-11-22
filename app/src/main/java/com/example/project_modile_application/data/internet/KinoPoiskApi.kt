@@ -25,7 +25,7 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "c5283301-54bf-4113-b870-5b33bd37d37e"
+        @Header("X-API-KEY") apiKey: String = "ab8a67fc-cdad-4b42-89b3-c1725e01847b"
     ): Response<MovieResponse>
 
     @Headers(apiKey)
@@ -60,7 +60,7 @@ interface KinoPoiskApi {
     ): StaffDataWithFilms
 
     companion object{
-        const val apiKey = "X-API-KEY: c5283301-54bf-4113-b870-5b33bd37d37e"
+        const val apiKey = "X-API-KEY: ab8a67fc-cdad-4b42-89b3-c1725e01847b"
     }
 }
 
