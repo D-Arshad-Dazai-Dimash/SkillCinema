@@ -30,6 +30,7 @@ import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
+import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.DetailMovieItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.GalleryListItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.SimilarMoviesShow
@@ -49,7 +50,7 @@ fun FilmPageScreen(
     val similarState by similarViewModel.similarState.collectAsState()
 
     if (movieState.isLoading) {
-        CircularProgressIndicator()
+        LoadingUIState()
     } else if (movieState.error.isNotBlank()) {
         Text(
             text = movieState.error,

@@ -20,6 +20,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,14 +35,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.project_modile_application.R
+import com.example.project_modile_application.domain.dataclasses.Film
+import com.example.project_modile_application.domain.dataclasses.StaffDataWithFilms
+import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
+import com.example.project_modile_application.presentation.ui.screen.filmpage.components.state.ActorsState
+import com.example.project_modile_application.presentation.ui.screen.filmpage.components.state.GaleryState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun FilmographyScreen() {
-
-    Column(modifier = Modifier.fillMaxSize().padding(top=50.dp, start = 26.dp)) {
+fun FilmographyScreen(
+    navController: NavController
+    ) {
+    Column(modifier = Modifier.fillMaxSize().padding(top=15.dp, start = 26.dp)) {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -50,13 +62,12 @@ fun FilmographyScreen() {
                     painter = painterResource(id = R.drawable.icon),
                     contentDescription = "Back icon",
                     modifier = Modifier.clickable(
-                        onClick = {
-
+                        onClick = {navController.popBackStack()
                         }
                     )
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 65.dp))
-                Text(text ="Фильмография", fontSize = 12.sp, fontWeight = FontWeight.W600)
+                Text(text ="Фильмография", fontSize = 14.sp, fontWeight = FontWeight.W600)
             }
 
 

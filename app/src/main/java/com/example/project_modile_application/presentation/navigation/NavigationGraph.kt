@@ -2,12 +2,16 @@ package com.example.project_modile_application.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.actorpage.ActorPageScreen
+import com.example.project_modile_application.presentation.ui.screen.filmography.FilmographyScreen
 
 
 @Composable
@@ -31,6 +35,10 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         composable("staffDetails/{id}") {
             ActorPageScreen(navController)
         }
+        composable("filmography") {
+            FilmographyPage(navController)
+        }
+
 
 
 

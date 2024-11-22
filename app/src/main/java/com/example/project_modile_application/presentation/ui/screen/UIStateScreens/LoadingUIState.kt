@@ -28,7 +28,7 @@ fun LoadingUIState() {
             )
             Spacer(modifier = Modifier.height(16.dp)) // Add some space between the indicator and text
             Text(
-                text = "Loading movies...",
+                text = "Loading ...",
             )
         }
     }
