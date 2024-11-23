@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.domain.dataclasses.Categories
 import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 

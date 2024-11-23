@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.project_modile_application.data.Categories
+import com.example.project_modile_application.domain.dataclasses.Categories
 import com.example.project_modile_application.data.UiState
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.domain.dataclasses.Movie

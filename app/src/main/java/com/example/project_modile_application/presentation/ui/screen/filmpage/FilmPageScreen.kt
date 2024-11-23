@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,11 +28,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
+import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
-import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
-import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
+import com.example.project_modile_application.presentation.ui.screen.filmpage.components.FilmIntent
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.DetailMovieItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.GalleryListItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.SimilarMoviesShow
@@ -40,20 +41,29 @@ import com.example.project_modile_application.presentation.ui.screen.filmpage.co
 @Composable
 fun FilmPageScreen(
     navController: NavController,
+    movie: Movie,
     movieDetailViewModel: MovieDetailViewModel = viewModel(),
-    actorViewModel: MovieDetailViewModel = viewModel(),
-    imageViewModel: MovieDetailViewModel = viewModel(),
-    similarViewModel: MovieDetailViewModel = viewModel()
-) {
-    val movieState by movieDetailViewModel.stateMovie.collectAsState()
-    val actorState by actorViewModel.actorsState.collectAsState()
-    val imageState by imageViewModel.imagesState.collectAsState()
-    val similarState by similarViewModel.similarState.collectAsState()
 
-    if (movieState.isLoading) {
-        LoadingUIState()
-    } else if (movieState.error.isNotBlank()) {
-        ErrorUIState(navController,"Error...")
+//    actorViewModel: MovieDetailViewModel = viewModel(),
+//    imageViewModel: MovieDetailViewModel = viewModel(),
+//    similarViewModel: MovieDetailViewModel = viewModel()
+) {
+//    val movieState by movieDetailViewModel.stateMovie.collectAsState()
+//    val actorState by actorViewModel.actorsState.collectAsState()
+//    val imageState by imageViewModel.imagesState.collectAsState()
+//    val similarState by similarViewModel.similarState.collectAsState()
+
+    val state by movieDetailViewModel.state.collectAsState()
+
+    LaunchedEffect(Unit) {
+        movieDetailViewModel.sendIntent(FilmIntent.LoadMovies(movie.kinopoiskId))
+        movieDetailViewModel.sendIntent(FilmIntent.LoadActors(movie.kinopoiskId))
+        movieDetailViewModel.sendIntent(FilmIntent.LoadSimilarMovies(movie.kinopoiskId))
+        movieDetailViewModel.sendIntent(FilmIntent.LoadGallery(movie.kinopoiskId))
+    }
+
+    if (state.isLoading) {
+        CircularProgressIndicator()
     } else {
         LazyColumn(
             modifier = Modifier
@@ -67,7 +77,7 @@ fun FilmPageScreen(
                         .height(400.dp)
                         .fillMaxWidth()
                 ) {
-                    val movie = movieState.movie
+                    val movie = state.movie
                     if (movie != null) {
                         DetailMovieItem(movie = movie)
                     }
@@ -86,27 +96,25 @@ fun FilmPageScreen(
                     modifier = Modifier
                         .padding(horizontal = 26.dp)
                 ) {
-                    val movie = movieState.movie
+                    val movie = state.movie
                     if (movie != null) {
                         MovieDescription(movie)
                     }
 
-                    if (actorState.isLoading) {
+                    if (state.isLoading) {
                         CircularProgressIndicator()
-                    } else if (actorState.error.isNotBlank()) {
-                        Text(
-                            text = actorState.error,
-                        )
                     } else {
-                        val stuffAll = actorState.actor
+                        val stuffAll = state.actors
                         val actors = mutableListOf<StaffData>()
                         val stuff = mutableListOf<StaffData>()
 
-                        for (actor in stuffAll) {
-                            if (actor.professionKey == "ACTOR") {
-                                actors.add(actor)
-                            } else {
-                                stuff.add(actor)
+                        if (stuffAll != null) {
+                            for (actor in stuffAll) {
+                                if (actor.professionKey == "ACTOR") {
+                                    actors.add(actor)
+                                } else {
+                                    stuff.add(actor)
+                                }
                             }
                         }
                         if (stuffAll != null) {
@@ -114,24 +122,20 @@ fun FilmPageScreen(
                             StuffListShow(stuff, "Над фильмом работали", 2, navController)
                         }
                     }
-                    if (imageState.isLoading) {
+                    if (state.isLoading) {
                         CircularProgressIndicator()
-                    } else if (imageState.error.isNotBlank()) {
-                        Text(text = imageState.error)
                     } else {
-                        val images = imageState.galery
+                        val images = state.galery
                         if (images != null) {
-                            GalleryListItem(images.items)
+                            GalleryListItem(images.items, navController)
                         }
                     }
-                    if (similarState.isLoading){
+                    if (state.isLoading) {
                         CircularProgressIndicator()
-                    }else if (similarState.error.isNotBlank()){
-                        Text(text = similarState.error)
-                    }else{
-                        val similarMovies = similarState.movies
-                        if(similarMovies != null){
-                            SimilarMoviesShow(similarMovies.items , navController)
+                    } else {
+                        val similarMovies = state.similarMovies
+                        if (similarMovies != null) {
+                            SimilarMoviesShow(similarMovies.items, navController)
                         }
                     }
                 }

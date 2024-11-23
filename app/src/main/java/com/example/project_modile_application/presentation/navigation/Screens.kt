@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
-import com.example.project_modile_application.domain.dataclasses.Film
+import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.viewModels.HomeViewModel
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
@@ -50,7 +50,12 @@ fun OnBoarding(navController: NavController) {
 }
 
 @Composable
-fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category: String , sharedViewModel: SharedViewModel) {
+fun ListingPage(
+    navController: NavController,
+    apiService: KinoPoiskApi,
+    category: String,
+    sharedViewModel: SharedViewModel
+) {
     IntoCategory_Screen(
         navController = navController,
         apiService = apiService,
@@ -60,11 +65,15 @@ fun ListingPage(navController: NavController, apiService: KinoPoiskApi, category
 }
 
 @Composable
-fun FilmPage(navController: NavController) {
-    FilmPageScreen(navController)
+fun FilmPage(navController: NavController, movie: Movie) {
+    FilmPageScreen(navController, movie)
+}
+
+@Composable
+fun GalleryPage(navController: NavController, movieId: Int) {
+    com.example.project_modile_application.presentation.ui.screen.galleryPage.GalleryPage(navController, movieId)
 }
 @Composable
 fun FilmographyPage(navController: NavController, sharedViewModel: SharedViewModel) {
     FilmographyScreen(navController,sharedViewModel)
 }
-

@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.project_modile_application.data.internet.apiService
-import com.example.project_modile_application.domain.dataclasses.Film
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.actorpage.ActorPageScreen
@@ -17,7 +16,7 @@ import com.example.project_modile_application.presentation.ui.screen.filmography
 @Composable
 fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedViewModel) {
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
-        composable(Screen.Home.route) { Home(navController , sharedViewModel) }
+        composable(Screen.Home.route) { Home(navController, sharedViewModel) }
         composable(Screen.Search.route) { Search() }
         composable(Screen.Profile.route) { Profile() }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
@@ -30,7 +29,16 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
             )
         }
         composable("movieData/{id}") {
-            FilmPage(navController)
+            sharedViewModel.selectedMovie.value?.let { id ->
+                FilmPage(navController, id)
+            }
+        }
+        composable(Screen.GalleryPage.route) {
+            sharedViewModel.selectedMovie.value?.kinopoiskId.let { id ->
+                if (id != null) {
+                    GalleryPage(navController, id)
+                }
+            }
         }
         composable("staffDetails/{id}") {
             ActorPageScreen(navController,sharedViewModel)
@@ -38,10 +46,6 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         composable("filmography") {
             FilmographyPage(navController,sharedViewModel)
         }
-
-
-
-
 
     }
 }
