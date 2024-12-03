@@ -97,12 +97,14 @@ fun FilmographyScreen(
                         val name = chipItems[index]
                         val filteredFilms = films.value!!.filter {it.professionKey == name }
                         //val filteredFilms = allFilms.filter(filter) // Применяем фильтр к фильмам
-                        ActorAndChip(
-                            name = name,
-                            count = filteredFilms.size, // Показываем количество фильмов
-                            isSelected = selectedChipIndex.value == index,
-                            onClick = { selectedChipIndex.value = index }
-                        )
+                        if (name != null) {
+                            ActorAndChip(
+                                name = name,
+                                count = filteredFilms.size, // Показываем количество фильмов
+                                isSelected = selectedChipIndex.value == index,
+                                onClick = { selectedChipIndex.value = index }
+                            )
+                        }
                     }
                 }
             }

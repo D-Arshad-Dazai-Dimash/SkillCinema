@@ -1,6 +1,8 @@
 package com.example.project_modile_application.domain.useCases
 
+import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.data.repository.MovieRepositoryImplementation
+import com.example.project_modile_application.domain.dataclasses.FilmsByKeyWord
 import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
@@ -29,5 +31,11 @@ class MovieUseCase {
         id: Int
     ): SimilarMovies {
         return movieRepository.getSimilarsById(id)
+    }
+
+    suspend fun getFilmsByKeyWord(
+        keyWord: String
+    ): FilmsByKeyWord {
+        return movieRepository.getFilmsByKeyWord(keyWord)
     }
 }

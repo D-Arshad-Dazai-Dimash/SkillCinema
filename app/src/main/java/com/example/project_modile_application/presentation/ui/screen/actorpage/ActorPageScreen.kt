@@ -103,7 +103,7 @@ fun BestFilms(films: List<Film>) {
         LazyRow() {
             items(8) {
                 val film = films[it]
-                FilmCard(film, film.professionKey)
+                film.professionKey?.let { it1 -> FilmCard(film, it1) }
             }
         }
     }

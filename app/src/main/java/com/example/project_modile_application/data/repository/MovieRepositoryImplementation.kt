@@ -1,6 +1,7 @@
 package com.example.project_modile_application.data.repository
 
 import com.example.project_modile_application.data.internet.apiService
+import com.example.project_modile_application.domain.dataclasses.FilmsByKeyWord
 import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
@@ -28,5 +29,11 @@ class MovieRepositoryImplementation : MovieRepository {
         id: Int
     ): SimilarMovies {
         return apiService.getSimilarById(id)
+    }
+
+    override suspend fun getFilmsByKeyWord(
+        keyWord: String
+    ): FilmsByKeyWord {
+        return apiService.getFilmsByKeyWord(keyWord)
     }
 }

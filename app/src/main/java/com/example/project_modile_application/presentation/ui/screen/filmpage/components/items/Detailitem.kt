@@ -122,7 +122,7 @@ fun DetailMovieItem(movie: MoviesData) {
             }
 
             val ageLimit = movie.ratingAgeLimits
-            if (!ageLimit.isNullOrEmpty()) {
+            if (ageLimit.isNotEmpty()) {
                 lengthOfMovie += ", " + ageLimit.substring(3) + "+"
             }
 
