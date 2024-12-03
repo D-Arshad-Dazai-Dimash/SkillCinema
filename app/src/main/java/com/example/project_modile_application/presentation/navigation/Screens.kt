@@ -10,11 +10,11 @@ import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.viewModels.HomeViewModel
-import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmography.FilmographyScreen
 import com.example.project_modile_application.presentation.ui.screen.filmpage.FilmPageScreen
 import com.example.project_modile_application.presentation.ui.screen.listingPage.IntoCategory_Screen
+import com.example.project_modile_application.presentation.ui.screen.searchpage.SearchPage
 
 
 @Composable
@@ -29,10 +29,8 @@ fun Home(navController: NavController , sharedViewModel: SharedViewModel) {
 
 
 @Composable
-fun Search() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Search Screen")
-    }
+fun Search(navController: NavController) {
+    SearchPage(navController)
 }
 
 @Composable
