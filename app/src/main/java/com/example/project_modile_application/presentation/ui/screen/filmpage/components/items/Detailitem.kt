@@ -25,15 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.project_modile_application.R
+import com.example.project_modile_application.data.local.entities.MovieEntity
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 
 @Composable
 fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
-
-    val isWatched = sharedViewModel.isMovieWatched(movie)
-
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -135,29 +132,31 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
                 ), modifier = Modifier.padding(bottom = 3.dp)
             )
 
+            val movieEntity = movie.toMovieEntity()
+
             Row(
                 modifier = Modifier.padding(top = 10.dp),
                 horizontalArrangement = Arrangement.spacedBy(17.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(contentDescription = "",
-                    tint = if (sharedViewModel.isMovieLiked(movie)) Color.Blue else Color.Unspecified,
+                    tint = if (sharedViewModel.isMovieLiked(movieEntity)) Color.Blue else Color.Unspecified,
                     painter = painterResource(R.drawable.heart),
                     modifier = Modifier.clickable {
-                        sharedViewModel.toggleLikedStatus(movie)
+                        sharedViewModel.toggleLikedStatus(movieEntity)
                     })
                 Icon(contentDescription = "",
-                    tint = if (sharedViewModel.isMoviePrefer(movie)) Color.Blue else Color.Unspecified,
+                    tint = if (sharedViewModel.isMoviePrefer(movieEntity)) Color.Blue else Color.Unspecified,
                     painter = painterResource(R.drawable.flag_icon),
                     modifier = Modifier.clickable {
-                        sharedViewModel.togglePreferStatus(movie)
+                        sharedViewModel.togglePreferStatus(movieEntity)
                     })
                 Icon(
                     contentDescription = "Click if you already watched",
-                    tint = if (sharedViewModel.isMovieWatched(movie)) Color.Blue else Color.Unspecified,
+                    tint = if (sharedViewModel.isMovieWatched(movieEntity)) Color.Blue else Color.Unspecified,
                     painter = painterResource(R.drawable.donot_show),
                     modifier = Modifier.clickable {
-                        sharedViewModel.toggleWatchedStatus(movie)
+                        sharedViewModel.toggleWatchedStatus(movieEntity)
                     }
                 )
                 Icon(contentDescription = "",
@@ -173,17 +172,16 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
     }
 }
 
-//fun MoviesData.toMovie(): Movie {
-//    return Movie(
-//        kinopoiskId = this.kinopoiskId,
-//        title = this.title ?:"",
-//        image = this.image ?: "",
-//        nameRu = this.nameRu ?: "",
-//        nameEn = this.nameEn ?: "",
-//        posterUrl = this.posterUrl ?: "",
-//        posterUrlPreview = this.posterUrlPreview ?: "",
-//        genres = this.genres ?: emptyList(),
-//        countries = this.countries ?: emptyList(),
-//        year = this.year ?: 0
-//    )
-//}
+fun MoviesData.toMovieEntity(): MovieEntity {
+    return MovieEntity(
+        kinopoiskId = this.kinopoiskId,
+        title = this.nameOriginal,
+        image = this.coverUrl,
+        year = this.year,
+        genres = this.genres.joinToString(", ") { it.genre },
+        countries = this.countries.joinToString(", ") { it.country },
+        posterUrl = this.posterUrl,
+        isWatched = false
+    )
+}
+

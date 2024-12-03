@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Project_Modile_ApplicationTheme {
-                MainComposable()
+                MainComposable() // Use your main Composable function
             }
         }
     }
