@@ -56,7 +56,31 @@ class MovieDetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
                     is FilmIntent.LoadSimilarMovies -> getSimilarMovies(intent.movieId)
                     is FilmIntent.LoadActors -> getActorById(intent.movieId)
                     is FilmIntent.LoadGallery -> getGallery(intent.movieId)
+                    is FilmIntent.LoadMovie -> getMovieById1(intent.movieId)
                 }
+            }
+        }
+    }
+
+
+    fun getMovieById1(id: Int) {
+        viewModelScope.launch {
+//            _stateMovie.value = _stateMovie.value.copy(isLoading = true)
+            _state.value = _state.value.copy(isLoading = true)
+            try {
+                var movie = movieUseCase.getDetailMovie(id)
+
+//                _stateMovie.value = _stateMovie.value.copy(
+//                    isLoading = false,
+//                    movie = movie
+//                )
+                _state.value = IntentHandler(_state.value , FilmPageResult.MovieLoaded(movie))
+            } catch (e: HttpException) {
+//                _stateMovie.value = _stateMovie.value.copy(
+//                    isLoading = false,
+//                    error = e.localizedMessage ?: "Unexpected error"
+//                )
+                _state.value = IntentHandler(_state.value,FilmPageResult.Error(e.localizedMessage?: "Unexpected error"))
             }
         }
     }

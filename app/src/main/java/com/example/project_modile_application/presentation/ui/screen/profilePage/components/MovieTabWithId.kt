@@ -1,3 +1,5 @@
+package com.example.project_modile_application.presentation.ui.screen.profilePage.components
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,31 +15,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 
-
-
-
 @Composable
-fun MovieTab(movie: Movie,
-             navController: NavController,
-             sharedViewModel: SharedViewModel
+fun MoviesDataTab(
+    movie: MoviesData,
+    navController: NavController,
+    sharedViewModel: SharedViewModel
 ) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(top = 8.dp , end = 8.dp , bottom = 8.dp )
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
         AsyncImage(
-            model = movie.image.takeIf { it.isNotEmpty().or(it == "") } ?: movie.posterUrl,
+            model = movie.image.takeIf { it.isNotEmpty().and(it != "") } ?: movie.posterUrl ?: "",
             contentDescription = movie.title,
             modifier = Modifier
                 .height(180.dp)
@@ -45,12 +43,11 @@ fun MovieTab(movie: Movie,
                 .clip(RoundedCornerShape(4.dp))
         )
         Text(
-            text = movie.title.takeIf { it.isNotEmpty().or(it == "") } ?: movie.nameRu,
+            text = movie.title.takeIf { it.isNotEmpty().and(it != "") } ?: movie.nameRu?: "",
             modifier = Modifier
                 .padding(top = 8.dp)
                 .width(111.dp)
                 .clickable {
-                    sharedViewModel.selectMovie(movie)
                     navController.navigate("movieData/${movie.kinopoiskId}")
                 },
             maxLines = 1,

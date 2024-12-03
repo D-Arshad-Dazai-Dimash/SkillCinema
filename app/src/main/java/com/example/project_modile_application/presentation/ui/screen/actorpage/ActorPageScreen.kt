@@ -59,9 +59,7 @@ fun ActorPageScreen(
             modifier = Modifier
                 .fillMaxSize().
                 padding(horizontal =  26.dp, vertical = 15.dp)
-
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

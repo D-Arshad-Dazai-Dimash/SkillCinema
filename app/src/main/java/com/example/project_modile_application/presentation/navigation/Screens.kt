@@ -36,10 +36,8 @@ fun Search() {
 }
 
 @Composable
-fun Profile() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Text(text = "Profile Screen")
-    }
+fun Profile(navController: NavController , sharedViewModel: SharedViewModel) {
+    com.example.project_modile_application.presentation.ui.screen.profilePage.ProfileScreen(navController , sharedViewModel)
 }
 
 @Composable
@@ -65,8 +63,8 @@ fun ListingPage(
 }
 
 @Composable
-fun FilmPage(navController: NavController, movie: Movie) {
-    FilmPageScreen(navController, movie)
+fun FilmPage(navController: NavController, movie: Movie , sharedViewModel: SharedViewModel) {
+    FilmPageScreen(navController, movie , sharedViewModel)
 }
 
 @Composable

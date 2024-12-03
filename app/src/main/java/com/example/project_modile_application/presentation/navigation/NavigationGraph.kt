@@ -18,7 +18,7 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
         composable(Screen.Home.route) { Home(navController, sharedViewModel) }
         composable(Screen.Search.route) { Search() }
-        composable(Screen.Profile.route) { Profile() }
+        composable(Screen.Profile.route) { Profile(navController , sharedViewModel) }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
         composable(Screen.ListingPage.route) {
             ListingPage(
@@ -30,7 +30,7 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         }
         composable("movieData/{id}") {
             sharedViewModel.selectedMovie.value?.let { id ->
-                FilmPage(navController, id)
+                FilmPage(navController, id , sharedViewModel)
             }
         }
         composable(Screen.GalleryPage.route) {
