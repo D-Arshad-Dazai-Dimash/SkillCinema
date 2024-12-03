@@ -77,3 +77,8 @@ fun GalleryPage(navController: NavController, movieId: Int) {
 fun FilmographyPage(navController: NavController, sharedViewModel: SharedViewModel) {
     FilmographyScreen(navController,sharedViewModel)
 }
+
+@Composable
+fun SearchPageParameters(navController: NavController) {
+    com.example.project_modile_application.presentation.ui.screen.searchPageParameters.SearchPageParameters(navController)
+}

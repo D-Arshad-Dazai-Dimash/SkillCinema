@@ -9,4 +9,5 @@ sealed class Screen(val route: String) {
     data object ListingPage : Screen("listingPage")
     data object FilmPage : Screen("MovieData/{id}")
     data object GalleryPage : Screen("gallery")
+    data object SearchPageParameters : Screen("SearchPageParameters")
 }

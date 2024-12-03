@@ -46,6 +46,9 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         composable("filmography") {
             FilmographyPage(navController,sharedViewModel)
         }
+        composable(Screen.SearchPageParameters.route) {
+            SearchPageParameters(navController)
+        }
 
     }
 }
