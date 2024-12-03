@@ -121,7 +121,6 @@ fun FilterPeriodScreen(navController: NavController= rememberNavController()) {
             }
         )
 
-        // Отображаем ошибку, если она есть
         errorMessage?.let {
             Text(
                 text = it,
@@ -139,7 +138,6 @@ fun FilterPeriodScreen(navController: NavController= rememberNavController()) {
     }
 }
 
-// Валидация диапазона лет
 private fun validatePeriod(
     selectedYearFrom: Int?,
     selectedYearTo: Int?,

@@ -229,7 +229,6 @@ Column {
         sorts.forEachIndexed { index, sort ->
             val isSelected = selectedSort == sort
 
-            // Определение формы в зависимости от позиции
             val shape = when (index) {
                 0 -> RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp) // Левая кнопка
                 sorts.lastIndex -> RoundedCornerShape(topEnd = 20.dp, bottomEnd = 20.dp) // Правая кнопка

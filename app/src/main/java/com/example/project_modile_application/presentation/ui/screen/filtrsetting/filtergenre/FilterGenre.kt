@@ -37,7 +37,7 @@ fun FilterGenreScreen(navController: NavController= rememberNavController()){
             .padding(26.dp)
     ) {
         TopInfo("Жанр",50)
-        //SearchFilter("жанр")
+        
         CountrySelectionScreen("жанр", listOf("Комедия","Комедия","Боевик","Вестерн","Драма"))
     }
 

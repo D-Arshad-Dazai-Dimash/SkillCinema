@@ -110,7 +110,6 @@ fun CountrySelectionScreen(title:String ,list: List<String> ) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        // Поле поиска
         TextField(
             value = searchText,
             onValueChange = { searchText = it },
@@ -126,7 +125,6 @@ fun CountrySelectionScreen(title:String ,list: List<String> ) {
             singleLine = true
         )
 
-        // Список стран
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(filteredCountries) { country ->
                 CountryListItem(countryName = country, onClick = { /* Действие при выборе страны */ })

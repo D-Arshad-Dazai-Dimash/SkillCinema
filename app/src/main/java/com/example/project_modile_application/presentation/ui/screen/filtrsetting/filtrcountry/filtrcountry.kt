@@ -37,7 +37,7 @@ fun FilterCountryScreen(navController: NavController= rememberNavController()){
             .padding(26.dp)
     ) {
         TopInfo("Страна",45)
-            //SearchFilter("страну")
+
         CountrySelectionScreen("страну",listOf("Россия", "Великобритания", "Германия", "США", "Франция"))
 
     }
