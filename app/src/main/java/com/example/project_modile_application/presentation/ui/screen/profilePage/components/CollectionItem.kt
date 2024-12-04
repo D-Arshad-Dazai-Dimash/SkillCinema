@@ -105,6 +105,7 @@ fun CollectionItem(
                         fontSize = 8.sp,
                         lineHeight = 8.8.sp,
                         textAlign = TextAlign.Center
+
                     )
                 }
             }
