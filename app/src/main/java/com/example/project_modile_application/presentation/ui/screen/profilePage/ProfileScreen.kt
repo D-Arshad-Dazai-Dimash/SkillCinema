@@ -1,28 +1,41 @@
 package com.example.project_modile_application.presentation.ui.screen.profilePage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W600
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.project_modile_application.R
+import com.example.project_modile_application.data.local.entities.CollectionEntity
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.CollectionItem
@@ -44,6 +57,17 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
     val watchedMovies = sharedViewModel.watchedMovies
     val collections = sharedViewModel.collections
 
+    val defaultCollections = listOf("Нравится", "Хочу посмотреть")
+    val allCollections = remember(collections.value) {
+        val currentCollections = collections.value.toMutableList()
+        defaultCollections.forEach { defaultName ->
+            if (currentCollections.none { it.name == defaultName }) {
+                currentCollections.add(CollectionEntity(name = defaultName))
+            }
+        }
+        currentCollections
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,9 +78,10 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(start = 26.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             HeaderForWatchedMovies(
-                topic = "Watched Movies",
+                topic = "Просмотрено",
                 watchedMovies = watchedMovies,
                 onViewAllClick = {},
                 modifier = Modifier.padding(top = 96.dp, end = 26.dp)
@@ -67,17 +92,46 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.padding(bottom = 36.dp)
                 ) {
-                    items(watchedMovies.value.size) { movie ->
+                    items(watchedMovies.value.take(8).size) { movie ->
                         MoviesDataTab(
                             movie = watchedMovies.value[movie],
                             navController = navController,
                             sharedViewModel = sharedViewModel
                         )
                     }
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .size(111.dp, 156.dp)
+                                .background(Color(0xFFF5F5F5)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.clear_icon),
+                                    contentDescription = "Clear Watched History",
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clickable {
+                                            sharedViewModel.clearMovies() // Clear watched movies
+                                        },
+                                    tint = Color(0xFF6A5ACD)
+                                )
+                                Text(
+                                    text = "Очистить историю",
+                                    fontSize = 14.sp,
+                                    textAlign = TextAlign.Center,
+                                    color = Color(0xFF6A5ACD)
+                                )
+                            }
+                        }
+                    }
                 }
             } else {
                 Text(
-                    text = "No movies watched yet.",
+                    text = "Нет просмотренных фильмов.",
                     fontWeight = W400,
                     fontSize = 14.sp,
                     color = Color.Gray,
@@ -85,8 +139,9 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                 )
             }
 
+
             Text(
-                text = "Коллекции",
+                text = "Collections",
                 fontWeight = W600,
                 fontFamily = GraphicFontFamily,
                 fontSize = 18.sp,
@@ -95,35 +150,50 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
 
             NewCollectionButton(sharedViewModel)
 
-            if (collections.value.isNotEmpty()) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(end = 26.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+            val rows = allCollections.chunked(2)
+
+            var movieCount by remember { mutableStateOf(0) }
 
 
-                    items(collections.value.size) { collection ->
-                        CollectionItem(
-                            collection = collections.value[collection],
-                            painter = painterResource(R.drawable.iconperson),
-                            ableToDelete = true,
-                            onRemove = { sharedViewModel.removeCollection(collections.value[collection].id) }
-                        )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 26.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                rows.forEach { row ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        row.forEach { collection ->
+                            LaunchedEffect(collection.id) {
+                                sharedViewModel.getMovieCountInCollection(collection.id) { count ->
+                                    movieCount = count
+                                }
+                            }
+                            val isDefaultCollection = collection.name in defaultCollections
+                            CollectionItem(
+                                collection = collection,
+                                painter = painterResource(R.drawable.iconperson),
+                                ableToDelete = !isDefaultCollection,
+                                movieCount,
+                                onRemove = {
+                                    if (!isDefaultCollection) {
+                                        sharedViewModel.removeCollection(collection.id)
+                                    }
+                                },
+                            )
+                        }
+                        if (row.size < 2) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                     }
                 }
-            } else {
-                Text(
-                    text = "No collections yet.",
-                    fontWeight = W400,
-                    fontSize = 14.sp,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
             }
+
         }
     }
 }

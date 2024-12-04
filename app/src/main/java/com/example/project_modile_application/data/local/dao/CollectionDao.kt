@@ -33,4 +33,6 @@ interface CollectionDao {
     @Transaction
     @Query("SELECT * FROM collections WHERE id = :collectionId")
     suspend fun getCollectionWithMovies(collectionId: Int): CollectionEntityWithMovies
+
+
 }

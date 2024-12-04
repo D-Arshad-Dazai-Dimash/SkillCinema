@@ -53,6 +53,36 @@ class SharedViewModel : ViewModel() {
         }
     }
 
+    fun clearMovies(collectionId: Int? = null) {
+        viewModelScope.launch {
+            try {
+                if (collectionId == null) {
+                    movieDao.deleteAllWatchedMovies()
+                    fetchWatchedMovies()
+                } else {
+                    collectionDao.deleteMoviesInCollection(collectionId)
+                    fetchCollections()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun getMovieCountInCollection(collectionId: Int, onResult: (Int) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val count = collectionDao.getMoviesInCollection(collectionId).size
+                onResult(count)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult(0)
+            }
+        }
+    }
+
+
+
     fun toggleWatchedStatus(movie: MovieEntity) {
         viewModelScope.launch {
             try {
@@ -122,13 +152,13 @@ class SharedViewModel : ViewModel() {
 
     fun isMovieLiked(movie: MovieEntity): Boolean {
         return collections.value.any { collection ->
-            collection.name == "Liked" && movie.kinopoiskId in likedMovies.value.map { it.kinopoiskId }
+            collection.name == "Нравится" && movie.kinopoiskId in likedMovies.value.map { it.kinopoiskId }
         }
     }
 
     fun isMoviePrefer(movie: MovieEntity): Boolean {
         return collections.value.any { collection ->
-            collection.name == "Preferred" && movie.kinopoiskId in preferredMovies.value.map { it.kinopoiskId }
+            collection.name == "Хочу посмотреть" && movie.kinopoiskId in preferredMovies.value.map { it.kinopoiskId }
         }
     }
 
@@ -137,10 +167,8 @@ class SharedViewModel : ViewModel() {
             try {
                 val existingCollections = collectionDao.getCollections()
                 val defaultCollections = listOf(
-//                    CollectionEntity(name = "Liked", ableToDelete = false),
-//                    CollectionEntity(name = "Preferred", ableToDelete = false) ,
-                    CollectionEntity(name = "Liked"),
-                    CollectionEntity(name = "Preferred")
+                    CollectionEntity(name = "Нравится"),
+                    CollectionEntity(name = "Хочу посмотреть")
                 )
 
                 defaultCollections.forEach { defaultCollection ->

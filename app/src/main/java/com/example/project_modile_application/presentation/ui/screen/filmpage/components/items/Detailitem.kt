@@ -152,13 +152,10 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
                         sharedViewModel.togglePreferStatus(movieEntity)
                     })
                 Icon(
-                    contentDescription = "Click if you already watched",
-                    tint = if (sharedViewModel.isMovieWatched(movieEntity)) Color.Blue else Color.Unspecified,
+                    contentDescription = "",
+                    tint =  Color.Unspecified,
                     painter = painterResource(R.drawable.donot_show),
-                    modifier = Modifier.clickable {
-                        sharedViewModel.toggleWatchedStatus(movieEntity)
-                    }
-                )
+                    modifier = Modifier.clickable {})
                 Icon(contentDescription = "",
                     tint = Color.Unspecified,
                     painter = painterResource(R.drawable.share_icon),

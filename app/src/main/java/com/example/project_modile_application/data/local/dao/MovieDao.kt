@@ -21,6 +21,10 @@ interface MovieDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM movies WHERE kinopoiskId = :movieId)")
     suspend fun isMovieExists(movieId: Int): Boolean
+
+    @Query("DELETE FROM movies WHERE isWatched = 1")
+    suspend fun deleteAllWatchedMovies()
+
 }
 val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
