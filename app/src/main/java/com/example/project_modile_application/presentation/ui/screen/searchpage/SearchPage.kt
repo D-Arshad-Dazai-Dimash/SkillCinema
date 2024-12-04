@@ -3,6 +3,7 @@ package com.example.project_modile_application.presentation.ui.screen.searchpage
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.viewModels.SearchViewModel
+import com.example.project_modile_application.presentation.navigation.Screen
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.ErrorUIState
 import com.example.project_modile_application.presentation.ui.screen.UIStateScreens.LoadingUIState
 import com.example.project_modile_application.presentation.ui.screen.searchpage.items.FilmList
@@ -93,6 +95,9 @@ fun SearchPage(navController: NavController, searchViewModel: SearchViewModel = 
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 10.dp)
+                    .clickable {
+                        navController.navigate(Screen.SearchPageParameters.route)
+                    }
             )
         }
         Log.d("loading", searchState.isLoading.toString())

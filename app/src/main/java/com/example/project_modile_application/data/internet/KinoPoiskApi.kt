@@ -7,6 +7,7 @@ import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.dataclasses.StaffDataWithFilms
+import com.example.project_modile_application.domain.dataclasses.searchPage.GenresAndCountriesResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -66,8 +67,12 @@ interface KinoPoiskApi {
         @Query("keyword") keyword: String
     ): FilmsByKeyWord
 
+    @Headers(apiKey)
+    @GET("/api/v2.2/films/filters")
+    suspend fun getGenresAndCountries(): GenresAndCountriesResponse
+
     companion object{
-        const val apiKey = "X-API-KEY: d7d69928-01dc-42bc-8984-2c259a708259"
+        const val apiKey = "X-API-KEY: 4f15b24b-8389-40d9-908d-b8df47ab910a"
     }
 }
 
