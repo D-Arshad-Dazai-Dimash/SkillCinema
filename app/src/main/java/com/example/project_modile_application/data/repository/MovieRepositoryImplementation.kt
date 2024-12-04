@@ -14,9 +14,6 @@ class MovieRepositoryImplementation : MovieRepository {
         return apiService.getFilmById(id)
     }
 
-    override suspend fun getMovieById1(id: Int): Movie {
-        return apiService.getFilmById1(id)
-    }
 
     override suspend fun getActorsById(
         id: Int,

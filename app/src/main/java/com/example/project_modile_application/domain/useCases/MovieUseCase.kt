@@ -16,10 +16,6 @@ class MovieUseCase {
         return movieRepository.getMovieById(id)
     }
 
-    suspend fun getMovie(id: Int): Movie {
-        return movieRepository.getMovieById1(id)
-    }
-
     suspend fun getActors(
         id: Int,
     ): List<StaffData> {

@@ -10,7 +10,6 @@ import com.example.project_modile_application.domain.dataclasses.StaffData
 interface MovieRepository {
     suspend fun getMovieById(id: Int): MoviesData
 
-    suspend fun getMovieById1(id: Int): Movie
 
     suspend fun getActorsById(id: Int): List<StaffData>
 

@@ -35,6 +35,12 @@ interface KinoPoiskApi {
     ): MoviesData
 
     @Headers(apiKey)
+    @GET("api/v2.2/films/{id}")
+    suspend fun getFilmById1(
+        @Path("id") filmId: Int
+    ): MoviesData
+
+    @Headers(apiKey)
     @GET("/api/v1/staff")
     suspend fun getActors(
         @Query("filmId") filmId: Int,
