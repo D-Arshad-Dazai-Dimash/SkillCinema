@@ -46,6 +46,17 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         composable("filmography") {
             FilmographyPage(navController,sharedViewModel)
         }
-
+        composable(Screen.SearchPageParameters.route) {
+            SearchPageParameters(navController)
+        }
+        composable (Screen.FilterPeriod.route){
+            FilterPeriodPage(navController)
+        }
+        composable(Screen.FilterGenre.route) {
+            FilterGenrePage(navController)
+        }
+        composable(Screen.FilterCountry.route) {
+            FilterCountryPage(navController)
+        }
     }
 }
