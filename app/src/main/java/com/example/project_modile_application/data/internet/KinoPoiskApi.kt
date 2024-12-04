@@ -1,5 +1,6 @@
 package com.example.project_modile_application.data.internet
 
+import com.example.project_modile_application.domain.dataclasses.FilmsByKeyWord
 import com.example.project_modile_application.domain.dataclasses.MovieResponse
 import com.example.project_modile_application.domain.dataclasses.Images
 import com.example.project_modile_application.domain.dataclasses.MoviesData
@@ -25,18 +26,12 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "ab8a67fc-cdad-4b42-89b3-c1725e01847b"
+        @Header("X-API-KEY") apiKey: String = "d7d69928-01dc-42bc-8984-2c259a708259"
     ): Response<MovieResponse>
 
     @Headers(apiKey)
     @GET("api/v2.2/films/{id}")
     suspend fun getFilmById(
-        @Path("id") filmId: Int
-    ): MoviesData
-
-    @Headers(apiKey)
-    @GET("api/v2.2/films/{id}")
-    suspend fun getFilmById1(
         @Path("id") filmId: Int
     ): MoviesData
 
@@ -65,8 +60,14 @@ interface KinoPoiskApi {
         @Path("personId") personId: Int
     ): StaffDataWithFilms
 
+    @Headers(apiKey)
+    @GET("/api/v2.1/films/search-by-keyword")
+    suspend fun getFilmsByKeyWord(
+        @Query("keyword") keyword: String
+    ): FilmsByKeyWord
+
     companion object{
-        const val apiKey = "X-API-KEY: ab8a67fc-cdad-4b42-89b3-c1725e01847b"
+        const val apiKey = "X-API-KEY: d7d69928-01dc-42bc-8984-2c259a708259"
     }
 }
 
