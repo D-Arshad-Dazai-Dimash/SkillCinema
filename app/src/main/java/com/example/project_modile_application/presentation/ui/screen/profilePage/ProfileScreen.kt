@@ -171,7 +171,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                         row.forEach { collection ->
                             LaunchedEffect(collection.id) {
                                 sharedViewModel.getMovieCountInCollection(collection.id) { count ->
-                                    movieCount = count
+                                    movieCount = count           ////////////чертила не работаееееееееееееет
                                 }
                             }
                             val isDefaultCollection = collection.name in defaultCollections

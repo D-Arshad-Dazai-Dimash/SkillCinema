@@ -164,7 +164,7 @@ class SharedViewModel : ViewModel() {
     }
 
     suspend fun isMovieLiked(movie: MovieEntity): Boolean {
-        val likedCollection = collections.value.firstOrNull { it.name == "Liked" }
+        val likedCollection = collections.value.firstOrNull { it.name == "Нравится" }
         return if (likedCollection != null) {
             collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollection.id)
         } else {
@@ -177,8 +177,8 @@ class SharedViewModel : ViewModel() {
     fun toggleLikedMovie(movie: MovieEntity) {
         viewModelScope.launch {
             try {
-                val likedCollectionId = collections.value.firstOrNull { it.name == "Liked" }?.id
-                    ?: collectionDao.insertCollection(CollectionEntity(name = "Liked")).toInt()
+                val likedCollectionId = collections.value.firstOrNull { it.name == "Нравится" }?.id
+                    ?: collectionDao.insertCollection(CollectionEntity(name = "Нравится")).toInt()
 
                 val isLiked = collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollectionId)
                 if (isLiked) {
