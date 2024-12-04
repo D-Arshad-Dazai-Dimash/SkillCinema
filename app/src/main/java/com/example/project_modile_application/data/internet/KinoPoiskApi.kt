@@ -6,6 +6,7 @@ import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.dataclasses.StaffDataWithFilms
+import com.example.project_modile_application.domain.dataclasses.searchPage.GenresAndCountriesResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,6 +59,10 @@ interface KinoPoiskApi {
     suspend fun getStaffWIthFilmsByID(
         @Path("personId") personId: Int
     ): StaffDataWithFilms
+
+    @Headers(apiKey)
+    @GET("/api/v2.2/films/filters")
+    suspend fun getGenresAndCountries(): GenresAndCountriesResponse
 
     companion object{
         const val apiKey = "X-API-KEY: ab8a67fc-cdad-4b42-89b3-c1725e01847b"

@@ -22,6 +22,8 @@ import com.example.project_modile_application.R
 import com.example.project_modile_application.domain.dataclasses.searchPage.Order
 import com.example.project_modile_application.domain.dataclasses.searchPage.Type
 import com.example.project_modile_application.domain.viewModels.SearchPageParametersViewModel
+import com.example.project_modile_application.presentation.navigation.Screen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtergenre.FilterGenreScreen
 import com.example.project_modile_application.presentation.ui.screen.searchPageParameters.components.FilterParameter
 import com.example.project_modile_application.presentation.ui.screen.searchPageParameters.components.FilterTab
 import com.example.project_modile_application.presentation.ui.screen.searchPageParameters.components.NavBar
@@ -50,13 +52,13 @@ fun SearchPageParameters(
         FilterTab(listOf(Type.All, Type.Film, Type.Series), title = "Показывать") { type ->
             viewModel.sendIntent(SearchPageParametersIntent.SetType(type as Type))
         }
-        FilterParameter("Страна", state.countries?.country ?: "Любая") /*{ country: Country ->
-            viewModel.sendIntent(SearchPageParametersIntent.SetCountry(country))
-        }*/
+        FilterParameter("Страна", state.countries?.country ?: "Любая") {
+            navController.navigate(Screen.FilterCountry.route)
+        }
         HorizontalDivider()
-        FilterParameter("Жанр", state.genres?.genre ?: "Любой") /*{ genre: Genre ->
-            viewModel.sendIntent(SearchPageParametersIntent.SetGenre(genre))
-        }*/
+        FilterParameter("Жанр", state.genres?.genre ?: "Любой") {
+            navController.navigate(Screen.FilterGenre.route)
+        }
         HorizontalDivider()
         FilterParameter(
             "Год",
@@ -64,9 +66,7 @@ fun SearchPageParameters(
                     Calendar.YEAR
                 )
             ) "Любой" else "с ${state.yearFrom} до ${state.yearTo}"
-        ) /*{ year: IntRange ->
-            viewModel.sendIntent(SearchPageParametersIntent.SetYear(year))
-        }*/
+        ) { navController.navigate(Screen.FilterPeriod.route) }
         HorizontalDivider()
         RatingSlider { rating ->
             viewModel.sendIntent(SearchPageParametersIntent.SetRating(rating))
@@ -79,7 +79,7 @@ fun SearchPageParameters(
             viewModel.sendIntent(SearchPageParametersIntent.SetOrder(order as Order))
         }
         HorizontalDivider(modifier = Modifier.padding(top = 16.dp))
-        WatchedFilter(watched = state.watched){
+        WatchedFilter(watched = state.watched) {
             viewModel.sendIntent(SearchPageParametersIntent.SetWatched)
         }
     }

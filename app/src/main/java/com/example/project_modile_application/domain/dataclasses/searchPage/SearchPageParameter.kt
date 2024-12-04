@@ -9,4 +9,5 @@ interface ApiMappedSearchPageParameter : SearchPageParameter {
 
 interface IdSearchPageParameter : SearchPageParameter {
     val id: Int
+    val value: String
 }

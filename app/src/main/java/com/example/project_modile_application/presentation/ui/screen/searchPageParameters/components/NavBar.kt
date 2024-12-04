@@ -25,7 +25,7 @@ fun NavBar(navController: NavController?, title: String = "") {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(80.dp)
             .padding(top = 42.dp, start = 26.dp, end = 26.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -40,7 +40,7 @@ fun NavBar(navController: NavController?, title: String = "") {
         Text(
             text = title,
             fontFamily = GraphicFontFamily,
-            fontSize = 12.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold
         )
         Icon(

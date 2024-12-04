@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -42,6 +43,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
+import com.example.project_modile_application.domain.dataclasses.searchPage.IdSearchPageParameter
+import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 
 @Composable
 fun SearchFilter(string: String) {
@@ -89,9 +92,13 @@ fun SearchFilter(string: String) {
 
 
 @Composable
-fun TopInfo(string: String, dp: Int){
-    Row(modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+fun TopInfo(string: String, dp: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         IconButton(onClick = { /* Handle back action */ }) {
             Icon(Icons.Default.KeyboardArrowLeft, contentDescription = "Previous")
         }
@@ -102,32 +109,53 @@ fun TopInfo(string: String, dp: Int){
 }
 
 @Composable
-fun CountrySelectionScreen(title:String ,list: List<String> ) {
+fun CountrySelectionScreen(title: String, list: List<IdSearchPageParameter>, onItemSelected: (IdSearchPageParameter) -> Unit) {
     var searchText by remember { mutableStateOf("") }
     val filteredCountries = list.filter {
-        it.contains(searchText, ignoreCase = true)
+        it.value?.contains(searchText, ignoreCase = true) == true
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TextField(
+        BasicTextField(
             value = searchText,
             onValueChange = { searchText = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFFF5F5F5)),
-            placeholder = { Text("Введите $title") },
-            leadingIcon = {
-                Icon(Icons.Default.Search, contentDescription = "Поиск")
+                .padding(vertical = 20.dp)
+                .height(40.dp)
+                .clip(RoundedCornerShape(100.dp))
+                .background(Color(0x66B5B5C9)),
+            decorationBox = { innerTextField ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = "Поиск")
+                    Box(modifier = Modifier.weight(1f)) {
+                        if (searchText.isEmpty()) {
+                            Text(
+                                text = "Введите $title",
+                                color = Color(0xFF838390),
+                                fontSize = 14.sp,
+                                fontFamily = GraphicFontFamily,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                        innerTextField()
+                    }
+                }
             },
             singleLine = true
         )
 
+        //add it here
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(filteredCountries) { country ->
-                CountryListItem(countryName = country, onClick = { /* Действие при выборе страны */ })
+                CountryListItem(
+                    countryName = country.value,
+                    onClick = {onItemSelected(country)})
                 Divider(color = Color.LightGray, thickness = 1.dp)
             }
         }

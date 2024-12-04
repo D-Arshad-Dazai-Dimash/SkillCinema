@@ -52,9 +52,6 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         composable (Screen.FilterPeriod.route){
             FilterPeriodPage(navController)
         }
-        composable(Screen.FilterSetting.route) {
-            FilterSettingPage(navController)
-        }
         composable(Screen.FilterGenre.route) {
             FilterGenrePage(navController)
         }

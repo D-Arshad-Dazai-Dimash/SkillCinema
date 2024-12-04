@@ -69,7 +69,7 @@ fun FilterTab(
                             selectedTabIndex = index
                             onItemSelected(tab)
                         }
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = 4.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
