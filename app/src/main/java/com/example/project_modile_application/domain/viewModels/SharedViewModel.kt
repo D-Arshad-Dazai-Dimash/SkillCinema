@@ -81,87 +81,6 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-
-
-    fun toggleWatchedStatus(movie: MovieEntity) {
-        viewModelScope.launch {
-            try {
-                if (isMovieWatched(movie)) {
-                    movieDao.deleteMovie(movie.kinopoiskId)
-                } else {
-                    movieDao.insertMovie(movie.copy(isWatched = true))
-                }
-                fetchWatchedMovies()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun toggleLikedStatus(movie: MovieEntity) {
-        viewModelScope.launch {
-            try {
-                if (isMovieLiked(movie)) {
-                    collectionDao.deleteMoviesInCollection(movie.kinopoiskId) // Adjust if you need a specific liked collection
-                } else {
-                    val likedCollectionId = collections.value.firstOrNull { it.name == "Liked" }?.id
-                        ?: collectionDao.insertCollection(CollectionEntity(name = "Liked")).toInt()
-                    collectionDao.insertCollectionMovies(
-                        listOf(
-                            CollectionMovieEntity(
-                                collectionId = likedCollectionId,
-                                kinopoiskId = movie.kinopoiskId
-                            )
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun togglePreferStatus(movie: MovieEntity) {
-        viewModelScope.launch {
-            try {
-                if (isMoviePrefer(movie)) {
-                    collectionDao.deleteMoviesInCollection(movie.kinopoiskId) // Adjust if you need a specific preferred collection
-                } else {
-                    val preferCollectionId =
-                        collections.value.firstOrNull { it.name == "Preferred" }?.id
-                            ?: collectionDao.insertCollection(CollectionEntity(name = "Preferred"))
-                                .toInt()
-                    collectionDao.insertCollectionMovies(
-                        listOf(
-                            CollectionMovieEntity(
-                                collectionId = preferCollectionId,
-                                kinopoiskId = movie.kinopoiskId
-                            )
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun isMovieWatched(movie: MovieEntity): Boolean {
-        return watchedMovies.value.any { it.kinopoiskId == movie.kinopoiskId }
-    }
-
-    fun isMovieLiked(movie: MovieEntity): Boolean {
-        return collections.value.any { collection ->
-            collection.name == "Нравится" && movie.kinopoiskId in likedMovies.value.map { it.kinopoiskId }
-        }
-    }
-
-    fun isMoviePrefer(movie: MovieEntity): Boolean {
-        return collections.value.any { collection ->
-            collection.name == "Хочу посмотреть" && movie.kinopoiskId in preferredMovies.value.map { it.kinopoiskId }
-        }
-    }
-
     private fun ensureDefaultCollections() {
         viewModelScope.launch {
             try {
@@ -183,29 +102,6 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-
-    fun addMovie(movie: MovieEntity) {
-        viewModelScope.launch {
-            try {
-                movieDao.insertMovie(movie)
-                fetchWatchedMovies()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun removeMovie(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                movieDao.deleteMovie(movieId)
-                fetchWatchedMovies()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-
     fun addCollection(name: String) {
         viewModelScope.launch {
             if (name.isNotBlank()) {
@@ -220,20 +116,6 @@ class SharedViewModel : ViewModel() {
         }
     }
 
-//    fun removeCollection(collectionId: Int) {
-//        viewModelScope.launch {
-//            try {
-//                val collection = collections.value.firstOrNull { it.id == collectionId }
-//                if (collection != null && collection.ableToDelete) {
-//                    collectionDao.deleteCollection(collectionId)
-//                    fetchCollections()
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-
     fun removeCollection(collectionId: Int) {
         viewModelScope.launch {
             try {
@@ -244,6 +126,76 @@ class SharedViewModel : ViewModel() {
             }
         }
     }
+
+    fun addMovieToCollection(movie: MovieEntity, collectionId: Int) {
+        viewModelScope.launch {
+            try {
+                val collectionMovie = CollectionMovieEntity(
+                    collectionId = collectionId,
+                    kinopoiskId = movie.kinopoiskId
+                )
+                collectionDao.insertCollectionMovies(listOf(collectionMovie))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun removeMovieFromCollection(movie: MovieEntity, collectionId: Int) {
+        viewModelScope.launch {
+            try {
+                collectionDao.deleteMovieFromCollection(collectionId, movie.kinopoiskId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun getMovieCollections(movieId: Int, onResult: (List<CollectionEntity>) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val collectionsWithMovie = collectionDao.getCollectionsWithMovie(movieId)
+                onResult(collectionsWithMovie)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult(emptyList())
+            }
+        }
+    }
+
+    suspend fun isMovieLiked(movie: MovieEntity): Boolean {
+        val likedCollection = collections.value.firstOrNull { it.name == "Liked" }
+        return if (likedCollection != null) {
+            collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollection.id)
+        } else {
+            false
+        }
+    }
+
+
+
+    fun toggleLikedMovie(movie: MovieEntity) {
+        viewModelScope.launch {
+            try {
+                val likedCollectionId = collections.value.firstOrNull { it.name == "Liked" }?.id
+                    ?: collectionDao.insertCollection(CollectionEntity(name = "Liked")).toInt()
+
+                val isLiked = collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollectionId)
+                if (isLiked) {
+                    collectionDao.deleteMovieFromCollection(likedCollectionId, movie.kinopoiskId)
+                } else {
+                    val collectionMovie = CollectionMovieEntity(
+                        collectionId = likedCollectionId,
+                        kinopoiskId = movie.kinopoiskId
+                    )
+                    collectionDao.insertCollectionMovies(listOf(collectionMovie))
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 
     fun updateCategory(category: Categories) {
         this.category.value = category
