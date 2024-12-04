@@ -14,6 +14,14 @@ import com.example.project_modile_application.domain.viewModels.MovieDetailViewM
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmography.FilmographyScreen
 import com.example.project_modile_application.presentation.ui.screen.filmpage.FilmPageScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.SearchSettingsScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtergenre.FilterGenreScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtrcountry.FilterCountryScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtrperiod.FilterPeriodScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.SearchSettingsScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtergenre.FilterGenreScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtrcountry.FilterCountryScreen
+import com.example.project_modile_application.presentation.ui.screen.filtrsetting.filtrperiod.FilterPeriodScreen
 import com.example.project_modile_application.presentation.ui.screen.listingPage.IntoCategory_Screen
 
 
@@ -81,4 +89,23 @@ fun FilmographyPage(navController: NavController, sharedViewModel: SharedViewMod
 @Composable
 fun SearchPageParameters(navController: NavController) {
     com.example.project_modile_application.presentation.ui.screen.searchPageParameters.SearchPageParameters(navController)
+}
+@Composable
+fun FilterPeriodPage(navController: NavController){
+    FilterPeriodScreen(navController)
+}
+
+@Composable
+fun FilterSettingPage(navController: NavController){
+    SearchSettingsScreen(navController)
+}
+
+
+@Composable
+fun FilterGenrePage(navController: NavController){
+    FilterGenreScreen(navController)
+}
+@Composable
+fun FilterCountryPage(navController: NavController){
+    FilterCountryScreen(navController)
 }

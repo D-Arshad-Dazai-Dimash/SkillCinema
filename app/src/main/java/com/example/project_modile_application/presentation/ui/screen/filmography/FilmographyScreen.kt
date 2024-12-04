@@ -81,11 +81,8 @@ fun FilmographyScreen(
         Spacer(modifier = Modifier.padding(top = 40.dp))
         Text(text = actorName.value.toString(), fontSize = 18.sp, fontWeight = FontWeight.W600)
         Spacer(modifier = Modifier.padding(top = 10.dp))
-
-        val chipItems = films.value?.map{ it.professionKey }?.distinct()
-
-
-        val selectedChipIndex = remember { mutableStateOf(0) }
+    val chipItems = films.value?.map{ it.professionKey }?.distinct()
+    val selectedChipIndex = remember { mutableStateOf(0) }
 
 
             LazyRow(
@@ -122,13 +119,7 @@ fun FilmographyScreen(
                     }
                 }
             }
-
-
-
-
-
     }
-
 }
 
 @Composable
@@ -175,5 +166,3 @@ fun FilmCard(
         }
     }
 }
-
-

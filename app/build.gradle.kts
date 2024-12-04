@@ -71,4 +71,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation(libs.coil.compose)
+    implementation ("androidx.compose.material3:material3:<1.3.1>")
+
 }
