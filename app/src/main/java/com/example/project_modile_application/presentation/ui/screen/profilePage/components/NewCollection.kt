@@ -24,11 +24,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.project_modile_application.R
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 
 @Composable
-fun NewCollectionButton(sharedViewModel: SharedViewModel) {
+fun NewCollectionButton(roomViewModel: RoomViewModel) {
     val showDialog = remember { mutableStateOf(false) }
     val newCollectionName = remember { mutableStateOf("") }
 
@@ -58,7 +58,7 @@ fun NewCollectionButton(sharedViewModel: SharedViewModel) {
                 Button(
                     onClick = {
                         if (newCollectionName.value.isNotBlank()) {
-                            sharedViewModel.addCollection(newCollectionName.value)
+                            roomViewModel.addCollection(newCollectionName.value)
                         }
                         newCollectionName.value = ""
                         showDialog.value = false

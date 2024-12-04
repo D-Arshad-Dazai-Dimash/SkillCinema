@@ -32,7 +32,7 @@ import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.StaffData
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.FilmIntent
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.DetailMovieItem
 import com.example.project_modile_application.presentation.ui.screen.filmpage.components.items.GalleryListItem
@@ -43,7 +43,7 @@ import com.example.project_modile_application.presentation.ui.screen.filmpage.co
 fun FilmPageScreen(
     navController: NavController,
     movie: Movie,
-    sharedViewModel: SharedViewModel,
+    roomViewModel: RoomViewModel,
     movieDetailViewModel: MovieDetailViewModel = viewModel(),
 
 //    actorViewModel: MovieDetailViewModel = viewModel(),
@@ -81,7 +81,7 @@ fun FilmPageScreen(
                 ) {
                     val movie = state.movie
                     if (movie != null) {
-                        DetailMovieItem(movie = movie , sharedViewModel)
+                        DetailMovieItem(movie = movie, roomViewModel)
                     }
                     IconButton(
                         onClick = { navController.popBackStack() },

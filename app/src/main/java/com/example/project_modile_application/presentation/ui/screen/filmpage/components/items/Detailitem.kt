@@ -32,10 +32,13 @@ import coil.compose.AsyncImage
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.local.entities.MovieEntity
 import com.example.project_modile_application.domain.dataclasses.MoviesData
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 
 @Composable
-fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
+fun DetailMovieItem(
+    movie: MoviesData,
+    roomViewModel: RoomViewModel
+) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -140,7 +143,7 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
             var isLiked by remember { mutableStateOf(false) }
 
             LaunchedEffect(movie) {
-                isLiked = sharedViewModel.isMovieLiked(movieEntity)
+                isLiked = roomViewModel.isMovieLiked(movieEntity)
             }
 
             Row(
@@ -150,8 +153,8 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
             ) {
                 Icon(contentDescription = "",
                     painter = painterResource(R.drawable.heart),
-                    tint = if (isLiked) Color.Red else Color.Gray,                    modifier = Modifier.clickable {
-                        sharedViewModel.toggleLikedMovie(movieEntity)
+                    tint = if (isLiked) Color.Red else Color.Gray, modifier = Modifier.clickable {
+                        roomViewModel.toggleLikedMovie(movieEntity)
                         isLiked = !isLiked
                     })
                 Icon(contentDescription = "",
@@ -172,10 +175,10 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
                 Icon(contentDescription = "for small window, to specify the collection",
                     tint = Color.Unspecified,
                     painter = painterResource(R.drawable.more_icon),
-                    modifier = Modifier.clickable { showDialog = true})
+                    modifier = Modifier.clickable { showDialog = true })
                 if (showDialog) {
                     CollectionDialog(
-                        sharedViewModel = sharedViewModel,
+                        roomViewModel = roomViewModel,
                         movie = movieEntity,
                         onDismiss = { showDialog = false }
                     )

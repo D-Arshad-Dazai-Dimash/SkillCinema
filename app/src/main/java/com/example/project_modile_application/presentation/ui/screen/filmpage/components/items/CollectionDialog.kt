@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
@@ -20,22 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.project_modile_application.data.local.entities.CollectionEntity
 import com.example.project_modile_application.data.local.entities.MovieEntity
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
-import androidx.compose.material3.AlertDialog
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 
 
 @Composable
 fun CollectionDialog(
-    sharedViewModel: SharedViewModel,
+    roomViewModel: RoomViewModel,
     movie: MovieEntity,
     onDismiss: () -> Unit
 ) {
-    val collections = sharedViewModel.collections
+    val collections = roomViewModel.collections
     val movieInCollections = remember { mutableStateOf(emptyList<CollectionEntity>()) }
     val newCollectionName = remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        sharedViewModel.getMovieCollections(movie.kinopoiskId) { movieInCollections.value = it }
+        roomViewModel.getMovieCollections(movie.kinopoiskId) { movieInCollections.value = it }
     }
 
     AlertDialog(
@@ -50,9 +50,9 @@ fun CollectionDialog(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable {
                             if (movieInCollections.value.contains(collection)) {
-                                sharedViewModel.removeMovieFromCollection(movie, collection.id)
+                                roomViewModel.removeMovieFromCollection(movie, collection.id)
                             } else {
-                                sharedViewModel.addMovieToCollection(movie, collection.id)
+                                roomViewModel.addMovieToCollection(movie, collection.id)
                             }
                         }
                     ) {
@@ -60,9 +60,9 @@ fun CollectionDialog(
                             checked = movieInCollections.value.contains(collection),
                             onCheckedChange = {
                                 if (it) {
-                                    sharedViewModel.addMovieToCollection(movie, collection.id)
+                                    roomViewModel.addMovieToCollection(movie, collection.id)
                                 } else {
-                                    sharedViewModel.removeMovieFromCollection(movie, collection.id)
+                                    roomViewModel.removeMovieFromCollection(movie, collection.id)
                                 }
                             }
                         )
@@ -81,7 +81,7 @@ fun CollectionDialog(
                 Button(
                     onClick = {
                         if (newCollectionName.value.isNotBlank()) {
-                            sharedViewModel.addCollection(newCollectionName.value)
+                            roomViewModel.addCollection(newCollectionName.value)
                             newCollectionName.value = ""
                         }
                     },

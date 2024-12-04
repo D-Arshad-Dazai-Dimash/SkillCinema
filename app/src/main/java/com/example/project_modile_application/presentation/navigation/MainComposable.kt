@@ -14,12 +14,14 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 
 @Composable
 fun MainComposable() {
     val navController = rememberNavController()
     val sharedViewModel = remember { SharedViewModel() }
+    val roomViewModel = remember { RoomViewModel() }
 
     val bottomNavRoutes = listOf(
         Screen.Home.route,
@@ -48,7 +50,7 @@ fun MainComposable() {
                 )
                 .background(color = Color.White)
         ) {
-            NavigationGraph(navController , sharedViewModel)
+            NavigationGraph(navController , sharedViewModel , roomViewModel)
         }
     }
 }

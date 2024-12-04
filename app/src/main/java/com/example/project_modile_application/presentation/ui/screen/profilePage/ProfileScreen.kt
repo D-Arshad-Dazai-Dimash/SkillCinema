@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.local.entities.CollectionEntity
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.CollectionItem
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.HeaderForWatchedMovies
@@ -48,14 +48,14 @@ import com.example.project_modile_application.presentation.ui.screen.profilePage
 @Composable
 fun PProfileScree() {
     val navController = rememberNavController()
-    val sharedViewModel = remember { SharedViewModel() }
-    ProfileScreen(navController, sharedViewModel)
+    val roomViewModel = remember { RoomViewModel() }
+    ProfileScreen(navController, roomViewModel)
 }
 
 @Composable
-fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel) {
-    val watchedMovies = sharedViewModel.watchedMovies
-    val collections = sharedViewModel.collections
+fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
+    val watchedMovies = roomViewModel.watchedMovies
+    val collections = roomViewModel.collections
 
     val defaultCollections = listOf("Нравится", "Хочу посмотреть")
     val allCollections = remember(collections.value) {
@@ -95,8 +95,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                     items(watchedMovies.value.take(8).size) { movie ->
                         MoviesDataTab(
                             movie = watchedMovies.value[movie],
-                            navController = navController,
-                            sharedViewModel = sharedViewModel
+                            navController = navController
                         )
                     }
                     item {
@@ -115,7 +114,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                                     modifier = Modifier
                                         .size(48.dp)
                                         .clickable {
-                                            sharedViewModel.clearMovies() // Clear watched movies
+                                            roomViewModel.clearMovies() // Clear watched movies
                                         },
                                     tint = Color(0xFF6A5ACD)
                                 )
@@ -148,7 +147,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                 lineHeight = 19.8.sp
             )
 
-            NewCollectionButton(sharedViewModel)
+            NewCollectionButton(roomViewModel)
 
             val rows = allCollections.chunked(2)
 
@@ -170,7 +169,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                     ) {
                         row.forEach { collection ->
                             LaunchedEffect(collection.id) {
-                                sharedViewModel.getMovieCountInCollection(collection.id) { count ->
+                                roomViewModel.getMovieCountInCollection(collection.id) { count ->
                                     movieCount = count           ////////////чертила не работаееееееееееееет
                                 }
                             }
@@ -182,7 +181,7 @@ fun ProfileScreen(navController: NavController, sharedViewModel: SharedViewModel
                                 movieCount,
                                 onRemove = {
                                     if (!isDefaultCollection) {
-                                        sharedViewModel.removeCollection(collection.id)
+                                        roomViewModel.removeCollection(collection.id)
                                     }
                                 },
                             )

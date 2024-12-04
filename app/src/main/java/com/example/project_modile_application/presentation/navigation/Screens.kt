@@ -11,6 +11,7 @@ import com.example.project_modile_application.data.internet.KinoPoiskApi
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.viewModels.HomeViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.filmography.FilmographyScreen
 import com.example.project_modile_application.presentation.ui.screen.filmpage.FilmPageScreen
@@ -35,8 +36,8 @@ fun Search(navController: NavController) {
 }
 
 @Composable
-fun Profile(navController: NavController , sharedViewModel: SharedViewModel) {
-    com.example.project_modile_application.presentation.ui.screen.profilePage.ProfileScreen(navController , sharedViewModel)
+fun Profile(navController: NavController , roomViewModel: RoomViewModel) {
+    com.example.project_modile_application.presentation.ui.screen.profilePage.ProfileScreen(navController , roomViewModel)
 }
 
 @Composable
@@ -62,8 +63,8 @@ fun ListingPage(
 }
 
 @Composable
-fun FilmPage(navController: NavController, movie: Movie , sharedViewModel: SharedViewModel) {
-    FilmPageScreen(navController, movie , sharedViewModel)
+fun FilmPage(navController: NavController, movie: Movie , roomViewModel: RoomViewModel) {
+    FilmPageScreen(navController, movie , roomViewModel)
 }
 
 @Composable
