@@ -4,6 +4,7 @@ import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.data.repository.MovieRepositoryImplementation
 import com.example.project_modile_application.domain.dataclasses.FilmsByKeyWord
 import com.example.project_modile_application.domain.dataclasses.Images
+import com.example.project_modile_application.domain.dataclasses.Movie
 import com.example.project_modile_application.domain.dataclasses.MoviesData
 import com.example.project_modile_application.domain.dataclasses.SimilarMovies
 import com.example.project_modile_application.domain.dataclasses.StaffData
@@ -13,6 +14,10 @@ class MovieUseCase {
 
     suspend fun getDetailMovie(id: Int): MoviesData {
         return movieRepository.getMovieById(id)
+    }
+
+    suspend fun getMovie(id: Int): Movie {
+        return movieRepository.getMovieById1(id)
     }
 
     suspend fun getActors(

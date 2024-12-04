@@ -1,4 +1,4 @@
-package com.example.project_modile_application.presentation.ui.screen
+package com.example.project_modile_application.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.project_modile_application.R
-import com.example.project_modile_application.presentation.navigation.Screen
 
 
 @Composable
