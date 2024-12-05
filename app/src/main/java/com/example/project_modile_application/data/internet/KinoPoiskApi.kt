@@ -67,7 +67,7 @@ interface KinoPoiskApi {
     ): FilmsByKeyWord
 
     companion object{
-        const val apiKey = "X-API-KEY: 60971d77-8a60-477d-b844-d47535303dae"
+        const val apiKey = "X-API-KEY: d7d69928-01dc-42bc-8984-2c259a708259"
     }
 }
 

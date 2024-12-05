@@ -28,6 +28,7 @@ fun Category(
     navController: NavController,
     sharedViewModel: SharedViewModel
 ) {
+    //support
     Row(
         modifier = Modifier
             .fillMaxWidth()

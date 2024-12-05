@@ -1,5 +1,6 @@
 package com.example.project_modile_application.domain.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -180,6 +181,11 @@ class RoomViewModel : ViewModel() {
     fun toggleLikedMovie(movie: MovieEntity) {
         viewModelScope.launch {
             try {
+                val isMovieInDatabase = movieDao.isMovieExists(movie.kinopoiskId)
+                Log.d("IS MOVIE IN DB", isMovieInDatabase.toString())
+                if (!isMovieInDatabase) {
+                    movieDao.insertMovie(movie)
+                }
                 val likedCollection = collections.value.firstOrNull { it.name == "Нравится" }
                     ?: run {
                         val newCollection = CollectionEntity(name = "Нравится")
@@ -187,14 +193,79 @@ class RoomViewModel : ViewModel() {
                         fetchCollections()
                         newCollection.copy(id = newId.toInt())
                     }
+                Log.d("LIKE", "1 step")
 
-                val isLiked = collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollection.id)
+                val isLiked =
+                    collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollection.id)
 
                 if (isLiked) {
+                    Log.d("LIKE", "del step")
+
                     collectionDao.deleteMovieFromCollection(likedCollection.id, movie.kinopoiskId)
                 } else {
+                    Log.d("LIKE", "add step")
                     collectionDao.insertCollectionMovies(
-                        listOf(CollectionMovieEntity(collectionId = likedCollection.id, kinopoiskId = movie.kinopoiskId))
+                        listOf(
+                            CollectionMovieEntity(
+                                collectionId = likedCollection.id,
+                                kinopoiskId = movie.kinopoiskId
+                            )
+                        )
+                    )
+                }
+                fetchCollections()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    suspend fun isMovieWannaSee(movie: MovieEntity): Boolean {
+        val wannaSeeCollection = collections.value.firstOrNull { it.name == "Хочу Посмотреть" }
+        return if (wannaSeeCollection != null) {
+            collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
+        } else {
+            false
+        }
+    }
+
+    fun toggleWantToWatch(movie: MovieEntity) {
+        viewModelScope.launch {
+            try {
+                val isMovieInDatabase = movieDao.isMovieExists(movie.kinopoiskId)
+                Log.d("IS MOVIE IN DB", isMovieInDatabase.toString())
+                if (!isMovieInDatabase) {
+                    movieDao.insertMovie(movie)
+                }
+                val wannaSeeCollection =
+                    collections.value.firstOrNull { it.name == "Хочу Посмотреть" }
+                        ?: run {
+                            val newCollection = CollectionEntity(name = "Хочу Посмотреть")
+                            val newId = collectionDao.insertCollection(newCollection)
+                            fetchCollections()
+                            newCollection.copy(id = newId.toInt())
+                        }
+                Log.d("WANNA SEE", "1 step")
+
+                val isLiked =
+                    collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
+
+                if (isLiked) {
+                    Log.d("WANNA SEE", "del step")
+
+                    collectionDao.deleteMovieFromCollection(
+                        wannaSeeCollection.id,
+                        movie.kinopoiskId
+                    )
+                } else {
+                    Log.d("WANNA SEE", "add step")
+                    collectionDao.insertCollectionMovies(
+                        listOf(
+                            CollectionMovieEntity(
+                                collectionId = wannaSeeCollection.id,
+                                kinopoiskId = movie.kinopoiskId
+                            )
+                        )
                     )
                 }
                 fetchCollections()
