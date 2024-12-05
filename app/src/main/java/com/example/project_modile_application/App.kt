@@ -17,7 +17,7 @@ class App : Application() {
             AppDatabase::class.java,
             "app_database"
         ).addMigrations(MIGRATION_1_2)
-            .fallbackToDestructiveMigration() // Optional: Clears data if migration fails
+            .fallbackToDestructiveMigration()
             .build()
     }
 }

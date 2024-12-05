@@ -8,7 +8,7 @@ import com.example.project_modile_application.data.local.entities.MovieEntity
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movies WHERE isWatched = 1")
-    suspend fun getWatchedMovies(): List<MovieEntity> // Correct return type
+    suspend fun getWatchedMovies(): List<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: MovieEntity)
