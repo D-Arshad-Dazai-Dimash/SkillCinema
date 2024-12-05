@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.project_modile_application.domain.dataclasses.Film
+import com.example.project_modile_application.domain.dataclasses.FilmX
 import com.example.project_modile_application.domain.useCases.MovieUseCase
 import com.example.project_modile_application.presentation.ui.screen.actorpage.state.MovieDetailState
 import com.example.project_modile_application.presentation.ui.screen.searchpage.state.SearchDetailState
@@ -25,8 +26,8 @@ class SearchViewModel() : ViewModel() {
             _stateFilms.value = _stateFilms.value.copy(isLoading = true)
 
             try {
-                val films = movieUseCase.getFilmsByKeyWord(keyWord).films
-
+                val request = movieUseCase.getFilmsByKeyWord(keyWord) ?: throw Exception("no response")
+                val films: List<FilmX> = request.films
                 _stateFilms.value = _stateFilms.value.copy(
                     isLoading = false,
                     films = films

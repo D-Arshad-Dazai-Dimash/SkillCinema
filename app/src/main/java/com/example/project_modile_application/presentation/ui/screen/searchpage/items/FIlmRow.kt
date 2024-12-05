@@ -32,7 +32,7 @@ fun FilmRow(film: FilmX) {
             .fillMaxWidth()
             .padding(10.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(MaterialTheme.colorScheme.surface) // Use MaterialTheme for better theming
+            .background(MaterialTheme.colorScheme.surface)
             .padding(10.dp)
     ) {
         AsyncImage(
@@ -47,25 +47,25 @@ fun FilmRow(film: FilmX) {
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f)
-                .align(alignment = Alignment.CenterVertically), // Distribute space properly
+                .align(alignment = Alignment.CenterVertically),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = film.nameRu,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    color = MaterialTheme.colorScheme.onSurface // Use theme-based text color
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
-                maxLines = 1,
-                fontSize = 20.sp // Increased font size for better readability
+                maxLines = 2,
+                fontSize = 20.sp
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 text = film.year,
                 style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.onSurfaceVariant // Adjust for subtle contrast
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 maxLines = 3,
-                fontSize = 16.sp, // Adjusted font size
+                fontSize = 16.sp,
             )
         }
     }
