@@ -23,7 +23,6 @@ import com.example.project_modile_application.data.local.entities.CollectionEnti
 import com.example.project_modile_application.data.local.entities.MovieEntity
 import com.example.project_modile_application.domain.viewModels.RoomViewModel
 
-
 @Composable
 fun CollectionDialog(
     roomViewModel: RoomViewModel,
@@ -35,14 +34,14 @@ fun CollectionDialog(
     val newCollectionName = remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
-        roomViewModel.getMovieCollections(movie.kinopoiskId) { movieInCollections.value = it }
+        roomViewModel.getMovieCollections(movie.kinopoiskId) {
+            movieInCollections.value = it
+        }
     }
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = {
-            Text(text = "Add to Collection")
-        },
+        title = { Text(text = "Добавить в коллекцию") },
         text = {
             Column {
                 collections.value.forEach { collection ->
@@ -51,18 +50,22 @@ fun CollectionDialog(
                         modifier = Modifier.clickable {
                             if (movieInCollections.value.contains(collection)) {
                                 roomViewModel.removeMovieFromCollection(movie, collection.id)
+                                movieInCollections.value = movieInCollections.value - collection
                             } else {
                                 roomViewModel.addMovieToCollection(movie, collection.id)
+                                movieInCollections.value = movieInCollections.value + collection
                             }
                         }
                     ) {
                         Checkbox(
                             checked = movieInCollections.value.contains(collection),
-                            onCheckedChange = {
-                                if (it) {
+                            onCheckedChange = { isChecked ->
+                                if (isChecked) {
                                     roomViewModel.addMovieToCollection(movie, collection.id)
+                                    movieInCollections.value = movieInCollections.value + collection
                                 } else {
                                     roomViewModel.removeMovieFromCollection(movie, collection.id)
+                                    movieInCollections.value = movieInCollections.value - collection
                                 }
                             }
                         )
@@ -75,7 +78,7 @@ fun CollectionDialog(
                 OutlinedTextField(
                     value = newCollectionName.value,
                     onValueChange = { newCollectionName.value = it },
-                    label = { Text(text = "New Collection") },
+                    label = { Text(text = "Новая коллекция") },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Button(
@@ -87,13 +90,13 @@ fun CollectionDialog(
                     },
                     modifier = Modifier.align(Alignment.End)
                 ) {
-                    Text("Create")
+                    Text("Создать")
                 }
             }
         },
         confirmButton = {
             Button(onClick = { onDismiss() }) {
-                Text("Done")
+                Text("Готово")
             }
         }
     )

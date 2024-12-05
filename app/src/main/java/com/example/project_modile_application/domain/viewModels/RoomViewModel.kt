@@ -34,7 +34,7 @@ class RoomViewModel : ViewModel() {
         }
     }
 
-    private fun fetchCollections() {
+    fun fetchCollections() {
         viewModelScope.launch {
             try {
                 collections.value = collectionDao.getCollections()
@@ -121,16 +121,29 @@ class RoomViewModel : ViewModel() {
     fun addMovieToCollection(movie: MovieEntity, collectionId: Int) {
         viewModelScope.launch {
             try {
-                val collectionMovie = CollectionMovieEntity(
-                    collectionId = collectionId,
-                    kinopoiskId = movie.kinopoiskId
-                )
-                collectionDao.insertCollectionMovies(listOf(collectionMovie))
+                val collectionExists = collectionDao.getCollections().any { it.id == collectionId }
+                val movieExists = movieDao.isMovieExists(movie.kinopoiskId)
+
+                if (collectionExists && movieExists) {
+                    val collectionMovie = CollectionMovieEntity(
+                        collectionId = collectionId,
+                        kinopoiskId = movie.kinopoiskId
+                    )
+                    collectionDao.insertCollectionMovies(listOf(collectionMovie))
+                } else {
+                    if (!collectionExists) {
+                        throw IllegalStateException("Collection with id $collectionId does not exist")
+                    }
+                    if (!movieExists) {
+                        throw IllegalStateException("Movie with kinopoiskId ${movie.kinopoiskId} does not exist")
+                    }
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
 
     fun removeMovieFromCollection(movie: MovieEntity, collectionId: Int) {
         viewModelScope.launch {
@@ -167,23 +180,29 @@ class RoomViewModel : ViewModel() {
     fun toggleLikedMovie(movie: MovieEntity) {
         viewModelScope.launch {
             try {
-                val likedCollectionId = collections.value.firstOrNull { it.name == "Нравится" }?.id
-                    ?: collectionDao.insertCollection(CollectionEntity(name = "Нравится")).toInt()
+                val likedCollection = collections.value.firstOrNull { it.name == "Нравится" }
+                    ?: run {
+                        val newCollection = CollectionEntity(name = "Нравится")
+                        val newId = collectionDao.insertCollection(newCollection)
+                        fetchCollections()
+                        newCollection.copy(id = newId.toInt())
+                    }
 
-                val isLiked =
-                    collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollectionId)
+                val isLiked = collectionDao.isMovieInCollection(movie.kinopoiskId, likedCollection.id)
+
                 if (isLiked) {
-                    collectionDao.deleteMovieFromCollection(likedCollectionId, movie.kinopoiskId)
+                    collectionDao.deleteMovieFromCollection(likedCollection.id, movie.kinopoiskId)
                 } else {
-                    val collectionMovie = CollectionMovieEntity(
-                        collectionId = likedCollectionId,
-                        kinopoiskId = movie.kinopoiskId
+                    collectionDao.insertCollectionMovies(
+                        listOf(CollectionMovieEntity(collectionId = likedCollection.id, kinopoiskId = movie.kinopoiskId))
                     )
-                    collectionDao.insertCollectionMovies(listOf(collectionMovie))
                 }
+                fetchCollections()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
+
 }

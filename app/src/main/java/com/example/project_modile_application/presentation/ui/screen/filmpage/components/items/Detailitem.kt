@@ -39,6 +39,15 @@ fun DetailMovieItem(
     movie: MoviesData,
     roomViewModel: RoomViewModel
 ) {
+
+    val movieEntity = movie.toMovieEntity()
+    var showDialog by remember { mutableStateOf(false) }
+    var isLiked by remember { mutableStateOf(false) }
+
+    LaunchedEffect(movie) {
+        isLiked = roomViewModel.isMovieLiked(movieEntity)
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -137,14 +146,6 @@ fun DetailMovieItem(
                     fontSize = 12.sp, fontWeight = FontWeight(400), color = Color(0xFFB5B5C9)
                 ), modifier = Modifier.padding(bottom = 3.dp)
             )
-
-            val movieEntity = movie.toMovieEntity()
-            var showDialog by remember { mutableStateOf(false) }
-            var isLiked by remember { mutableStateOf(false) }
-
-            LaunchedEffect(movie) {
-                isLiked = roomViewModel.isMovieLiked(movieEntity)
-            }
 
             Row(
                 modifier = Modifier.padding(top = 10.dp),

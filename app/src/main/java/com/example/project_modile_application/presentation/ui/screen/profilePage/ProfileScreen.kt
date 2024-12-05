@@ -51,7 +51,6 @@ fun PProfileScree() {
     val roomViewModel = remember { RoomViewModel() }
     ProfileScreen(navController, roomViewModel)
 }
-
 @Composable
 fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
     val watchedMovies = roomViewModel.watchedMovies
@@ -67,6 +66,8 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
         }
         currentCollections
     }
+
+    val rows = allCollections.chunked(2) // Break collections into rows of 2
 
     Box(
         modifier = Modifier
@@ -105,17 +106,13 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                                 .background(Color(0xFFF5F5F5)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Icon(
                                     painter = painterResource(R.drawable.clear_icon),
                                     contentDescription = "Clear Watched History",
                                     modifier = Modifier
                                         .size(48.dp)
-                                        .clickable {
-                                            roomViewModel.clearMovies() // Clear watched movies
-                                        },
+                                        .clickable { roomViewModel.clearMovies() },
                                     tint = Color(0xFF6A5ACD)
                                 )
                                 Text(
@@ -138,9 +135,8 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                 )
             }
 
-
             Text(
-                text = "Collections",
+                text = "Коллекции",
                 fontWeight = W600,
                 fontFamily = GraphicFontFamily,
                 fontSize = 18.sp,
@@ -149,12 +145,6 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
 
             NewCollectionButton(roomViewModel)
 
-            val rows = allCollections.chunked(2)
-
-            var movieCount by remember { mutableStateOf(0) }
-
-
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -162,6 +152,8 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val movieCounts = remember { mutableStateOf(mapOf<Int, Int>()) }
+
                 rows.forEach { row ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -170,20 +162,25 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                         row.forEach { collection ->
                             LaunchedEffect(collection.id) {
                                 roomViewModel.getMovieCountInCollection(collection.id) { count ->
-                                    movieCount = count           ////////////чертила не работаееееееееееееет
+                                    movieCounts.value = movieCounts.value.toMutableMap().apply {
+                                        this[collection.id] = count
+                                    }
                                 }
                             }
+
+                            val count = movieCounts.value[collection.id] ?: 0
                             val isDefaultCollection = collection.name in defaultCollections
+
                             CollectionItem(
                                 collection = collection,
                                 painter = painterResource(R.drawable.iconperson),
                                 ableToDelete = !isDefaultCollection,
-                                movieCount,
+                                movieCount = count,
                                 onRemove = {
                                     if (!isDefaultCollection) {
                                         roomViewModel.removeCollection(collection.id)
                                     }
-                                },
+                                }
                             )
                         }
                         if (row.size < 2) {
@@ -192,7 +189,6 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                     }
                 }
             }
-
         }
     }
 }
