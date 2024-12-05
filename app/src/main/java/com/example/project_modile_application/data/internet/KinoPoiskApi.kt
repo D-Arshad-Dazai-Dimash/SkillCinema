@@ -27,7 +27,7 @@ interface KinoPoiskApi {
         @Query("yearFrom") yearFrom: Int = 2010,
         @Query("yearTo") yearTo: Int = 2100,
         @Query("page") page: Int = 1,
-        @Header("X-API-KEY") apiKey: String = "60971d77-8a60-477d-b844-d47535303dae"
+        @Header("X-API-KEY") apiKey: String = "f4534732-cf93-49ee-8fc2-df54261b8dc1"
     ): Response<MovieResponse>
 
     @Headers(apiKey)
@@ -72,7 +72,7 @@ interface KinoPoiskApi {
     suspend fun getGenresAndCountries(): GenresAndCountriesResponse
 
     companion object{
-        const val apiKey = "X-API-KEY: 4f15b24b-8389-40d9-908d-b8df47ab910a"
+        const val apiKey = "X-API-KEY: f4534732-cf93-49ee-8fc2-df54261b8dc1"
     }
 }
 

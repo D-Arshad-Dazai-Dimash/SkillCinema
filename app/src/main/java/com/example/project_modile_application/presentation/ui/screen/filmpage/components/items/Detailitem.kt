@@ -44,11 +44,14 @@ fun DetailMovieItem(
     var showDialog by remember { mutableStateOf(false) }
     var isLiked by remember { mutableStateOf(false) }
     var isWannaSee by remember { mutableStateOf(false) }
+    var isWatched by remember { mutableStateOf(false)}
 
 
     LaunchedEffect(movie) {
         isLiked = roomViewModel.isMovieLiked(movieEntity)
         isWannaSee = roomViewModel.isMovieWannaSee(movieEntity)
+        isWatched = roomViewModel.isMovieWatched(movieEntity)
+        roomViewModel.visitMovie(movieEntity)
     }
 
     Box(
@@ -170,9 +173,12 @@ fun DetailMovieItem(
                     })
                 Icon(
                     contentDescription = "",
-                    tint = Color.Unspecified,
+                    tint = if (isWatched) Color.Red else Color.Gray,
                     painter = painterResource(R.drawable.donot_show),
-                    modifier = Modifier.clickable {})
+                    modifier = Modifier.clickable {
+                        roomViewModel.toggleWatched(movieEntity)
+                        isWatched = !isWatched
+                    })
                 Icon(contentDescription = "",
                     tint = Color.Unspecified,
                     painter = painterResource(R.drawable.share_icon),

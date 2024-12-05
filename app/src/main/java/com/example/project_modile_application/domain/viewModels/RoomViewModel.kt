@@ -28,7 +28,8 @@ class RoomViewModel : ViewModel() {
     private fun fetchWatchedMovies() {
         viewModelScope.launch {
             try {
-                watchedMovies.value = movieDao.getWatchedMovies()
+                collectionDao.getCollection("Просмотрено")
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -38,7 +39,7 @@ class RoomViewModel : ViewModel() {
     fun fetchCollections() {
         viewModelScope.launch {
             try {
-                collections.value = collectionDao.getCollections()
+                collections.value = collectionDao.getCollections().filter { collectionEntity -> !collectionEntity.name.equals("Просмотрено") && !collectionEntity.name.equals("Заинтересовало") }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -79,7 +80,9 @@ class RoomViewModel : ViewModel() {
                 val existingCollections = collectionDao.getCollections()
                 val defaultCollections = listOf(
                     CollectionEntity(name = "Нравится"),
-                    CollectionEntity(name = "Хочу посмотреть")
+                    CollectionEntity(name = "Хочу посмотреть"),
+                    CollectionEntity(name = "Просмотрено"),
+                    CollectionEntity(name = "Заинтересовало")
                 )
 
                 defaultCollections.forEach { defaultCollection ->
@@ -124,20 +127,23 @@ class RoomViewModel : ViewModel() {
             try {
                 val collectionExists = collectionDao.getCollections().any { it.id == collectionId }
                 val movieExists = movieDao.isMovieExists(movie.kinopoiskId)
+                if (!movieExists) {
+                    movieDao.insertMovie(movie)
+                }
 
-                if (collectionExists && movieExists) {
+                if (collectionExists) {
                     val collectionMovie = CollectionMovieEntity(
                         collectionId = collectionId,
                         kinopoiskId = movie.kinopoiskId
                     )
                     collectionDao.insertCollectionMovies(listOf(collectionMovie))
                 } else {
-                    if (!collectionExists) {
-                        throw IllegalStateException("Collection with id $collectionId does not exist")
-                    }
-                    if (!movieExists) {
-                        throw IllegalStateException("Movie with kinopoiskId ${movie.kinopoiskId} does not exist")
-                    }
+//                    if (!collectionExists) {
+//                        throw IllegalStateException("Collection with id $collectionId does not exist")
+//                    }
+//                    if (!movieExists) {
+//                        throw IllegalStateException("Movie with kinopoiskId ${movie.kinopoiskId} does not exist")
+//                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -221,7 +227,7 @@ class RoomViewModel : ViewModel() {
     }
 
     suspend fun isMovieWannaSee(movie: MovieEntity): Boolean {
-        val wannaSeeCollection = collections.value.firstOrNull { it.name == "Хочу Посмотреть" }
+        val wannaSeeCollection = collections.value.firstOrNull { it.name == "Хочу посмотреть" }
         return if (wannaSeeCollection != null) {
             collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
         } else {
@@ -238,9 +244,9 @@ class RoomViewModel : ViewModel() {
                     movieDao.insertMovie(movie)
                 }
                 val wannaSeeCollection =
-                    collections.value.firstOrNull { it.name == "Хочу Посмотреть" }
+                    collections.value.firstOrNull { it.name == "Хочу посмотреть" }
                         ?: run {
-                            val newCollection = CollectionEntity(name = "Хочу Посмотреть")
+                            val newCollection = CollectionEntity(name = "Хочу посмотреть")
                             val newId = collectionDao.insertCollection(newCollection)
                             fetchCollections()
                             newCollection.copy(id = newId.toInt())
@@ -258,6 +264,99 @@ class RoomViewModel : ViewModel() {
                         movie.kinopoiskId
                     )
                 } else {
+                    Log.d("WANNA SEE", "add step")
+                    collectionDao.insertCollectionMovies(
+                        listOf(
+                            CollectionMovieEntity(
+                                collectionId = wannaSeeCollection.id,
+                                kinopoiskId = movie.kinopoiskId
+                            )
+                        )
+                    )
+                }
+                fetchCollections()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    suspend fun isMovieWatched(movie: MovieEntity): Boolean {
+        val wannaSeeCollection = collections.value.firstOrNull { it.name == "Посмотрено" }
+        return if (wannaSeeCollection != null) {
+            collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
+        } else {
+            false
+        }
+    }
+
+    fun toggleWatched(movie: MovieEntity) {
+        viewModelScope.launch {
+            try {
+                val isMovieInDatabase = movieDao.isMovieExists(movie.kinopoiskId)
+                Log.d("IS MOVIE IN DB", isMovieInDatabase.toString())
+                if (!isMovieInDatabase) {
+                    movieDao.insertMovie(movie)
+                }
+                val wannaSeeCollection =
+                    collections.value.firstOrNull { it.name == "Просмотрено" }
+                        ?: run {
+                            val newCollection = CollectionEntity(name = "Просмотрено")
+                            val newId = collectionDao.insertCollection(newCollection)
+                            fetchCollections()
+                            newCollection.copy(id = newId.toInt())
+                        }
+                Log.d("WANNA SEE", "1 step")
+
+                val isLiked =
+                    collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
+
+                if (isLiked) {
+                    Log.d("WANNA SEE", "del step")
+
+                    collectionDao.deleteMovieFromCollection(
+                        wannaSeeCollection.id,
+                        movie.kinopoiskId
+                    )
+                } else {
+                    Log.d("WANNA SEE", "add step")
+                    collectionDao.insertCollectionMovies(
+                        listOf(
+                            CollectionMovieEntity(
+                                collectionId = wannaSeeCollection.id,
+                                kinopoiskId = movie.kinopoiskId
+                            )
+                        )
+                    )
+                }
+                fetchCollections()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun visitMovie(movie: MovieEntity) {
+        viewModelScope.launch {
+            try {
+                val isMovieInDatabase = movieDao.isMovieExists(movie.kinopoiskId)
+                Log.d("IS MOVIE IN DB", isMovieInDatabase.toString())
+                if (!isMovieInDatabase) {
+                    movieDao.insertMovie(movie)
+                }
+                val wannaSeeCollection =
+                    collections.value.firstOrNull { it.name == "Заинтересовало" }
+                        ?: run {
+                            val newCollection = CollectionEntity(name = "Заинтересовало")
+                            val newId = collectionDao.insertCollection(newCollection)
+                            fetchCollections()
+                            newCollection.copy(id = newId.toInt())
+                        }
+                val isLiked =
+                    collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
+
+                if (!isLiked) {
                     Log.d("WANNA SEE", "add step")
                     collectionDao.insertCollectionMovies(
                         listOf(

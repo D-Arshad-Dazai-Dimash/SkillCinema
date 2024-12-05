@@ -21,6 +21,9 @@ interface CollectionDao {
     @Query("SELECT * FROM collections")
     suspend fun getCollections(): List<CollectionEntity>
 
+    @Query("SELECT * FROM collections WHERE name = :name")
+    suspend fun getCollection(name: String): CollectionEntity
+
     @Query("SELECT * FROM collection_movies WHERE collectionId = :collectionId")
     suspend fun getMoviesInCollection(collectionId: Int): List<CollectionMovieEntity>
 
