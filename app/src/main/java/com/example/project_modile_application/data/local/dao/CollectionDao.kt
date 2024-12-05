@@ -33,4 +33,13 @@ interface CollectionDao {
     @Transaction
     @Query("SELECT * FROM collections WHERE id = :collectionId")
     suspend fun getCollectionWithMovies(collectionId: Int): CollectionEntityWithMovies
+
+    @Query("SELECT * FROM collections WHERE id IN (SELECT collectionId FROM collection_movies WHERE kinopoiskId = :movieId)")
+    suspend fun getCollectionsWithMovie(movieId: Int): List<CollectionEntity>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM collection_movies WHERE kinopoiskId = :movieId AND collectionId = :collectionId)")
+    suspend fun isMovieInCollection(movieId: Int, collectionId: Int): Boolean
+
+    @Query("DELETE FROM collection_movies WHERE collectionId = :collectionId AND kinopoiskId = :movieId")
+    suspend fun deleteMovieFromCollection(collectionId: Int, movieId: Int)
 }

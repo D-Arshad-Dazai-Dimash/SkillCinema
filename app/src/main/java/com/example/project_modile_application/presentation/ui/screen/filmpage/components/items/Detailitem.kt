@@ -12,6 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -27,10 +32,25 @@ import coil.compose.AsyncImage
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.local.entities.MovieEntity
 import com.example.project_modile_application.domain.dataclasses.MoviesData
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 
 @Composable
-fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
+fun DetailMovieItem(
+    movie: MoviesData,
+    roomViewModel: RoomViewModel
+) {
+
+    val movieEntity = movie.toMovieEntity()
+    var showDialog by remember { mutableStateOf(false) }
+    var isLiked by remember { mutableStateOf(false) }
+    var isWannaSee by remember { mutableStateOf(false) }
+
+
+    LaunchedEffect(movie) {
+        isLiked = roomViewModel.isMovieLiked(movieEntity)
+        isWannaSee = roomViewModel.isMovieWannaSee(movieEntity)
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -124,15 +144,11 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
                 lengthOfMovie += ", " + ageLimit.substring(3) + "+"
             }
 
-
             Text(
-
                 text = movie.countries[0].country + ", " + lengthOfMovie, style = TextStyle(
                     fontSize = 12.sp, fontWeight = FontWeight(400), color = Color(0xFFB5B5C9)
                 ), modifier = Modifier.padding(bottom = 3.dp)
             )
-
-            val movieEntity = movie.toMovieEntity()
 
             Row(
                 modifier = Modifier.padding(top = 10.dp),
@@ -140,37 +156,43 @@ fun DetailMovieItem(movie: MoviesData, sharedViewModel: SharedViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(contentDescription = "",
-                    tint = if (sharedViewModel.isMovieLiked(movieEntity)) Color.Blue else Color.Unspecified,
                     painter = painterResource(R.drawable.heart),
-                    modifier = Modifier.clickable {
-                        sharedViewModel.toggleLikedStatus(movieEntity)
+                    tint = if (isLiked) Color.Red else Color.Gray, modifier = Modifier.clickable {
+                        roomViewModel.toggleLikedMovie(movieEntity)
+                        isLiked = !isLiked
                     })
                 Icon(contentDescription = "",
-                    tint = if (sharedViewModel.isMoviePrefer(movieEntity)) Color.Blue else Color.Unspecified,
+                    tint = if (isWannaSee) Color.Red else Color.Gray,
                     painter = painterResource(R.drawable.flag_icon),
                     modifier = Modifier.clickable {
-                        sharedViewModel.togglePreferStatus(movieEntity)
+                        roomViewModel.toggleWantToWatch(movieEntity)
+                        isWannaSee = !isWannaSee
                     })
                 Icon(
-                    contentDescription = "Click if you already watched",
-                    tint = if (sharedViewModel.isMovieWatched(movieEntity)) Color.Blue else Color.Unspecified,
+                    contentDescription = "",
+                    tint = Color.Unspecified,
                     painter = painterResource(R.drawable.donot_show),
-                    modifier = Modifier.clickable {
-                        sharedViewModel.toggleWatchedStatus(movieEntity)
-                    }
-                )
+                    modifier = Modifier.clickable {})
                 Icon(contentDescription = "",
                     tint = Color.Unspecified,
                     painter = painterResource(R.drawable.share_icon),
                     modifier = Modifier.clickable { })
-                Icon(contentDescription = "",
+                Icon(contentDescription = "for small window, to specify the collection",
                     tint = Color.Unspecified,
                     painter = painterResource(R.drawable.more_icon),
-                    modifier = Modifier.clickable { })
+                    modifier = Modifier.clickable { showDialog = true })
+                if (showDialog) {
+                    CollectionDialog(
+                        roomViewModel = roomViewModel,
+                        movie = movieEntity,
+                        onDismiss = { showDialog = false }
+                    )
+                }
             }
         }
     }
 }
+
 
 fun MoviesData.toMovieEntity(): MovieEntity {
     return MovieEntity(

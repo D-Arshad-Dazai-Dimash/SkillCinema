@@ -8,17 +8,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.domain.viewModels.MovieDetailViewModel
+import com.example.project_modile_application.domain.viewModels.RoomViewModel
 import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.screen.actorpage.ActorPageScreen
 import com.example.project_modile_application.presentation.ui.screen.filmography.FilmographyScreen
 
 
 @Composable
-fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedViewModel) {
+fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedViewModel , roomViewModel: RoomViewModel) {
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
         composable(Screen.Home.route) { Home(navController, sharedViewModel) }
         composable(Screen.Search.route) { Search(navController) }
-        composable(Screen.Profile.route) { Profile(navController , sharedViewModel) }
+        composable(Screen.Profile.route) { Profile(navController , roomViewModel) }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
         composable(Screen.ListingPage.route) {
             ListingPage(
@@ -30,7 +31,7 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         }
         composable("movieData/{id}") {
             sharedViewModel.selectedMovie.value?.let { id ->
-                FilmPage(navController, id , sharedViewModel)
+                FilmPage(navController, id , roomViewModel)
             }
         }
         composable(Screen.GalleryPage.route) {

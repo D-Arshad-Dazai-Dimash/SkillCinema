@@ -22,14 +22,12 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.local.entities.MovieEntity
-import com.example.project_modile_application.domain.viewModels.SharedViewModel
 import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 
 @Composable
 fun MoviesDataTab(
     movie: MovieEntity,
-    navController: NavController,
-    sharedViewModel: SharedViewModel
+    navController: NavController
 ) {
     Column(
         modifier = Modifier

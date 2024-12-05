@@ -23,9 +23,9 @@ import com.example.project_modile_application.data.local.entities.MovieEntity
 
 @Composable
 fun HeaderForWatchedMovies(
-    topic: String,                // Title of the section (e.g., "Watched Movies")
-    watchedMovies: MutableState<List<MovieEntity>>, // List of watched movies from Room database
-    onViewAllClick: () -> Unit,   // Action to perform when "View All" is clicked
+    topic: String,
+    watchedMovies: MutableState<List<MovieEntity>>,
+    onViewAllClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -48,7 +48,7 @@ fun HeaderForWatchedMovies(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${watchedMovies.value.size} Movies",
+                text = "${watchedMovies.value.size} ",
                 style = TextStyle(
                     fontSize = 15.sp,
                     fontWeight = FontWeight(600),
