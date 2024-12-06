@@ -1,5 +1,6 @@
 package com.example.project_modile_application.domain.useCases
 
+import android.util.Log
 import com.example.project_modile_application.data.internet.apiService
 import com.example.project_modile_application.data.repository.MovieRepositoryImplementation
 import com.example.project_modile_application.domain.dataclasses.FilmsByKeyWord
@@ -37,6 +38,7 @@ class MovieUseCase {
     suspend fun getFilmsByKeyWord(
         keyWord: String
     ): FilmsByKeyWord {
+        Log.d("keyword in usecase", keyWord)
         return movieRepository.getFilmsByKeyWord(keyWord)
     }
 }

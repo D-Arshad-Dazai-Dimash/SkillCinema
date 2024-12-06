@@ -39,7 +39,7 @@ fun SearchPage(navController: NavController, searchViewModel: SearchViewModel = 
 
     LaunchedEffect(currentSearchText) {
         if (currentSearchText.isNotEmpty() && !searchState.isLoading) {
-            delay(300)
+            delay(500)
             searchViewModel.getFilmsByKeyWord(currentSearchText)
         }
     }
@@ -69,7 +69,7 @@ fun SearchPage(navController: NavController, searchViewModel: SearchViewModel = 
                 onValueChange = {newValue ->
                     searchText = newValue
                     coroutineScope.launch {
-                        currentSearchText = newValue.text.trim()
+                        currentSearchText = newValue.text
                     }
                 },
 
@@ -104,20 +104,14 @@ fun SearchPage(navController: NavController, searchViewModel: SearchViewModel = 
         if (searchState.isLoading) {
             LoadingUIState()
         } else if (searchState.error != "") {
-            Log.d("error", "error bovatr")
+            Log.d("error", "error happened")
             ErrorUIState(navController,searchState.error)
         } else {
             val films = searchState.films
             if (films != null) {
-                if (films.isEmpty()) {
-                    LoadingUIState()
-                } else {
-                    FilmList(modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
-                        films = films
-                    )
-                }
+                FilmList(
+                    films = films
+                )
             }
             Log.d("films in search page", searchState.films.toString())
         }
