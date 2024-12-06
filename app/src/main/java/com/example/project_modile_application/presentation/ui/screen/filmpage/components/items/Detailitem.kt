@@ -44,7 +44,7 @@ fun DetailMovieItem(
     var showDialog by remember { mutableStateOf(false) }
     var isLiked by remember { mutableStateOf(false) }
     var isWannaSee by remember { mutableStateOf(false) }
-    var isWatched by remember { mutableStateOf(false)}
+    var isWatched by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(movie) {

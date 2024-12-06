@@ -14,13 +14,14 @@ class RoomViewModel : ViewModel() {
     private val movieDao = App.database.movieDao()
     private val collectionDao = App.database.collectionDao()
 
+    //    val likedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
     val watchedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
-    val likedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
-    val preferredMovies = mutableStateOf<List<MovieEntity>>(emptyList())
+    val visitedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
     val collections = mutableStateOf<List<CollectionEntity>>(emptyList())
 
     init {
         fetchWatchedMovies()
+        fetchVisitedMovies()
         fetchCollections()
         ensureDefaultCollections()
     }
@@ -28,8 +29,25 @@ class RoomViewModel : ViewModel() {
     private fun fetchWatchedMovies() {
         viewModelScope.launch {
             try {
-                collectionDao.getCollection("Просмотрено")
+                watchedMovies.value =
+                    collectionDao.getMoviesEntitiesInCollection(
+                        collectionDao.getCollection("Просмотрено").id
+                    )
+                Log.d("ENTITIES IN WATCHED", watchedMovies.value.size.toString())
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 
+    private fun fetchVisitedMovies() {
+        viewModelScope.launch {
+            try {
+                visitedMovies.value =
+                    collectionDao.getMoviesEntitiesInCollection(
+                        collectionDao.getCollection("Заинтересовало").id
+                    )
+                Log.d("ENTITIES IN VISITED", visitedMovies.value.size.toString())
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -39,7 +57,9 @@ class RoomViewModel : ViewModel() {
     fun fetchCollections() {
         viewModelScope.launch {
             try {
-                collections.value = collectionDao.getCollections().filter { collectionEntity -> !collectionEntity.name.equals("Просмотрено") && !collectionEntity.name.equals("Заинтересовало") }
+                collections.value = collectionDao.getCollections().filter { collectionEntity ->
+                    !collectionEntity.name.equals("Просмотрено") && !collectionEntity.name.equals("Заинтересовало")
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -50,17 +70,23 @@ class RoomViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 if (collectionId == null) {
-                    movieDao.deleteAllWatchedMovies()
+                    val watchedCollection = collectionDao.getCollection("Просмотрено")
+                    collectionDao.deleteMoviesInCollection(watchedCollection.id)
                     fetchWatchedMovies()
                 } else {
                     collectionDao.deleteMoviesInCollection(collectionId)
-                    fetchCollections()
+                    if (collectionId == 4) {
+                        fetchVisitedMovies()
+                    } else {
+                        fetchCollections()
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
 
     fun getMovieCountInCollection(collectionId: Int, onResult: (Int) -> Unit) {
         viewModelScope.launch {
@@ -79,10 +105,10 @@ class RoomViewModel : ViewModel() {
             try {
                 val existingCollections = collectionDao.getCollections()
                 val defaultCollections = listOf(
-                    CollectionEntity(name = "Нравится"),
-                    CollectionEntity(name = "Хочу посмотреть"),
-                    CollectionEntity(name = "Просмотрено"),
-                    CollectionEntity(name = "Заинтересовало")
+                    CollectionEntity(1, name = "Нравится"),
+                    CollectionEntity(2, name = "Хочу посмотреть"),
+                    CollectionEntity(3, name = "Просмотрено"),
+                    CollectionEntity(4, name = "Заинтересовало")
                 )
 
                 defaultCollections.forEach { defaultCollection ->
@@ -243,14 +269,13 @@ class RoomViewModel : ViewModel() {
                 if (!isMovieInDatabase) {
                     movieDao.insertMovie(movie)
                 }
-                val wannaSeeCollection =
-                    collections.value.firstOrNull { it.name == "Хочу посмотреть" }
-                        ?: run {
-                            val newCollection = CollectionEntity(name = "Хочу посмотреть")
-                            val newId = collectionDao.insertCollection(newCollection)
-                            fetchCollections()
-                            newCollection.copy(id = newId.toInt())
-                        }
+                val wannaSeeCollection = collectionDao.getCollection("Хочу посмотреть")
+                if (wannaSeeCollection == null) {
+                    val newCollection = CollectionEntity(name = "Хочу посмотреть")
+                    val newId = collectionDao.insertCollection(newCollection)
+                    fetchCollections()
+                    newCollection.copy(id = newId.toInt())
+                }
                 Log.d("WANNA SEE", "1 step")
 
                 val isLiked =
@@ -299,14 +324,15 @@ class RoomViewModel : ViewModel() {
                 if (!isMovieInDatabase) {
                     movieDao.insertMovie(movie)
                 }
-                val wannaSeeCollection =
-                    collections.value.firstOrNull { it.name == "Просмотрено" }
-                        ?: run {
-                            val newCollection = CollectionEntity(name = "Просмотрено")
-                            val newId = collectionDao.insertCollection(newCollection)
-                            fetchCollections()
-                            newCollection.copy(id = newId.toInt())
-                        }
+                var wannaSeeCollection = collectionDao.getCollection("Просмотрено")
+                if (wannaSeeCollection == null) {
+                    var newCollection = CollectionEntity(name = "Просмотрено")
+                    val newId = collectionDao.insertCollection(newCollection)
+                    Log.d("CREATED", newId.toString())
+                    fetchCollections()
+                    newCollection = newCollection.copy(id = newId.toInt())
+                    wannaSeeCollection = newCollection
+                } else Log.d("ID IS", wannaSeeCollection.id.toString())
                 Log.d("WANNA SEE", "1 step")
 
                 val isLiked =
@@ -345,14 +371,13 @@ class RoomViewModel : ViewModel() {
                 if (!isMovieInDatabase) {
                     movieDao.insertMovie(movie)
                 }
-                val wannaSeeCollection =
-                    collections.value.firstOrNull { it.name == "Заинтересовало" }
-                        ?: run {
-                            val newCollection = CollectionEntity(name = "Заинтересовало")
-                            val newId = collectionDao.insertCollection(newCollection)
-                            fetchCollections()
-                            newCollection.copy(id = newId.toInt())
-                        }
+                val wannaSeeCollection = collectionDao.getCollection("Заинтересовало")
+                if (wannaSeeCollection == null) {
+                    val newCollection = CollectionEntity(name = "Заинтересовало")
+                    val newId = collectionDao.insertCollection(newCollection)
+                    fetchCollections()
+                    newCollection.copy(id = newId.toInt())
+                }
                 val isLiked =
                     collectionDao.isMovieInCollection(movie.kinopoiskId, wannaSeeCollection.id)
 

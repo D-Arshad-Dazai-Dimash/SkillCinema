@@ -18,10 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,9 +49,11 @@ fun PProfileScree() {
     val roomViewModel = remember { RoomViewModel() }
     ProfileScreen(navController, roomViewModel)
 }
+
 @Composable
 fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
     val watchedMovies = roomViewModel.watchedMovies
+    val visitedMovies = roomViewModel.visitedMovies
     val collections = roomViewModel.collections
 
     val defaultCollections = listOf("Нравится", "Хочу посмотреть")
@@ -67,7 +67,7 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
         currentCollections
     }
 
-    val rows = allCollections.chunked(2) // Break collections into rows of 2
+    val rows = allCollections.chunked(2)
 
     Box(
         modifier = Modifier
@@ -102,18 +102,22 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                     item {
                         Box(
                             modifier = Modifier
-                                .size(111.dp, 156.dp)
-                                .background(Color(0xFFF5F5F5)),
+                                .size(111.dp, 156.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
                                 Icon(
                                     painter = painterResource(R.drawable.clear_icon),
                                     contentDescription = "Clear Watched History",
                                     modifier = Modifier
-                                        .size(48.dp)
-                                        .clickable { roomViewModel.clearMovies() },
-                                    tint = Color(0xFF6A5ACD)
+                                        .size(20.dp)
+                                        .clickable { roomViewModel.clearMovies()}
+                                        .padding(top = 5.dp),
+                                    tint =  Color(0xFF6A5ACD)
                                 )
                                 Text(
                                     text = "Очистить историю",
@@ -188,6 +192,65 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                         }
                     }
                 }
+            }
+
+
+            HeaderForWatchedMovies(
+                topic = "Вам было интересно",
+                watchedMovies = visitedMovies,
+                onViewAllClick = {},
+                modifier = Modifier.padding(top = 26.dp, end = 26.dp)
+            )
+
+            if (visitedMovies.value.isNotEmpty()) {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(bottom = 36.dp)
+                ) {
+                    items(visitedMovies.value.take(8).size) { movie ->
+                        MoviesDataTab(
+                            movie = visitedMovies.value[movie],
+                            navController = navController
+                        )
+                    }
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .size(111.dp, 156.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.clear_icon),
+                                    contentDescription = "Clear viewed History",
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clickable { roomViewModel.clearMovies(4)}
+                                        .padding(top = 5.dp),
+                                    tint =  Color(0xFF6A5ACD)
+                                )
+                                Text(
+                                    text = "Очистить историю",
+                                    fontSize = 14.sp,
+                                    textAlign = TextAlign.Center,
+                                    color = Color(0xFF6A5ACD)
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                Text(
+                    text = "Нет заинтересованных фильмов.",
+                    fontWeight = W400,
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(bottom = 36.dp)
+                )
             }
         }
     }

@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import com.example.project_modile_application.data.local.entities.CollectionEntity
 import com.example.project_modile_application.data.local.entities.CollectionEntityWithMovies
 import com.example.project_modile_application.data.local.entities.CollectionMovieEntity
+import com.example.project_modile_application.data.local.entities.MovieEntity
 
 @Dao
 interface CollectionDao {
@@ -26,6 +27,11 @@ interface CollectionDao {
 
     @Query("SELECT * FROM collection_movies WHERE collectionId = :collectionId")
     suspend fun getMoviesInCollection(collectionId: Int): List<CollectionMovieEntity>
+
+    @Query("SELECT m.kinopoiskId, m.title, m.image, m.year, m.genres, m.countries, m.posterUrl, m.isWatched" +
+            " FROM collection_movies AS cm JOIN movies m ON cm.kinopoiskId = m.kinopoiskId " +
+            "WHERE cm.collectionId = :collectionId")
+    suspend fun getMoviesEntitiesInCollection(collectionId: Int): List<MovieEntity>
 
     @Query("DELETE FROM collections WHERE id = :collectionId")
     suspend fun deleteCollection(collectionId: Int)
