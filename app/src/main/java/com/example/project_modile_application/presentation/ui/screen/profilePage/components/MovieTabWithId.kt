@@ -36,7 +36,7 @@ fun MoviesDataTab(
             .wrapContentHeight(),
     ) {
         AsyncImage(
-            model = movie.image.takeIf { it.isNotEmpty() } ?: movie.posterUrl ?: "",
+            model = movie.posterUrl.takeIf { it.isNotEmpty() } ?: movie.image ?: "",
             contentDescription = movie.title,
             modifier = Modifier
                 .height(180.dp)
@@ -63,7 +63,7 @@ fun MoviesDataTab(
         )
 
         Text(
-            text = if (movie.countries.isNotEmpty()) movie.countries else "Unknown",
+            text = movie.countries.ifEmpty { "Unknown" },
             fontFamily = GraphicFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 12.sp,

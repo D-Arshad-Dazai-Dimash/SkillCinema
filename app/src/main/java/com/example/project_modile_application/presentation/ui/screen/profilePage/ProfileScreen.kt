@@ -30,14 +30,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.project_modile_application.R
 import com.example.project_modile_application.data.local.entities.CollectionEntity
 import com.example.project_modile_application.domain.viewModels.RoomViewModel
+import com.example.project_modile_application.presentation.navigation.Screen
 import com.example.project_modile_application.presentation.ui.font.GraphicFontFamily
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.CollectionItem
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.HeaderForWatchedMovies
+import com.example.project_modile_application.presentation.ui.screen.profilePage.components.Listing
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.MoviesDataTab
 import com.example.project_modile_application.presentation.ui.screen.profilePage.components.NewCollectionButton
 
@@ -46,12 +49,28 @@ import com.example.project_modile_application.presentation.ui.screen.profilePage
 @Composable
 fun PProfileScree() {
     val navController = rememberNavController()
-    val roomViewModel = remember { RoomViewModel() }
-    ProfileScreen(navController, roomViewModel)
+    ProfileScreen(navController)
 }
 
 @Composable
-fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
+fun ProfileScreen(navController: NavController) {
+
+    val parentEntry = try {
+        navController.getBackStackEntry(Screen.Profile.route)
+    } catch (e: IllegalArgumentException){
+        null
+    }
+
+    val roomViewModel: RoomViewModel = if (parentEntry !=null) {
+        viewModel(parentEntry)
+    } else {
+        viewModel()
+    }
+
+    LaunchedEffect(Unit){
+        roomViewModel.reloadMovies()
+    }
+
     val watchedMovies = roomViewModel.watchedMovies
     val visitedMovies = roomViewModel.visitedMovies
     val collections = roomViewModel.collections
@@ -84,7 +103,12 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
             HeaderForWatchedMovies(
                 topic = "Просмотрено",
                 watchedMovies = watchedMovies,
-                onViewAllClick = {},
+                onViewAllClick = {
+                    roomViewModel.selectedCollection.value = CollectionEntity(3, "Просмотрено")
+                    navController.navigate(Screen.ListingProfileMovies.route)
+//                    navController.navigate(
+//                    )
+                },
                 modifier = Modifier.padding(top = 96.dp, end = 26.dp)
             )
 
@@ -115,9 +139,9 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                                     contentDescription = "Clear Watched History",
                                     modifier = Modifier
                                         .size(20.dp)
-                                        .clickable { roomViewModel.clearMovies()}
+                                        .clickable { roomViewModel.clearMovies() }
                                         .padding(top = 5.dp),
-                                    tint =  Color(0xFF6A5ACD)
+                                    tint = Color(0xFF6A5ACD)
                                 )
                                 Text(
                                     text = "Очистить историю",
@@ -184,6 +208,10 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                                     if (!isDefaultCollection) {
                                         roomViewModel.removeCollection(collection.id)
                                     }
+                                },
+                                onClick = {
+                                    roomViewModel.selectedCollection.value = collection
+                                    navController.navigate(Screen.ListingProfileMovies.route)
                                 }
                             )
                         }
@@ -198,7 +226,10 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
             HeaderForWatchedMovies(
                 topic = "Вам было интересно",
                 watchedMovies = visitedMovies,
-                onViewAllClick = {},
+                onViewAllClick = {
+                    roomViewModel.selectedCollection.value = CollectionEntity(4,"Заинтересовало")
+                    navController.navigate(Screen.ListingProfileMovies.route)
+                },
                 modifier = Modifier.padding(top = 26.dp, end = 26.dp)
             )
 
@@ -229,9 +260,9 @@ fun ProfileScreen(navController: NavController, roomViewModel: RoomViewModel) {
                                     contentDescription = "Clear viewed History",
                                     modifier = Modifier
                                         .size(20.dp)
-                                        .clickable { roomViewModel.clearMovies(4)}
+                                        .clickable { roomViewModel.clearMovies(4) }
                                         .padding(top = 5.dp),
-                                    tint =  Color(0xFF6A5ACD)
+                                    tint = Color(0xFF6A5ACD)
                                 )
                                 Text(
                                     text = "Очистить историю",

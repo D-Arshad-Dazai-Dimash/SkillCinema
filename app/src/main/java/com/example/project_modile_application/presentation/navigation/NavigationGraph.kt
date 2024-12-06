@@ -19,7 +19,7 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
     NavHost(navController = navController, startDestination = Screen.Onboarding.route) {
         composable(Screen.Home.route) { Home(navController, sharedViewModel) }
         composable(Screen.Search.route) { Search(navController) }
-        composable(Screen.Profile.route) { Profile(navController , roomViewModel) }
+        composable(Screen.Profile.route) { Profile(navController) }
         composable(Screen.Onboarding.route) { OnBoarding(navController) }
         composable(Screen.ListingPage.route) {
             ListingPage(
@@ -58,6 +58,10 @@ fun NavigationGraph(navController: NavHostController, sharedViewModel: SharedVie
         }
         composable(Screen.FilterCountry.route) {
             FilterCountryPage(navController)
+        }
+
+        composable(Screen.ListingProfileMovies.route){
+            ListingScreen(navController)
         }
     }
 }

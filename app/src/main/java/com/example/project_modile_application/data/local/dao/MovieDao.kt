@@ -25,6 +25,8 @@ interface MovieDao {
     @Query("DELETE FROM movies WHERE isWatched = 1")
     suspend fun deleteAllWatchedMovies()
 
+    @Query("SELECT * FROM movies WHERE kinopoiskId = :movieId")
+    suspend fun getMovieById(movieId: Int): MovieEntity?
 
 }
 val MIGRATION_1_2 = object : Migration(1, 2) {

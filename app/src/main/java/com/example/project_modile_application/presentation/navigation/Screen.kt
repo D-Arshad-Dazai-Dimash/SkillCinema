@@ -14,5 +14,5 @@ sealed class Screen(val route: String) {
     data object FilterCountry:Screen("filterCountry")
     data object FilterGenre:Screen("filterGenre")
     data object FilterSetting:Screen("filterSetting")
-
+    data object ListingProfileMovies: Screen("listingMovieProfile" )
 }

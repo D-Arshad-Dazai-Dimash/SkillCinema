@@ -8,6 +8,7 @@ import com.example.project_modile_application.App
 import com.example.project_modile_application.data.local.entities.CollectionEntity
 import com.example.project_modile_application.data.local.entities.CollectionMovieEntity
 import com.example.project_modile_application.data.local.entities.MovieEntity
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class RoomViewModel : ViewModel() {
@@ -18,8 +19,13 @@ class RoomViewModel : ViewModel() {
     val watchedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
     val visitedMovies = mutableStateOf<List<MovieEntity>>(emptyList())
     val collections = mutableStateOf<List<CollectionEntity>>(emptyList())
+    val selectedCollection = MutableStateFlow(CollectionEntity(1,"Нравится"))
 
     init {
+        reloadMovies()
+    }
+
+    fun reloadMovies() {
         fetchWatchedMovies()
         fetchVisitedMovies()
         fetchCollections()
@@ -53,6 +59,22 @@ class RoomViewModel : ViewModel() {
             }
         }
     }
+
+
+    fun getMoviesInCollection(collectionId: Int, onResult: (List<MovieEntity>) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val movieEntities = collectionDao.getMoviesInCollection(collectionId).mapNotNull {
+                    movieDao.getMovieById(it.kinopoiskId)
+                }
+                onResult(movieEntities)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult(emptyList())
+            }
+        }
+    }
+
 
     fun fetchCollections() {
         viewModelScope.launch {

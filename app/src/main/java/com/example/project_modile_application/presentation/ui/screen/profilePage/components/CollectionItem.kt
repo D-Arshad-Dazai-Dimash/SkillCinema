@@ -2,6 +2,7 @@ package com.example.project_modile_application.presentation.ui.screen.profilePag
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +37,8 @@ fun CollectionItem(
     painter: Painter,
     ableToDelete: Boolean,
     movieCount: Int,
-    onRemove: () -> Unit
+    onRemove: () -> Unit,
+    onClick: () -> Unit
 ) {
 
     Box() {
@@ -44,7 +46,10 @@ fun CollectionItem(
             modifier = Modifier
                 .size(height = 165.dp, width = 165.dp)
                 .background(Color.White)
-                .border(1.dp, color = Color.Black, RoundedCornerShape(16.dp)),
+                .border(1.dp, color = Color.Black, RoundedCornerShape(16.dp))
+                .clickable {
+                    onClick()
+                },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (ableToDelete) {

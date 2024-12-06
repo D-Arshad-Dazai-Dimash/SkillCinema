@@ -204,7 +204,7 @@ fun MoviesData.toMovieEntity(): MovieEntity {
     return MovieEntity(
         kinopoiskId = this.kinopoiskId,
         title = this.nameOriginal,
-        image = this.coverUrl,
+        image = this.image,
         year = this.year,
         genres = this.genres.joinToString(", ") { it.genre },
         countries = this.countries.joinToString(", ") { it.country },
