@@ -62,5 +62,5 @@ git clone https://github.com/D-Arshad-Dazai-Dimash/SkillCinema.git
 ---
 
 ## 📊 **Автор и вклад**
-- Основной разработчик: Dimash Yeskendir, Adilkhan Yerbolat, Nurbakyt Anuarov, Bakyzhan
+- Основной разработчик: Dimash Yeskendir, Adilkhan Yerbolat, Nurbakyt Anuarov, Bakyzhan Saukhanbek
 ---
